@@ -7,7 +7,7 @@
 
     <form (ngSubmit)="onLogin()" #loginForm="ngForm">
       <div class="mb-4">
-        <label for="username" class="form-label text-muted small fw-bold">USERNAME</label>
+        <label for="username" class="form-label">USERNAME</label>
         <div class="input-group">
           <span class="input-group-text bg-white border-end-0"><i class="bi bi-person text-primary"></i></span>
           <input type="text" class="form-control border-start-0" id="username" name="username" [(ngModel)]="loginData.username" required placeholder="Masukkan username">
@@ -15,7 +15,7 @@
       </div>
 
       <div class="mb-4">
-        <label for="password" class="form-label text-muted small fw-bold">PASSWORD</label>
+        <label for="password" class="form-label">PASSWORD</label>
         <div class="input-group">
           <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-primary"></i></span>
           <input [type]="showPassword() ? 'text' : 'password'" class="form-control border-start-0 border-end-0" id="password" name="password" [(ngModel)]="loginData.password" required placeholder="Masukkan password">
