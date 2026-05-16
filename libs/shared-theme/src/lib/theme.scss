@@ -59,3 +59,24 @@ $btn-border-radius: 8px;
 a, button {
   transition: all 0.2s ease-in-out;
 }
+
+// Enterprise Table Content Styling
+.table-enterprise {
+  th, td {
+    // Responsive font size: 12px on mobile up to 14.4px on desktop
+    font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.9rem);
+    vertical-align: middle;
+    padding: 1rem 0.75rem;
+  }
+  
+  thead th {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+  }
+}
+

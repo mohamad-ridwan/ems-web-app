@@ -8,8 +8,8 @@ import { Employee } from '../domain/employee.model';
   imports: [CommonModule],
   template: `
     <div class="table-responsive" style="padding: 16px;">
-      <table class="table table-hover table-striped border">
-        <thead class="table-light">
+      <table class="table table-hover table-striped border table-enterprise">
+        <thead>
           <tr>
             <th (click)="sort.emit('username')" style="cursor: pointer;">
               Username <i class="bi bi-arrow-down-up small ms-1"></i>
