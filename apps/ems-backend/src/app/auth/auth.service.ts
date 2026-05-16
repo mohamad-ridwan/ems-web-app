@@ -1,22 +1,33 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Employee } from '../entities/employee.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    @Inject(JwtService)
+    private jwtService: JwtService,
+    @InjectRepository(Employee)
+    private employeeRepository: Repository<Employee>
+  ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    // Basic validation for demonstration. In production, check against database.
-    if (username === 'admin' && pass === 'password') {
-      return { userId: 1, username: 'admin' };
+    const employee = await this.employeeRepository.findOne({ where: { username } });
+    if (employee && employee.password === pass) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = employee;
+      return result;
     }
     return null;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
+      employee: user,
     };
   }
 }
