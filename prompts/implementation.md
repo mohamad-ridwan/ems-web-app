@@ -1,66 +1,67 @@
-# Implementation Plan: List Employee Micro Frontend
+# Rencana Implementasi: Micro Frontend Employee Detail
 
-This document outlines the steps to implement the `ems-list-employee` micro frontend within the Nx workspace, adhering to the established DDD and MVVM patterns, and utilizing Bootstrap 5 for UI consistency.
+Dokumen ini berisi panduan dan langkah-langkah untuk mengimplementasikan fitur detail employee dengan menggunakan arsitektur Micro Frontend (Module Federation), DDD (Domain-Driven Design), dan pola MVVM (Model-View-ViewModel) pada workspace Nx.
 
-## 1. Backend Implementation (`ems-backend`)
+## 1. Pembuatan API Endpoint (`ems-backend`)
+Tambahkan endpoint baru pada backend NestJS untuk mengambil data detail employee.
 
-### 1.1 API Endpoint Definition
-Create a new GET endpoint to retrieve the list of employees.
+- **Endpoint:** `/api/employee/:email`
+- **Method:** `GET`
+- **Parameter:**
+  ```json
+  {
+      "email": "string"
+  }
+  ```
+- **Langkah-langkah:**
+  - Tambahkan route handler di dalam controller (misal: `EmployeeController`) untuk menerima request GET dengan parameter `email`.
+  - Implementasikan logic pada service untuk mengambil spesifik data employee berdasarkan parameter tersebut.
+  - Pastikan response sesuai dengan model data yang dibutuhkan di frontend.
 
-- **Endpoint:** `GET /api/employee/list`
-- **Controller/Service location:** Appropriate module in `apps/ems-backend`
+## 2. Pembuatan Remote App (`ems-employee-detail`)
+Buat aplikasi remote Angular baru.
 
-### 1.2 Data Model
-The API should support returning objects with the following fields:
-- `username` (string)
-- `firstName` (string)
-- `lastName` (string)
-- `password` (string)
-- `email` (string)
-- `birthDate` (datetime)
-- `basicSalary` (double)
-- `status` (string)
-- `group` (string)
-- `description` (datetime) // Assuming datetime based on prompt, though string/text might be expected in practice
+- **Langkah-langkah:**
+  - Generate remote app menggunakan Nx CLI dengan framework Angular (Angular 21) dan mendukung Module Federation: `@nx/module-federation/angular`.
+  - Setup styling global pada aplikasi remote tersebut menggunakan **Bootstrap 5** terbaru agar sesuai dengan standar enterprise.
+  - Konfigurasi `module-federation.config.ts` untuk mengekspos file routing atau modul aplikasi ini.
 
-## 2. Frontend Implementation (`ems-list-employee` Remote App)
-
-### 2.1 Scaffolding the Remote App
-- Generate a new Angular remote application named `ems-list-employee` using the latest Angular version (v21).
-- Utilize the `@nx/module-federation/angular` plugin for integration.
-
-### 2.2 Shell App Integration (`ems-dashboard`)
-- Update the shell application (`ems-dashboard`) routing configuration.
-- Add route `"/list-employee"` to lazy-load the remote app `ems-list-employee`.
-
-### 2.3 Styling and UI Framework
-- Use **Bootstrap 5** for all styling.
-- Maintain consistent "enterprise" styling matching the rest of the application.
-
-### 2.4 Domain-Driven Design (DDD) & MVVM Structure
-Organize the source code following the standard DDD and MVVM folder structure:
+## 3. Struktur Arsitektur (DDD & MVVM)
+Bangun fitur detail employee di dalam struktur folder yang mengikuti pola DDD dan MVVM.
 
 ```text
-employee-list/             # DOMAIN: Fitur list employee
-   ├─ employee-list/       # ViewModel: Logic List Employee
-   ├─ ui/                  # View: Komponen presentasi (dumb components)
-   ├─ data-access/         # Model: NgRx State, Services, API Calls
-   ├─ domain/              # Model: Interfaces, DTOs, Business Logic
+employee-detail/               # DOMAIN: Fitur detail employee
+   ├─ employee-detail/         # ViewModel: Logic Detail Employee (Smart Component / Feature)
+   ├─ ui/                      # View: Komponen presentasi (Dumb Components)
+   ├─ data-access/             # Model: NgRx State, Services, API Calls
+   ├─ domain/                  # Model: Interfaces, DTOs, Business Logic
 ```
 
-### 2.5 Features to Implement
-Implement the following features in the View and ViewModel:
+- **Domain:** Definisikan tipe data (Interfaces / Types / DTOs) untuk Employee Detail.
+- **Data Access (Model):** Buat Angular Service yang membungkus pemanggilan HTTP (API) ke `/api/employee/:email`. Gunakan state management seperti NgRx, SignalStore, atau BehaviorSubject untuk mengelola siklus data, loading, dan error.
+- **UI (View):** 
+  - Buat komponen UI presentasional yang menerima data (via `@Input()`) dan memancarkan aksi (via `@Output()`).
+  - Lakukan formating data secara lokal di View, misal membuat atau memanfaatkan Pipe untuk mengubah `basicSalary` ke dalam format **Rp. xx.xxx,xx**.
+  - Gunakan class-class Bootstrap 5 untuk styling komponen agar terlihat profesional dan konsisten.
+  - Tambahkan tombol **'OK'** yang berfungsi untuk kembali.
+- **ViewModel (`employee-detail`):** 
+  - Buat Smart Component yang berfungsi mendengarkan parameter route (misalnya dari ActivatedRoute untuk mendapatkan nilai `email`).
+  - Memicu pemanggilan data di layer `data-access`.
+  - Mengelola navigasi ketika event dari UI dipicu. Saat menekan tombol **'OK'**, aplikasi harus kembali ke halaman Employee List tanpa menghilangkan data pencarian. Anda dapat menggunakan injeksi `Location` dari `@angular/common` lalu mengeksekusi `location.back()`, atau melewatkan query parameter navigasi secara utuh.
 
-1. **Dummy Data:** Display at least 100 dummy records retrieved from the backend or mocked in the data-access layer.
-2. **Paging:** 
-   - Implement data pagination.
-   - Include a dropdown/selector to adjust the number of items per page.
-3. **Sorting:** Allow sorting on table columns.
-4. **Searching/Filtering:** 
-   - Provide search inputs for at least two different parameters.
-   - Apply an **AND** rule when filtering by these parameters.
-5. **Add Button:** Include an "Add Employee" button that navigates to the Add Employee Page.
-6. **Action Column:** 
-   - Add a column with dummy "Edit" and "Delete" buttons for each row.
-   - Triggering "Edit" shows a notification with a **yellow** color.
-   - Triggering "Delete" shows a notification with a **red** color.
+## 4. Update Shell App (`ems-dashboard`)
+Integrasikan aplikasi remote ke dalam aplikasi host.
+
+- **Langkah-langkah:**
+  - Deklarasikan remote `ems-employee-detail` pada konfigurasi module federation di dalam `ems-dashboard`.
+  - Tambahkan route baru pada router utama `ems-dashboard`:
+    ```typescript
+    {
+      path: 'employee-detail/:email', // atau struktur yang lebih sesuai, contoh employee/:email
+      loadChildren: () => import('ems-employee-detail/Routes').then(m => m.remoteRoutes)
+    }
+    ```
+
+## 5. Konsistensi UI Enterprise
+- Pastikan penggunaan warna, border, spacing, dan typography Bootstrap 5 diaplikasikan secara konsisten seperti modul-modul lainnya.
+- Implementasikan layout yang clean, error handling state, dan loading state di dalam UI components untuk pengalaman pengguna yang maksimal.

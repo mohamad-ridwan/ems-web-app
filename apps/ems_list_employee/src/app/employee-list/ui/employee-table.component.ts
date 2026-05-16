@@ -47,7 +47,10 @@ import { Employee } from '../domain/employee.model';
             </td>
             <td>{{ emp.group }}</td>
             <td>
-              <button class="btn btn-sm btn-warning me-2" (click)="edit.emit(emp)">
+              <button class="btn btn-sm btn-info text-white me-1" (click)="detail.emit(emp)">
+                <i class="bi bi-eye"></i> Detail
+              </button>
+              <button class="btn btn-sm btn-warning me-1" (click)="edit.emit(emp)">
                 <i class="bi bi-pencil"></i> Edit
               </button>
               <button class="btn btn-sm btn-danger" (click)="delete.emit(emp)">
@@ -63,6 +66,7 @@ import { Employee } from '../domain/employee.model';
 export class EmployeeTableComponent {
   @Input() employees: Employee[] = [];
   @Output() sort = new EventEmitter<keyof Employee>();
+  @Output() detail = new EventEmitter<Employee>();
   @Output() edit = new EventEmitter<Employee>();
   @Output() delete = new EventEmitter<Employee>();
 }

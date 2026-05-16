@@ -4,8 +4,14 @@ import { authGuard } from './auth.guard';
 
 export const appRoutes: Route[] = [
   {
+    path: 'employee-detail',
+    loadChildren: () =>
+      import('ems_employee_detail/Routes').then((m) => m!.remoteRoutes),
+  },
+  {
     path: 'list-employee',
-    loadChildren: () => import('ems_list_employee/Routes').then(m => m!.remoteRoutes)
+    loadChildren: () =>
+      import('ems_list_employee/Routes').then((m) => m!.remoteRoutes),
   },
   {
     path: 'add-employee',

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { Employee } from '../entities/employee.entity';
 
@@ -14,5 +14,10 @@ export class EmployeeController {
   @Get('list')
   async getEmployees() {
     return await this.employeeService.findAll();
+  }
+
+  @Get(':email')
+  async getEmployeeByEmail(@Param('email') email: string) {
+    return await this.employeeService.findByEmail(email);
   }
 }

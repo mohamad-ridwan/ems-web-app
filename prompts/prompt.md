@@ -10,36 +10,25 @@ paparkerjaan implementasi:
 - tambahkan route "/login" yang akan mengarahkan ke remote app "ems-login" -->
 
 update shell app "ems-dashboard" :
-- tambahkan route "/list-employee" yang akan mengarahkan ke remote app "ems-list-employee"
+- tambahkan route "/employee-detail" yang akan mengarahkan ke remote app "ems-employee-detail"
 
-buat remote app dengan nama 'ems-list-employee' :
+buat remote app dengan nama 'ems-employee-detail' :
 - menggunakan bootstrap terbaru versi 5
 - menggunakan angular terbaru versi 21
-- Menampilkan setidaknya 100 dummy data dengan mengimplementasi paging , sorting, dan searching (setidaknya 2 parameter dan rule yang digunakan AND) pada tabel.
-- Memiliki pilihan untuk mengatur jumlah data dalam 1 page.
-- Memilik button untuk add employee, yang menavigasi pada Add Employee Page.
-- Memiliki kolom action yang berisi dummy button edit dan delete, yang menampilkan notifikasi aksi yang dilakukan dengan warna notifikasi yang berbeda (edit = kuning, delete = merah).
+- Menampilkan data detail sebuah employee, dan melakukan formating data untuk ditampilkan, contoh (basicSalary ditampilkan mengunakan format Rp. xx.xxx,xx).
+- Memiliki button ‘ok’ yang menavigasi kembali ke Employee List Page, dan data search sebelumnya tidak boleh hilang.
+- gunakan router angular untuk navigasi
 
 <!-- buatkan backend di folder 'ems-backend' :
 - menggunakan nestjs versi terbaru 11
 - menggunakan database postgresql versi 18 -->
 
-buatkan api endpoint untuk get list employee di dalam ems-backend:
-- endpoint /api/employee/list, GET
+buatkan api endpoint untuk get employee detail di dalam ems-backend:
+- endpoint /api/employee/:email, GET
 
 parameter api:
-
 {
-    “username”: string,
-    “firstName”:string,
-    “lastName”:string,
-    "password": string,
-    “email”:string,
-    “birthDate”:datetime,
-    “basicSalary”:double,
-    “status”:string,
-    “group”:string,
-    “description”:datetime
+    "email": string
 }
 
 gunakan module federation "@nx/module-federation/angular" untuk integrasi shared functionality dan remote app.
@@ -49,8 +38,8 @@ design pattern code:
 - gunakan konsep DDD (Domain Driven Design)
 
 contoh folder arsitektur:
-employee-list/             # DOMAIN: Fitur list employee
-   ├─ employee-list/       # ViewModel: Logic List Employee
+employee-detail/           # DOMAIN: Fitur detail employee
+   ├─ employee-detail/     # ViewModel: Logic Detail Employee
    ├─ ui/                  # View: Komponen presentasi (dumb components)
    ├─ data-access/         # Model: NgRx State, Services, API Calls
    ├─ domain/              # Model: Interfaces, DTOs, Business Logic

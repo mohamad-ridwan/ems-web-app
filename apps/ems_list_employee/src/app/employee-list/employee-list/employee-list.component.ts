@@ -69,6 +69,7 @@ import { Router } from '@angular/router';
         <app-employee-table *ngIf="!vm.loading()"
           [employees]="vm.pagedEmployees()"
           (sort)="vm.toggleSort($event)"
+          (detail)="onDetail($event)"
           (edit)="onEdit($event)"
           (delete)="onDelete($event)">
         </app-employee-table>
@@ -101,6 +102,10 @@ export class EmployeeListComponent {
   private router = inject(Router);
 
   notification = signal<{ type: 'edit' | 'delete', message: string } | null>(null);
+
+  onDetail(emp: Employee) {
+    this.router.navigate(['/employee-detail', emp.email]);
+  }
 
   onEdit(emp: Employee) {
     this.notification.set({
