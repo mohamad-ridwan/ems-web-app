@@ -8,7 +8,7 @@ import { tap } from 'rxjs';
 })
 export class EmployeeDataAccessService {
   private http = inject(HttpClient);
-  private apiUrl = '/api/employee/list';
+  private apiUrl = 'http://localhost:3400/api/employee/list';
 
   // State
   private employeesState = signal<Employee[]>([]);

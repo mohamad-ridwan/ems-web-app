@@ -3,7 +3,7 @@ import { ModuleFederationConfig } from '@nx/module-federation';
 const config: ModuleFederationConfig = {
   name: 'ems_list_employee',
   exposes: {
-    './Routes': 'ems_list_employee/src/app/remote-entry/entry.routes.ts',
+    './Routes': 'apps/ems_list_employee/src/app/remote-entry/entry.routes.ts',
   },
 };
 
