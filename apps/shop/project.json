@@ -79,7 +79,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "shop:build",
-        "port": 4200,
+        "port": 4300,
         "staticFilePath": "dist/apps/shop/browser",
         "spa": true
       }
