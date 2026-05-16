@@ -10,12 +10,12 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
-    <div class="container mt-5">
+    <div class="container-fluid p-3 p-md-5">
       <div class="card shadow-sm border-0">
         <div class="card-header bg-mandiri-gradient text-white py-3">
           <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Add New Employee</h4>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-3 p-md-4">
           <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
             <div class="row g-3">
               <!-- Username -->
@@ -156,14 +156,6 @@ import { Employee } from '../domain/employee.model';
   styles: [`
     .dropdown-menu.show {
       display: block;
-    }
-    .card {
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .form-control:focus, .form-select:focus {
-      border-color: #003d79;
-      box-shadow: 0 0 0 0.25rem rgba(0, 61, 121, 0.25);
     }
   `]
 })

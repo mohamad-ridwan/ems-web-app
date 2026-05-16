@@ -66,8 +66,97 @@ $btn-border-radius: 8px;
   }
 }
 
+// Global Transitions
 a, button {
   transition: all 0.2s ease-in-out;
+}
+
+// Enterprise Sidebar Styling
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #003d79;
+  background: linear-gradient(180deg, #003d79 0%, #002d5a 100%);
+  color: white;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  
+  .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin: 0.25rem 1rem;
+    font-weight: 500;
+    
+    i {
+      font-size: 1.25rem;
+      margin-right: 1rem;
+    }
+    
+    &:hover, &.active {
+      color: #ffcc00;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid #ffcc00;
+      border-radius: 0 8px 8px 0;
+      margin-left: 0;
+    }
+  }
+}
+
+.sidebar-header {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.main-content {
+  flex: 1;
+  background: #f4f7f9;
+  min-height: 100vh;
+  margin-left: 280px;
+  overflow-x: hidden;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    left: -280px;
+    &.show {
+      left: 0;
+    }
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 0 !important;
+    .p-4 {
+      padding: 1rem !important; // Reduce 1.5rem/2rem to 1rem on mobile
+    }
+  }
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 // Enterprise Table Content Styling
@@ -76,7 +165,8 @@ a, button {
     // Responsive font size: 12px on mobile up to 14.4px on desktop
     font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.9rem);
     vertical-align: middle;
-    padding: 1rem 0.75rem;
+    padding: 0.75rem 0.5rem;
+    white-space: nowrap;
   }
   
   thead th {

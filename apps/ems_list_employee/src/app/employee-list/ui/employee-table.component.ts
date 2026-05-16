@@ -7,7 +7,7 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="table-responsive" style="padding: 16px;">
+    <div class="table-responsive">
       <table class="table table-hover table-striped border table-enterprise">
         <thead>
           <tr>

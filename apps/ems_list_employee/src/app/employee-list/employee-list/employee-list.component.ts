@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   imports: [CommonModule, FormsModule, EmployeeTableComponent],
   providers: [EmployeeListViewModel],
   template: `
-    <div class="container-fluid py-4">
+    <div class="container-fluid p-3 p-md-4">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
         <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Employee Management</h2>
         <button class="btn btn-primary px-4" (click)="goToAddEmployee()">
