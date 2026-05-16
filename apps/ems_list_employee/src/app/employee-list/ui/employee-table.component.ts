@@ -7,8 +7,8 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="table-responsive">
-      <table class="table table-hover table-striped border shadow-sm">
+    <div class="table-responsive" style="padding: 16px;">
+      <table class="table table-hover table-striped border">
         <thead class="table-light">
           <tr>
             <th (click)="sort.emit('username')" style="cursor: pointer;">
@@ -46,12 +46,12 @@ import { Employee } from '../domain/employee.model';
               }">{{ emp.status }}</span>
             </td>
             <td>{{ emp.group }}</td>
-            <td>
+            <td class="text-nowrap">
               <button class="btn btn-sm btn-warning me-2" (click)="edit.emit(emp)">
-                <i class="bi bi-pencil"></i> Edit
+                <i class="bi bi-pencil"></i> <span class="d-none d-md-inline">Edit</span>
               </button>
               <button class="btn btn-sm btn-danger" (click)="delete.emit(emp)">
-                <i class="bi bi-trash"></i> Delete
+                <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Delete</span>
               </button>
             </td>
           </tr>
