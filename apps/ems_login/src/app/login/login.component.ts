@@ -27,7 +27,7 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
     
-    this.http.post<any>('http://localhost:3000/api/auth/login', this.loginData).subscribe({
+    this.http.post<any>('http://localhost:3400/api/auth/login', this.loginData).subscribe({
       next: (response) => {
         localStorage.setItem('access_token', response.access_token);
         this.isLoading = false;
