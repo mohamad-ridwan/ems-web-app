@@ -23,6 +23,10 @@ export class EmployeeService {
     return await this.employeeRepository.find();
   }
 
+  async findByEmail(email: string): Promise<Employee> {
+    return await this.employeeRepository.findOne({ where: { email } });
+  }
+
   private async seedEmployees() {
     const groups = ['IT', 'HR', 'Finance', 'Operations', 'Sales'];
     const statuses = ['Active', 'Resigned', 'On Leave'];
