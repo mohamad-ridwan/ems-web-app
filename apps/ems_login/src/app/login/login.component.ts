@@ -31,7 +31,7 @@ export class LoginComponent {
       next: (response) => {
         localStorage.setItem('access_token', response.access_token);
         this.isLoading.update(() => false);
-        window.location.href = '/';
+        this.router.navigate(['/'])
       },
       error: (err) => {
         this.isLoading.update(() => false);
