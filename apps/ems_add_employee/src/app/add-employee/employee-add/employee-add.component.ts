@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -138,9 +138,14 @@ import { Employee } from '../domain/employee.model';
               <button type="button" class="btn btn-outline-secondary px-4" (click)="onCancel()">
                 <i class="bi bi-x-circle me-2"></i>Cancel
               </button>
-              <button type="submit" class="btn btn-primary-mandiri px-4" [disabled]="employeeForm.invalid || isSubmitting">
-                <i class="bi" [class.bi-save]="!isSubmitting" [class.bi-hourglass-split]="isSubmitting"></i>
-                <span class="ms-2">{{ isSubmitting ? 'Saving...' : 'Save' }}</span>
+              <button type="submit" class="btn btn-primary-mandiri px-4" [disabled]="employeeForm.invalid || isSubmitting()">
+                @if (isSubmitting()) {
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span>Saving...</span>
+                } @else {
+                  <i class="bi bi-save me-2"></i>
+                  <span>Save</span>
+                }
               </button>
             </div>
           </form>
@@ -173,7 +178,7 @@ export class EmployeeAddComponent {
   groupSearch = '';
   showGroupDropdown = false;
   selectedGroup = '';
-  isSubmitting = false;
+  isSubmitting = signal(false);
 
   constructor() {
     this.today = new Date().toISOString().split('T')[0];
@@ -209,18 +214,19 @@ export class EmployeeAddComponent {
   onSubmit() {
     if (this.employeeForm.invalid) return;
 
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
     const employeeData: Employee = this.employeeForm.value;
     
     this.employeeService.addEmployee(employeeData).subscribe({
       next: () => {
+        this.isSubmitting.set(false);
         alert('Employee added successfully!');
         this.router.navigate(['/employee-list']);
       },
       error: (err) => {
         console.error(err);
         alert('Failed to add employee. Please check backend connection.');
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
       }
     });
   }
