@@ -25,6 +25,9 @@
       "@org/shop/shared-ui": ["libs/shop/shared-ui/src/index.ts"],
       "ems_login/Routes": [
         "./apps/ems_login/src/app/remote-entry/entry.routes.ts"
+      ],
+      "ems_add_employee/Routes": [
+        "./apps/ems_add_employee/src/app/remote-entry/entry.routes.ts"
       ]
     }
   },

@@ -1,0 +1,31 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+body {
+  background-color: #f4f7f9;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.text-primary-mandiri {
+  color: #003d79 !important;
+}
+
+.text-gold-mandiri {
+  color: #ffcc00 !important;
+}
+
+.bg-primary-mandiri {
+  background-color: #003d79 !important;
+}
+
+.btn-primary-mandiri {
+  background-color: #003d79;
+  border-color: #003d79;
+  color: white;
+}
+
+.btn-primary-mandiri:hover {
+  background-color: #002d5a;
+  border-color: #002d5a;
+  color: white;
+}

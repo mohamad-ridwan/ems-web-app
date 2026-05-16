@@ -1,0 +1,231 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { EmployeeService } from '../data-access/employee.service';
+import { Employee } from '../domain/employee.model';
+
+@Component({
+  selector: 'app-employee-add',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  template: `
+    <div class="container mt-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary-mandiri text-white py-3">
+          <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Add New Employee</h4>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+            <div class="row g-3">
+              <!-- Username -->
+              <div class="col-md-6">
+                <label for="username" class="form-label fw-bold">Username</label>
+                <input type="text" id="username" class="form-control" formControlName="username" 
+                       [class.is-invalid]="f['username'].invalid && f['username'].touched">
+                <div class="invalid-feedback">Username is required</div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6">
+                <label for="email" class="form-label fw-bold">Email</label>
+                <input type="email" id="email" class="form-control" formControlName="email"
+                       [class.is-invalid]="f['email'].invalid && f['email'].touched">
+                <div class="invalid-feedback">
+                  {{ f['email'].errors?.['required'] ? 'Email is required' : 'Invalid email format' }}
+                </div>
+              </div>
+
+              <!-- First Name -->
+              <div class="col-md-6">
+                <label for="firstName" class="form-label fw-bold">First Name</label>
+                <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                       [class.is-invalid]="f['firstName'].invalid && f['firstName'].touched">
+                <div class="invalid-feedback">First name is required</div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="col-md-6">
+                <label for="lastName" class="form-label fw-bold">Last Name</label>
+                <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                       [class.is-invalid]="f['lastName'].invalid && f['lastName'].touched">
+                <div class="invalid-feedback">Last name is required</div>
+              </div>
+
+              <!-- Password -->
+              <div class="col-md-6">
+                <label for="password" class="form-label fw-bold">Password</label>
+                <input type="password" id="password" class="form-control" formControlName="password"
+                       [class.is-invalid]="f['password'].invalid && f['password'].touched">
+                <div class="invalid-feedback">Password is required</div>
+              </div>
+
+              <!-- Birth Date -->
+              <div class="col-md-6">
+                <label for="birthDate" class="form-label fw-bold">Birth Date</label>
+                <input type="date" id="birthDate" class="form-control" formControlName="birthDate"
+                       [max]="today"
+                       [class.is-invalid]="f['birthDate'].invalid && f['birthDate'].touched">
+                <div class="invalid-feedback">
+                  {{ f['birthDate'].errors?.['required'] ? 'Birth date is required' : 'Birth date cannot be in the future' }}
+                </div>
+              </div>
+
+              <!-- Basic Salary -->
+              <div class="col-md-6">
+                <label for="basicSalary" class="form-label fw-bold">Basic Salary</label>
+                <div class="input-group">
+                  <span class="input-group-text">Rp</span>
+                  <input type="number" id="basicSalary" class="form-control" formControlName="basicSalary"
+                         [class.is-invalid]="f['basicSalary'].invalid && f['basicSalary'].touched">
+                  <div class="invalid-feedback">Salary must be a valid number</div>
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="col-md-6">
+                <label for="status" class="form-label fw-bold">Status</label>
+                <select id="status" class="form-select" formControlName="status"
+                        [class.is-invalid]="f['status'].invalid && f['status'].touched">
+                  <option value="" disabled selected>Select Status</option>
+                  <option value="Permanent">Permanent</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Probation">Probation</option>
+                </select>
+                <div class="invalid-feedback">Status is required</div>
+              </div>
+
+              <!-- Group (Searchable Dropdown) -->
+              <div class="col-md-6">
+                <label for="group" class="form-label fw-bold">Group</label>
+                <div class="dropdown" (clickOutside)="showGroupDropdown = false">
+                  <input type="text" class="form-control" 
+                         [placeholder]="selectedGroup || 'Search and Select Group...'"
+                         (focus)="showGroupDropdown = true"
+                         [(ngModel)]="groupSearch"
+                         [ngModelOptions]="{standalone: true}"
+                         [class.is-invalid]="f['group'].invalid && f['group'].touched">
+                  <div class="dropdown-menu w-100 p-2 shadow" [class.show]="showGroupDropdown" style="max-height: 200px; overflow-y: auto;">
+                    @for (group of filteredGroups; track group) {
+                      <button type="button" class="dropdown-item" (click)="selectGroup(group)">
+                        {{ group }}
+                      </button>
+                    }
+                    @if (filteredGroups.length === 0) {
+                      <div class="px-3 text-muted">No groups found</div>
+                    }
+                  </div>
+                  <input type="hidden" formControlName="group">
+                </div>
+                @if (f['group'].invalid && f['group'].touched) {
+                  <div class="invalid-feedback d-block">
+                    Group is required
+                  </div>
+                }
+              </div>
+
+              <!-- Description (Date) -->
+              <div class="col-md-6">
+                <label for="description" class="form-label fw-bold">Description Date</label>
+                <input type="date" id="description" class="form-control" formControlName="description"
+                       [class.is-invalid]="f['description'].invalid && f['description'].touched">
+                <div class="invalid-feedback">Description date is required</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
+              <button type="button" class="btn btn-outline-secondary px-4" (click)="onCancel()">
+                <i class="bi bi-x-circle me-2"></i>Cancel
+              </button>
+              <button type="submit" class="btn btn-primary-mandiri px-4" [disabled]="employeeForm.invalid || isSubmitting">
+                <i class="bi" [class.bi-save]="!isSubmitting" [class.bi-hourglass-split]="isSubmitting"></i>
+                <span class="ms-2">{{ isSubmitting ? 'Saving...' : 'Save' }}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .dropdown-menu.show {
+      display: block;
+    }
+    .card {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #003d79;
+      box-shadow: 0 0 0 0.25rem rgba(0, 61, 121, 0.25);
+    }
+  `]
+})
+export class EmployeeAddComponent {
+  private fb = inject(FormBuilder);
+  private employeeService = inject(EmployeeService);
+  private router = inject(Router);
+
+  employeeForm: FormGroup;
+  today: string;
+  groups: string[] = [];
+  groupSearch = '';
+  showGroupDropdown = false;
+  selectedGroup = '';
+  isSubmitting = false;
+
+  constructor() {
+    this.today = new Date().toISOString().split('T')[0];
+    this.groups = this.employeeService.getGroups();
+    
+    this.employeeForm = this.fb.group({
+      username: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      birthDate: ['', [Validators.required]],
+      basicSalary: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      status: ['', Validators.required],
+      group: ['', Validators.required],
+      description: ['', Validators.required],
+    });
+  }
+
+  get f() { return this.employeeForm.controls; }
+
+  get filteredGroups() {
+    return this.groups.filter(g => g.toLowerCase().includes(this.groupSearch.toLowerCase()));
+  }
+
+  selectGroup(group: string) {
+    this.selectedGroup = group;
+    this.groupSearch = '';
+    this.employeeForm.patchValue({ group: group });
+    this.showGroupDropdown = false;
+  }
+
+  onSubmit() {
+    if (this.employeeForm.invalid) return;
+
+    this.isSubmitting = true;
+    const employeeData: Employee = this.employeeForm.value;
+    
+    this.employeeService.addEmployee(employeeData).subscribe({
+      next: () => {
+        alert('Employee added successfully!');
+        this.router.navigate(['/employee-list']);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Failed to add employee. Please check backend connection.');
+        this.isSubmitting = false;
+      }
+    });
+  }
+
+  onCancel() {
+    this.router.navigate(['/employee-list']);
+  }
+}

@@ -1,45 +1,71 @@
-# Proyek Implementasi Micro Frontend (Nx Workspace)
+# Implementasi Fitur Tambah Employee (Micro Frontend)
 
-Dokumen ini berisi panduan dan rencana implementasi untuk proyek EMS menggunakan arsitektur Micro Frontend di dalam Nx Workspace. Desain antarmuka (UI) harus mengusung gaya enterprise profesional yang terinspirasi dari Bank Mandiri (elegan, tata letak bersih, dan dapat dipercaya).
+Dokumen ini memuat panduan implementasi untuk fitur Tambah Employee menggunakan arsitektur Micro Frontend di Nx workspace.
 
-## 1. Setup Shell App: `ems-dashboard`
-- **Framework Frontend:** Angular versi 21
-- **Styling:** Bootstrap versi 5
-- **Konsep:** Bertindak sebagai Host/Shell Application.
-- **Routing & Navigasi:** 
-  - Menggunakan Angular Routing standar.
-  - Tambahkan konfigurasi route `"/login"` yang bertugas untuk me-load dan mengarahkan navigasi ke remote app `ems-login`.
-- **Integrasi MF:** Menggunakan package `@nx/module-federation/angular`.
+## 1. Remote App: `ems-add-employee`
 
-## 2. Setup Remote App: `ems-login`
-- **Framework Frontend:** Angular versi 21
-- **Styling:** Bootstrap versi 5
-- **Konsep:** Bertindak sebagai Remote Application yang di-load oleh shell app `ems-dashboard`.
-- **Fitur Otentikasi:**
-  - Form login dengan UI bergaya enterprise (mirip tata letak dan nuansa UI Bank Mandiri).
-  - Melakukan integrasi dengan API endpoint dari backend.
-  - **HTTP Interceptor:** Menyertakan dan mengintegrasikan HTTP Interceptor pada aplikasi ini untuk menangani penyematan JWT token (JSON Web Token) di setiap request HTTP yang membutuhkan otentikasi.
-- **Integrasi MF:** Menggunakan package `@nx/module-federation/angular` dan mengekspos komponen/route login untuk dikonsumsi oleh Host.
+Buat sebuah remote application baru dengan spesifikasi berikut:
 
-## 3. Setup Backend: `ems-backend`
-- **Directory/App Name:** `ems-backend`
-- **Framework Backend:** NestJS versi 11
-- **Database:** PostgreSQL versi 18
-- **Konsep:** Bertindak sebagai REST API server utama.
-- **Fitur Login API:**
-  - **Endpoint:** `POST /api/auth/login`
-  - **Otentikasi:** Menerapkan strategi JWT (JSON Web Token) authentication.
-  - Endpoint ini harus dapat menerima request kredensial pengguna, melakukan validasi, dan memberikan response berupa JWT token yang akan digunakan frontend.
+- **Nama App:** `ems-add-employee`
+- **Framework:** Angular (versi terbaru 21)
+- **Styling:** Bootstrap (versi terbaru 5)
+- **Integrasi:** Gunakan `@nx/module-federation/angular` untuk mengintegrasikan shared functionality dan menjadikannya remote app.
+- **Konsistensi UI:** Gunakan desain UI dengan style enterprise secara konsisten yang telah dibangun pada aplikasi ini.
 
-## 4. Desain UI (Enterprise Style - Bank Mandiri)
-- Gunakan komponen-komponen UI dari Bootstrap 5 dengan penyesuaian styling khusus.
-- Padukan warna yang mencerminkan profesionalisme (seperti biru tua korporat, emas, putih, dan abu-abu).
-- Layout yang clean, responsif, dan mudah diakses, memprioritaskan User Experience seperti aplikasi perbankan modern.
+### Spesifikasi Form Tambah Employee
 
-## 5. Ringkasan Integrasi
-1. User membuka `ems-dashboard` dan belum terotentikasi, lalu diarahkan ke route `/login`.
-2. Route `/login` memuat (lazy load) aplikasi remote `ems-login` menggunakan `@nx/module-federation/angular`.
-3. Di dalam `ems-login`, user memasukkan data login dan frontend melakukan request ke `ems-backend` di endpoint `/api/auth/login`.
-4. Jika berhasil, backend merespon dengan token JWT.
-5. Token disimpan di sisi client, dan HTTP Interceptor di `ems-login` akan menyisipkan token ini sebagai `Authorization: Bearer <token>` untuk permintaan API selanjutnya.
-6. User diarahkan ke halaman utama dashboard.
+Menampilkan form menambah data employee dengan ketentuan validasi dan interaksi berikut:
+
+1. **Mandatory Fields:** Seluruh atribut data employee bersifat wajib (mandatory). Tombol Save tidak dapat berfungsi (atau form tidak bisa disubmit) ketika ada field yang kosong.
+2. **Birth Date:** Menggunakan input *datetime picker*. Validasi: tanggal yang dipilih tidak boleh melebihi hari ini.
+3. **Email:** Input harus memiliki validasi format email standar.
+4. **Basic Salary:** Input harus berupa angka.
+5. **Group:** Berupa komponen *drop down list* yang memiliki *search textbox* di bagian atas opsinya. Isi *drop down list* dengan 10 dummy group name.
+6. **Aksi Form:** Pada bagian bawah form terdapat:
+   - **Button Save:** Untuk mengeksekusi proses menyimpan data.
+   - **Button Cancel:** Untuk membatalkan operasi dan kembali ke halaman Employee List.
+
+---
+
+## 2. API Endpoint Backend (`ems-backend`)
+
+Buat endpoint API di dalam project `ems-backend` untuk menerima dan memproses data penambahan employee.
+
+- **URL Endpoint:** `/api/employee/add`
+- **HTTP Method:** `POST`
+
+**Format Data Request (JSON):**
+
+```json
+{
+    "username": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "password": "string",
+    "email": "string",
+    "birthDate": "datetime",
+    "basicSalary": "double",
+    "status": "string",
+    "group": "string",
+    "description": "datetime"
+}
+```
+
+---
+
+## 3. Design Pattern & Arsitektur Kode
+
+Pembangunan kode front-end harus mengikuti *design pattern* berikut secara ketat:
+
+- **MVVM (Model View ViewModel):** Pemisahan jelas antara layer *View* (UI), *ViewModel* (Logic presentasi dan state interaksi), dan *Model* (Data/Akses).
+- **DDD (Domain Driven Design):** Pengelompokan struktur folder dan modul berdasarkan batasan konteks fungsionalitas domain aplikasi.
+
+### Contoh Arsitektur Folder
+
+```text
+add-employee/              # DOMAIN: Fitur add employee
+   ├─ employee-add/        # ViewModel: Logic Input Employee (Smart Components / Facades)
+   ├─ ui/                  # View: Komponen presentasi (dumb components)
+   ├─ data-access/         # Model: NgRx State, Services, API Calls
+   ├─ domain/              # Model: Interfaces, DTOs, Business Logic
+```
