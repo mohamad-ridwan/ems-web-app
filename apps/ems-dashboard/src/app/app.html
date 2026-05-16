@@ -42,7 +42,7 @@
   <!-- Main Content Area -->
   <div class="main-content d-flex flex-column">
     <!-- Top Navbar (Mobile toggle & Branding) -->
-    <header class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-3 sticky-top">
+    <header class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-3 fixed-header">
       <button class="btn btn-link text-dark p-0 d-lg-none me-3" (click)="toggleSidebar()">
         <i class="bi bi-list fs-3"></i>
       </button>
@@ -61,7 +61,7 @@
     </header>
 
     <!-- Content Outlet -->
-    <main class="flex-grow-1 p-4">
+    <main class="flex-grow-1 p-4" style="margin-top: 72px;">
       <router-outlet></router-outlet>
     </main>
   </div>

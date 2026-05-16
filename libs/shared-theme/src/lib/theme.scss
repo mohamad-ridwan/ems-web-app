@@ -81,7 +81,7 @@ a, button {
   background: #003d79;
   background: linear-gradient(180deg, #003d79 0%, #002d5a 100%);
   color: white;
-  z-index: 1000;
+  z-index: 1050; // Higher than sticky-top (1020) to cover navbar on mobile
   transition: all 0.3s ease-in-out;
   
   .nav-link {
@@ -146,6 +146,21 @@ a, button {
     .p-4 {
       padding: 1rem !important; // Reduce 1.5rem/2rem to 1rem on mobile
     }
+  }
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 280px; // Offset for sidebar on desktop
+  z-index: 999;
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 991.98px) {
+  .fixed-header {
+    left: 0;
   }
 }
 
