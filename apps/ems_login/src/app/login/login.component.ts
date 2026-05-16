@@ -17,6 +17,7 @@ export class LoginComponent {
 
   isLoading = signal<boolean>(false)
   errorMessage = signal<string>('')
+  showPassword = signal<boolean>(false)
   
   loginData = {
     username: '',

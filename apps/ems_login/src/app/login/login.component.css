@@ -39,11 +39,24 @@
   background-color: #eef2f5 !important;
 }
 
-.input-group-text {
-  border-radius: 8px 0 0 8px;
+.input-group > :first-child {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+.input-group > :last-child {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+
+.input-group > :not(:first-child):not(:last-child) {
+  border-radius: 0 !important;
 }
 
 .form-control {
-  border-radius: 0 8px 8px 0;
   padding: 0.75rem 1rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
