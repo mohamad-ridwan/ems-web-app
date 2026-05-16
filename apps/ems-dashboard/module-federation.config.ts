@@ -14,7 +14,7 @@ const config: ModuleFederationConfig = {
    * declare module 'my-external-remote';
    *
    */
-  remotes: ['ems_login', 'ems_add_employee'],
+  remotes: ['ems_login', 'ems_add_employee','ems_list_employee',],
 };
 
 /**

@@ -1,0 +1,110 @@
+{
+  "name": "ems_list_employee",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/ems_list_employee/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/ems_list_employee",
+        "index": "apps/ems_list_employee/src/index.html",
+        "main": "apps/ems_list_employee/src/main.ts",
+        "tsConfig": "apps/ems_list_employee/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/ems_list_employee/public"
+          }
+        ],
+        "styles": [
+          "apps/ems_list_employee/src/styles.css"
+        ],
+        "customWebpackConfig": {
+          "path": "apps/ems_list_employee/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/ems_list_employee/webpack.prod.config.ts"
+          }
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "port": 4403,
+        "publicHost": "http://localhost:4403"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "ems_list_employee:build:production"
+        },
+        "development": {
+          "buildTarget": "ems_list_employee:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        "ems-dashboard:serve"
+      ]
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "ems_list_employee:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "ems_list_employee:build",
+        "port": 4403,
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ems_list_employee:build:development"
+        },
+        "production": {
+          "buildTarget": "ems_list_employee:build:production"
+        }
+      }
+    }
+  }
+}
