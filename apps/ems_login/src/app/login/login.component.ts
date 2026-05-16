@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,28 +15,36 @@ export class LoginComponent {
   private http = inject(HttpClient);
   private router = inject(Router);
 
+  isLoading = signal<boolean>(false)
+  errorMessage = signal<string>('')
+  
   loginData = {
     username: '',
     password: '',
   };
 
-  errorMessage = '';
-  isLoading = false;
-
   onLogin() {
-    this.isLoading = true;
-    this.errorMessage = '';
+    this.isLoading.set(true);
+    this.errorMessage.set('')
     
     this.http.post<any>('http://localhost:3400/api/auth/login', this.loginData).subscribe({
       next: (response) => {
         localStorage.setItem('access_token', response.access_token);
-        this.isLoading = false;
-        // Navigate to dashboard
-        window.location.href = '/'; // Using window.location.href to ensure shell knows state changed if needed, or use router
+        this.isLoading.update(() => false);
+        window.location.href = '/';
       },
       error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = 'Login gagal. Periksa kembali username dan password Anda.';
+        this.isLoading.update(() => false);
+        if (err.status === 401) {
+          this.errorMessage.update(() => 'Username atau password salah.');
+        } else if (err.status === 500) {
+          this.errorMessage.update(() => 'Terjadi kesalahan pada server. Silakan coba lagi nanti.');
+        } else if (err.status === 0) {
+          this.errorMessage.update(() => 'Tidak dapat terhubung ke server. Pastikan koneksi internet Anda aktif.');
+        } else {
+          this.errorMessage = err.error?.message || 'Terjadi kesalahan saat login.';
+        }
+        console.error('Login error:', err);
       },
     });
   }
