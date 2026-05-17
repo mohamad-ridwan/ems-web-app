@@ -71,3 +71,9 @@ npm run start-dashboard
 ### 5. Access the App
 Once the dev-servers are ready, open your web browser and navigate to:
 **http://localhost:4400**
+
+### 🔑 Demo Login Credentials
+Use the following credentials to log in and manage employee data (this account is registered as an employee with the **Operations** position):
+
+- **Username:** `user9`
+- **Password:** `1990-01-10`
