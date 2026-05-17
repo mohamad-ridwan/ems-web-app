@@ -23,6 +23,6 @@ export default defineConfig(() => ({
     coverage: {
       reportsDirectory: '../coverage/ems_list_employee',
       provider: 'v8' as const,
-    }
+    },
   },
 }));

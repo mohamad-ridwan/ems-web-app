@@ -1,6 +1,8 @@
 <div class="container-fluid p-3 p-md-4">
   <div class="mb-4">
-    <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
+    <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">
+      Add New Employee
+    </h2>
   </div>
   <div class="card shadow-sm border-0">
     <div class="card-body p-3 p-md-4">
@@ -8,86 +10,97 @@
         <div class="row g-3">
           <!-- Username -->
           <div class="col-md-6">
-            <ems-input 
-              id="username" 
-              label="Username" 
+            <ems-input
+              id="username"
+              label="Username"
               [control]="$any(facade.f['username'])"
-              [errorMessage]="facade.f['username'].errors?.['required'] ? 'Username is required' : (facade.f['username'].errors?.['duplicate'] ? 'Username is already taken' : 'Invalid username')">
+              [errorMessage]="facade.f['username'].errors?.['required'] ? 'Username is required' : (facade.f['username'].errors?.['duplicate'] ? 'Username is already taken' : 'Invalid username')"
+            >
             </ems-input>
           </div>
 
           <!-- Email -->
           <div class="col-md-6">
-            <ems-input 
-              id="email" 
-              label="Email" 
+            <ems-input
+              id="email"
+              label="Email"
               type="email"
               [control]="$any(facade.f['email'])"
-              [errorMessage]="facade.f['email'].errors?.['required'] ? 'Email is required' : (facade.f['email'].errors?.['duplicate'] ? 'Email is already registered' : 'Invalid email format')">
+              [errorMessage]="facade.f['email'].errors?.['required'] ? 'Email is required' : (facade.f['email'].errors?.['duplicate'] ? 'Email is already registered' : 'Invalid email format')"
+            >
             </ems-input>
           </div>
 
           <!-- First Name -->
           <div class="col-md-6">
-            <ems-input 
-              id="firstName" 
-              label="First Name" 
+            <ems-input
+              id="firstName"
+              label="First Name"
               [control]="$any(facade.f['firstName'])"
-              errorMessage="First name is required">
+              errorMessage="First name is required"
+            >
             </ems-input>
           </div>
 
           <!-- Last Name -->
           <div class="col-md-6">
-            <ems-input 
-              id="lastName" 
-              label="Last Name" 
+            <ems-input
+              id="lastName"
+              label="Last Name"
               [control]="$any(facade.f['lastName'])"
-              errorMessage="Last name is required">
+              errorMessage="Last name is required"
+            >
             </ems-input>
           </div>
 
           <!-- Password -->
           <div class="col-md-6">
-            <ems-input 
-              id="password" 
-              label="Password" 
+            <ems-input
+              id="password"
+              label="Password"
               placeholder="Password otomatis dibuat saat Submit"
               [disabled]="true"
               styleClass="bg-light text-muted"
-              style="cursor: not-allowed; user-select: none;">
+              style="cursor: not-allowed; user-select: none"
+            >
             </ems-input>
           </div>
 
           <!-- Birth Date -->
           <div class="col-md-6">
-            <ems-input 
-              id="birthDate" 
-              label="Birth Date" 
+            <ems-input
+              id="birthDate"
+              label="Birth Date"
               type="date"
               [maxDate]="facade.today"
               [control]="$any(facade.f['birthDate'])"
-              [errorMessage]="facade.f['birthDate'].errors?.['required'] ? 'Birth date is required' : 'Birth date cannot be in the future'">
+              [errorMessage]="facade.f['birthDate'].errors?.['required'] ? 'Birth date is required' : 'Birth date cannot be in the future'"
+            >
             </ems-input>
           </div>
 
           <!-- Basic Salary -->
           <div class="col-md-6">
-            <ems-input 
-              id="basicSalary" 
-              label="Basic Salary" 
+            <ems-input
+              id="basicSalary"
+              label="Basic Salary"
               type="number"
               prependText="Rp"
               [control]="$any(facade.f['basicSalary'])"
-              errorMessage="Salary must be a valid number">
+              errorMessage="Salary must be a valid number"
+            >
             </ems-input>
           </div>
 
           <!-- Status -->
           <div class="col-md-6">
             <label for="status" class="form-label">Status</label>
-            <select id="status" class="form-select" formControlName="status"
-                    [class.is-invalid]="facade.f['status'].invalid && facade.f['status'].touched">
+            <select
+              id="status"
+              class="form-select"
+              formControlName="status"
+              [class.is-invalid]="facade.f['status'].invalid && facade.f['status'].touched"
+            >
               <option value="" disabled selected>Select Status</option>
               <option value="Active">Active</option>
               <option value="Resigned">Resigned</option>
@@ -98,41 +111,53 @@
           <!-- Group (Searchable Dropdown) -->
           <div class="col-md-6">
             <label for="group" class="form-label">Group</label>
-            <div class="dropdown" (clickOutside)="facade.showGroupDropdown.set(false)">
-              <input type="text" class="form-control" 
-                     [placeholder]="facade.selectedGroup() || 'Search and Select Group...'"
-                     (focus)="facade.showGroupDropdown.set(true)"
-                     [ngModel]="facade.groupSearch()"
-                     (ngModelChange)="facade.groupSearch.set($event)"
-                     [ngModelOptions]="{standalone: true}"
-                     [class.is-invalid]="facade.f['group'].invalid && facade.f['group'].touched">
-              <div class="dropdown-menu w-100 p-2 shadow" [class.show]="facade.showGroupDropdown()" style="max-height: 200px; overflow-y: auto;">
+            <div
+              class="dropdown"
+              (clickOutside)="facade.showGroupDropdown.set(false)"
+            >
+              <input
+                type="text"
+                class="form-control"
+                [placeholder]="facade.selectedGroup() || 'Search and Select Group...'"
+                (focus)="facade.showGroupDropdown.set(true)"
+                [ngModel]="facade.groupSearch()"
+                (ngModelChange)="facade.groupSearch.set($event)"
+                [ngModelOptions]="{standalone: true}"
+                [class.is-invalid]="facade.f['group'].invalid && facade.f['group'].touched"
+              />
+              <div
+                class="dropdown-menu w-100 p-2 shadow"
+                [class.show]="facade.showGroupDropdown()"
+                style="max-height: 200px; overflow-y: auto"
+              >
                 @for (group of facade.filteredGroups; track group) {
-                  <button type="button" class="dropdown-item" (click)="facade.selectGroup(group)">
-                    {{ group }}
-                  </button>
-                }
-                @if (facade.filteredGroups.length === 0) {
-                  <div class="px-3 text-muted">No groups found</div>
+                <button
+                  type="button"
+                  class="dropdown-item"
+                  (click)="facade.selectGroup(group)"
+                >
+                  {{ group }}
+                </button>
+                } @if (facade.filteredGroups.length === 0) {
+                <div class="px-3 text-muted">No groups found</div>
                 }
               </div>
-              <input type="hidden" formControlName="group">
+              <input type="hidden" formControlName="group" />
             </div>
             @if (facade.f['group'].invalid && facade.f['group'].touched) {
-              <div class="invalid-feedback d-block">
-                Group is required
-              </div>
+            <div class="invalid-feedback d-block">Group is required</div>
             }
           </div>
 
           <!-- Description (Date) -->
           <div class="col-md-6">
-            <ems-input 
-              id="description" 
-              label="Description Date" 
+            <ems-input
+              id="description"
+              label="Description Date"
               type="date"
               [control]="$any(facade.f['description'])"
-              errorMessage="Description date is required">
+              errorMessage="Description date is required"
+            >
             </ems-input>
           </div>
         </div>
@@ -145,7 +170,8 @@
             icon="bi bi-x-circle"
             variant="outline-secondary"
             styleClass="px-4"
-            (clicked)="facade.onCancel()">
+            (clicked)="facade.onCancel()"
+          >
           </ems-button-icon>
           <ems-button-icon
             type="submit"
@@ -155,7 +181,8 @@
             styleClass="px-4"
             [disabled]="facade.employeeForm.invalid || facade.isSubmitting()"
             [isLoading]="facade.isSubmitting()"
-            loadingText="Saving...">
+            loadingText="Saving..."
+          >
           </ems-button-icon>
         </div>
       </form>

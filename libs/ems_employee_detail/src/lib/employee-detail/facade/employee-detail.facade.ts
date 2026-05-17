@@ -27,7 +27,9 @@ export class EmployeeDetailFacade {
     // 1. Check if the previous route was list-employee and passed queryParams in state
     const state = window.history.state;
     if (state && state.fromList && state.queryParams) {
-      this.router.navigate(['/list-employee'], { queryParams: state.queryParams });
+      this.router.navigate(['/list-employee'], {
+        queryParams: state.queryParams,
+      });
       return;
     }
 
@@ -37,7 +39,9 @@ export class EmployeeDetailFacade {
       try {
         const savedParams = JSON.parse(savedParamsStr);
         if (savedParams && Object.keys(savedParams).length > 0) {
-          this.router.navigate(['/list-employee'], { queryParams: savedParams });
+          this.router.navigate(['/list-employee'], {
+            queryParams: savedParams,
+          });
           return;
         }
       } catch (e) {

@@ -7,10 +7,16 @@ import { InputComponent, ButtonIconComponent } from '@org/ui-kit';
 @Component({
   selector: 'app-employee-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, InputComponent, ButtonIconComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    InputComponent,
+    ButtonIconComponent,
+  ],
   providers: [EmployeeAddFacade],
   templateUrl: './employee-add.view.html',
-  styleUrls: ['./employee-add.component.scss']
+  styleUrls: ['./employee-add.component.scss'],
 })
 export class EmployeeAddComponent {
   public facade = inject(EmployeeAddFacade);

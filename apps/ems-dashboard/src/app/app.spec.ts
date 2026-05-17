@@ -10,16 +10,14 @@ import { guestGuard } from './guest.guard';
 @Component({
   selector: 'app-dummy',
   standalone: true,
-  template: '<h1>List Employee Page</h1>'
+  template: '<h1>List Employee Page</h1>',
 })
 class DummyComponent {}
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        App,
-      ],
+      imports: [App],
       providers: [
         provideHttpClient(),
         provideStore({ auth: authReducer }),
@@ -37,9 +35,9 @@ describe('App', () => {
             path: '',
             redirectTo: 'list-employee',
             pathMatch: 'full',
-          }
+          },
         ]),
-      ]
+      ],
     }).compileComponents();
   });
 
@@ -62,7 +60,7 @@ describe('App', () => {
   it('should redirect to list-employee page', async () => {
     const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
-    
+
     await router.navigate(['']);
     await fixture.whenStable();
     expect(router.url).toBe('/list-employee');
@@ -72,7 +70,7 @@ describe('App', () => {
     it('should allow navigation to login if NOT logged in', async () => {
       const fixture = TestBed.createComponent(App);
       const router = TestBed.inject(Router);
-      
+
       localStorage.removeItem('access_token');
       await router.navigate(['/login']);
       await fixture.whenStable();
@@ -82,7 +80,7 @@ describe('App', () => {
     it('should redirect to list-employee if already logged in', async () => {
       const fixture = TestBed.createComponent(App);
       const router = TestBed.inject(Router);
-      
+
       localStorage.setItem('access_token', 'mock-token');
       await router.navigate(['/login']);
       await fixture.whenStable();

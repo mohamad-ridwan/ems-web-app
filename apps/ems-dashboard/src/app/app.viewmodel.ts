@@ -24,18 +24,20 @@ export class AppViewModel {
     if (token) {
       this.http.get<any>('http://localhost:3400/api/auth/me').subscribe({
         next: (employee) => {
-          this.store.dispatch(AuthActions.loginSuccess({
-            user: {
-              username: employee.username,
-              group: employee.group,
-            }
-          }));
+          this.store.dispatch(
+            AuthActions.loginSuccess({
+              user: {
+                username: employee.username,
+                group: employee.group,
+              },
+            }),
+          );
         },
         error: (err) => {
           console.error('Failed to load current user profile:', err);
           this.store.dispatch(AuthActions.logout());
           this.router.navigate(['/login']);
-        }
+        },
       });
     }
   }

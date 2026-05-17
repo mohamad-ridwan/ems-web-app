@@ -4,7 +4,7 @@ import { Employee } from '../domain/employee.model';
 import { tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployeeDataAccessService {
   private http = inject(HttpClient);
@@ -22,22 +22,25 @@ export class EmployeeDataAccessService {
   loading = computed(() => this.loadingState());
   error = computed(() => this.errorState());
 
-  loadEmployees(params: {
-    page?: number;
-    limit?: number;
-    firstName?: string;
-    lastName?: string;
-    status?: string;
-    group?: string;
-    email?: string;
-    sortBy?: string;
-    sortOrder?: 'ASC' | 'DESC';
-  } = {}) {
+  loadEmployees(
+    params: {
+      page?: number;
+      limit?: number;
+      firstName?: string;
+      lastName?: string;
+      status?: string;
+      group?: string;
+      email?: string;
+      sortBy?: string;
+      sortOrder?: 'ASC' | 'DESC';
+    } = {},
+  ) {
     this.loadingState.set(true);
 
     const queryParams: Record<string, string> = {};
     if (params.page !== undefined) queryParams['page'] = params.page.toString();
-    if (params.limit !== undefined) queryParams['limit'] = params.limit.toString();
+    if (params.limit !== undefined)
+      queryParams['limit'] = params.limit.toString();
     if (params.firstName) queryParams['firstName'] = params.firstName;
     if (params.lastName) queryParams['lastName'] = params.lastName;
     if (params.status) queryParams['status'] = params.status;
@@ -46,19 +49,24 @@ export class EmployeeDataAccessService {
     if (params.sortBy) queryParams['sortBy'] = params.sortBy;
     if (params.sortOrder) queryParams['sortOrder'] = params.sortOrder;
 
-    this.http.get<{ data: Employee[]; total: number }>(this.apiUrl, { params: queryParams }).pipe(
-      tap({
-        next: (res) => {
-          this.employeesState.set(res.data || []);
-          this.totalItemsState.set(res.total || 0);
-          this.loadingState.set(false);
-        },
-        error: (err) => {
-          this.errorState.set('Failed to load employees');
-          this.loadingState.set(false);
-          console.error(err);
-        }
+    this.http
+      .get<{ data: Employee[]; total: number }>(this.apiUrl, {
+        params: queryParams,
       })
-    ).subscribe();
+      .pipe(
+        tap({
+          next: (res) => {
+            this.employeesState.set(res.data || []);
+            this.totalItemsState.set(res.total || 0);
+            this.loadingState.set(false);
+          },
+          error: (err) => {
+            this.errorState.set('Failed to load employees');
+            this.loadingState.set(false);
+            console.error(err);
+          },
+        }),
+      )
+      .subscribe();
   }
 }

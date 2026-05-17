@@ -11,9 +11,15 @@ import { InputComponent, ButtonIconComponent } from '@org/ui-kit';
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, EmployeeTableComponent, InputComponent, ButtonIconComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    EmployeeTableComponent,
+    InputComponent,
+    ButtonIconComponent,
+  ],
   providers: [EmployeeListFacade],
-  templateUrl: './employee-list.view.html'
+  templateUrl: './employee-list.view.html',
 })
 export class EmployeeListComponent {
   facade = inject(EmployeeListFacade);
@@ -49,22 +55,22 @@ export class EmployeeListComponent {
     this.router.navigate(['/detail-employee', emp.id], {
       state: {
         fromList: true,
-        queryParams: queryParams
-      }
+        queryParams: queryParams,
+      },
     });
   }
 
   onEdit(emp: Employee) {
     this.notificationService.show(
       'edit',
-      `Editing employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
+      `Editing employee: ${emp.firstName} ${emp.lastName} (${emp.username})`,
     );
   }
 
   onDelete(emp: Employee) {
     this.notificationService.show(
       'delete',
-      `Deleting employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
+      `Deleting employee: ${emp.firstName} ${emp.lastName} (${emp.username})`,
     );
   }
 

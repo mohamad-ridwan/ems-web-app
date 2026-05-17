@@ -9,7 +9,7 @@ import { ButtonComponent, ButtonIconComponent } from '@org/ui-kit';
   imports: [CommonModule, ButtonComponent, ButtonIconComponent],
   providers: [EmployeeDetailFacade],
   templateUrl: './employee-detail.view.html',
-  styleUrls: ['./employee-detail.component.scss']
+  styleUrls: ['./employee-detail.component.scss'],
 })
 export class EmployeeDetailComponent implements OnInit {
   public facade = inject(EmployeeDetailFacade);
@@ -22,7 +22,9 @@ export class EmployeeDetailComponent implements OnInit {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
-      minimumFractionDigits: 2
-    }).format(value).replace('IDR', 'Rp.');
+      minimumFractionDigits: 2,
+    })
+      .format(value)
+      .replace('IDR', 'Rp.');
   }
 }

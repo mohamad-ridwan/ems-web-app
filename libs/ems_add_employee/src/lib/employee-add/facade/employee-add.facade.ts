@@ -43,8 +43,8 @@ export class EmployeeAddFacade {
   }
 
   get filteredGroups() {
-    return this.groups.filter(g =>
-      g.toLowerCase().includes(this.groupSearch().toLowerCase())
+    return this.groups.filter((g) =>
+      g.toLowerCase().includes(this.groupSearch().toLowerCase()),
     );
   }
 
@@ -63,7 +63,7 @@ export class EmployeeAddFacade {
     const birthDateValue = this.employeeForm.get('birthDate')?.value;
     const employeeData: Employee = {
       ...this.employeeForm.value,
-      password: birthDateValue
+      password: birthDateValue,
     };
 
     this.employeeService.addEmployee(employeeData).subscribe({
@@ -72,7 +72,7 @@ export class EmployeeAddFacade {
         this.notificationService.showNotification(
           'success',
           'Success!',
-          'Employee added successfully! Redirecting...'
+          'Employee added successfully! Redirecting...',
         );
         this.router.navigate(['/list-employee']);
       },
@@ -86,7 +86,7 @@ export class EmployeeAddFacade {
             this.notificationService.showNotification(
               'danger',
               'Error!',
-              'Email is already registered.'
+              'Email is already registered.',
             );
           } else if (errMsg === 'Username is already taken') {
             this.employeeForm.get('username')?.setErrors({ duplicate: true });
@@ -94,20 +94,24 @@ export class EmployeeAddFacade {
             this.notificationService.showNotification(
               'danger',
               'Error!',
-              'Username is already taken.'
+              'Username is already taken.',
             );
           } else {
-            this.notificationService.showNotification('danger', 'Error!', errMsg);
+            this.notificationService.showNotification(
+              'danger',
+              'Error!',
+              errMsg,
+            );
           }
         } else {
           this.notificationService.showNotification(
             'danger',
             'Error!',
-            'Failed to add employee. Please check backend connection.'
+            'Failed to add employee. Please check backend connection.',
           );
         }
         this.isSubmitting.set(false);
-      }
+      },
     });
   }
 

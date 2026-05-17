@@ -1,10 +1,20 @@
-import { Controller, Post, Body, Get, Param, Inject, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Inject,
+  Query,
+} from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { Employee } from '../entities/employee.entity';
 
 @Controller('employee')
 export class EmployeeController {
-  constructor(@Inject(EmployeeService) private readonly employeeService: EmployeeService) {}
+  constructor(
+    @Inject(EmployeeService) private readonly employeeService: EmployeeService,
+  ) {}
 
   @Post('add')
   async addEmployee(@Body() employeeData: Partial<Employee>) {
@@ -21,7 +31,7 @@ export class EmployeeController {
     @Query('group') group?: string,
     @Query('email') email?: string,
     @Query('sortBy') sortBy?: string,
-    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC'
+    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
   ) {
     return await this.employeeService.findAll({
       page,
@@ -41,4 +51,3 @@ export class EmployeeController {
     return await this.employeeService.findById(Number(id));
   }
 }
-

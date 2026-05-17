@@ -11,11 +11,13 @@ export class AuthService {
     @Inject(JwtService)
     private jwtService: JwtService,
     @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>
+    private employeeRepository: Repository<Employee>,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const employee = await this.employeeRepository.findOne({ where: { username } });
+    const employee = await this.employeeRepository.findOne({
+      where: { username },
+    });
     if (employee) {
       if (!employee.uuidKey) {
         // Fallback for legacy passwords
@@ -26,7 +28,10 @@ export class AuthService {
         }
       } else {
         try {
-          const decryptedPassword = decrypt(employee.password, employee.uuidKey);
+          const decryptedPassword = decrypt(
+            employee.password,
+            employee.uuidKey,
+          );
           if (decryptedPassword === pass) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password, uuidKey, ...result } = employee;

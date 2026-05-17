@@ -32,9 +32,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -44,13 +42,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems_employee_detail"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems_employee_detail"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -72,9 +66,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -83,9 +75,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.app.json --help",
                   "example": {
@@ -100,9 +90,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -110,9 +98,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_employee_detail --includeDependentProjects -- npx nx build-deps ems_employee_detail"
@@ -130,9 +116,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -142,13 +126,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems_employee_detail"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems_employee_detail"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -166,9 +146,7 @@
             },
             "build": {
               "executor": "@nx/angular:webpack-browser",
-              "outputs": [
-                "{options.outputPath}"
-              ],
+              "outputs": ["{options.outputPath}"],
               "options": {
                 "outputPath": "dist/apps/ems_employee_detail",
                 "index": "apps/ems_employee_detail/src/index.html",
@@ -181,9 +159,7 @@
                     "input": "apps/ems_employee_detail/public"
                   }
                 ],
-                "styles": [
-                  "apps/ems_employee_detail/src/styles.scss"
-                ],
+                "styles": ["apps/ems_employee_detail/src/styles.scss"],
                 "customWebpackConfig": {
                   "path": "apps/ems_employee_detail/webpack.config.ts"
                 }
@@ -219,9 +195,7 @@
               "defaultConfiguration": "production",
               "parallelism": true,
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
@@ -246,9 +220,7 @@
                 }
               },
               "defaultConfiguration": "development",
-              "dependsOn": [
-                "ems-dashboard:serve"
-              ],
+              "dependsOn": ["ems-dashboard:serve"],
               "parallelism": true
             },
             "extract-i18n": {
@@ -320,9 +292,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -332,13 +302,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_employee_detail"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_employee_detail"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -360,9 +326,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -371,9 +335,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -388,9 +350,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -398,9 +358,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_employee_detail_lib --includeDependentProjects -- npx nx build-deps ems_employee_detail_lib"
@@ -418,9 +376,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -430,13 +386,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_employee_detail"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_employee_detail"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -459,9 +411,7 @@
           "$schema": "../../node_modules/nx/schemas/project-schema.json",
           "sourceRoot": "libs/ems_employee_detail/src",
           "prefix": "app",
-          "tags": [
-            "scope:shared"
-          ],
+          "tags": ["scope:shared"],
           "implicitDependencies": []
         }
       },
@@ -496,9 +446,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -508,13 +456,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/apps/coverage/ems_list_employee"
-              ],
+              "outputs": ["{workspaceRoot}/apps/coverage/ems_list_employee"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -536,9 +480,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -547,9 +489,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.app.json --help",
                   "example": {
@@ -564,9 +504,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -574,9 +512,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_list_employee --includeDependentProjects -- npx nx build-deps ems_list_employee"
@@ -594,9 +530,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -606,13 +540,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/apps/coverage/ems_list_employee"
-              ],
+              "outputs": ["{workspaceRoot}/apps/coverage/ems_list_employee"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -630,9 +560,7 @@
             },
             "build": {
               "executor": "@nx/angular:webpack-browser",
-              "outputs": [
-                "{options.outputPath}"
-              ],
+              "outputs": ["{options.outputPath}"],
               "options": {
                 "outputPath": "dist/apps/ems_list_employee",
                 "index": "apps/ems_list_employee/src/index.html",
@@ -644,9 +572,7 @@
                     "input": "apps/ems_list_employee/public"
                   }
                 ],
-                "styles": [
-                  "apps/ems_list_employee/src/styles.scss"
-                ],
+                "styles": ["apps/ems_list_employee/src/styles.scss"],
                 "stylePreprocessorOptions": {
                   "includePaths": [
                     ".",
@@ -689,9 +615,7 @@
               "defaultConfiguration": "production",
               "parallelism": true,
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
@@ -716,9 +640,7 @@
                 }
               },
               "defaultConfiguration": "development",
-              "dependsOn": [
-                "ems-dashboard:serve"
-              ],
+              "dependsOn": ["ems-dashboard:serve"],
               "parallelism": true
             },
             "extract-i18n": {
@@ -790,9 +712,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -802,13 +722,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_list_employee"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_list_employee"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -830,9 +746,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -841,9 +755,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -858,9 +770,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -868,9 +778,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_list_employee_lib --includeDependentProjects -- npx nx build-deps ems_list_employee_lib"
@@ -888,9 +796,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -900,13 +806,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_list_employee"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_list_employee"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -929,9 +831,7 @@
           "$schema": "../../node_modules/nx/schemas/project-schema.json",
           "sourceRoot": "libs/ems_list_employee/src",
           "prefix": "app",
-          "tags": [
-            "scope:shared"
-          ],
+          "tags": ["scope:shared"],
           "implicitDependencies": []
         }
       },
@@ -966,9 +866,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -978,13 +876,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems_add_employee"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems_add_employee"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1006,9 +900,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -1017,9 +909,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.app.json --help",
                   "example": {
@@ -1034,9 +924,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -1044,9 +932,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_add_employee --includeDependentProjects -- npx nx build-deps ems_add_employee"
@@ -1064,9 +950,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1076,13 +960,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems_add_employee"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems_add_employee"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1100,9 +980,7 @@
             },
             "build": {
               "executor": "@nx/angular:webpack-browser",
-              "outputs": [
-                "{options.outputPath}"
-              ],
+              "outputs": ["{options.outputPath}"],
               "options": {
                 "outputPath": "dist/apps/ems_add_employee",
                 "index": "apps/ems_add_employee/src/index.html",
@@ -1114,9 +992,7 @@
                     "input": "apps/ems_add_employee/public"
                   }
                 ],
-                "styles": [
-                  "apps/ems_add_employee/src/styles.scss"
-                ],
+                "styles": ["apps/ems_add_employee/src/styles.scss"],
                 "stylePreprocessorOptions": {
                   "includePaths": [
                     ".",
@@ -1159,9 +1035,7 @@
               "defaultConfiguration": "production",
               "parallelism": true,
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
@@ -1186,9 +1060,7 @@
                 }
               },
               "defaultConfiguration": "development",
-              "dependsOn": [
-                "ems-dashboard:serve"
-              ],
+              "dependsOn": ["ems-dashboard:serve"],
               "parallelism": true
             },
             "extract-i18n": {
@@ -1260,9 +1132,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1272,13 +1142,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_add_employee"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_add_employee"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1300,9 +1166,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -1311,9 +1175,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -1328,9 +1190,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -1338,9 +1198,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_add_employee_lib --includeDependentProjects -- npx nx build-deps ems_add_employee_lib"
@@ -1358,9 +1216,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1370,13 +1226,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_add_employee"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_add_employee"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1399,9 +1251,7 @@
           "$schema": "../../node_modules/nx/schemas/project-schema.json",
           "sourceRoot": "libs/ems_add_employee/src",
           "prefix": "app",
-          "tags": [
-            "scope:shared"
-          ],
+          "tags": ["scope:shared"],
           "implicitDependencies": []
         }
       },
@@ -1436,9 +1286,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1448,13 +1296,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems-dashboard"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems-dashboard"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1476,9 +1320,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -1487,9 +1329,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.app.json --help",
                   "example": {
@@ -1504,9 +1344,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -1514,9 +1352,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems-dashboard --includeDependentProjects -- npx nx build-deps ems-dashboard"
@@ -1534,9 +1370,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1546,13 +1380,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems-dashboard"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems-dashboard"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1570,9 +1400,7 @@
             },
             "build": {
               "executor": "@nx/angular:webpack-browser",
-              "outputs": [
-                "{options.outputPath}"
-              ],
+              "outputs": ["{options.outputPath}"],
               "options": {
                 "outputPath": "dist/apps/ems-dashboard",
                 "index": "apps/ems-dashboard/src/index.html",
@@ -1584,9 +1412,7 @@
                     "input": "apps/ems-dashboard/public"
                   }
                 ],
-                "styles": [
-                  "apps/ems-dashboard/src/styles.scss"
-                ],
+                "styles": ["apps/ems-dashboard/src/styles.scss"],
                 "stylePreprocessorOptions": {
                   "includePaths": [
                     ".",
@@ -1629,9 +1455,7 @@
               "defaultConfiguration": "production",
               "parallelism": true,
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
@@ -1719,9 +1543,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1731,13 +1553,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/shared/ui-kit"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/shared/ui-kit"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1759,9 +1577,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -1770,9 +1586,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -1787,9 +1601,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -1797,9 +1609,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ui-kit --includeDependentProjects -- npx nx build-deps ui-kit"
@@ -1817,9 +1627,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1829,13 +1637,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/shared/ui-kit"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/shared/ui-kit"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1858,10 +1662,7 @@
           "$schema": "../../../node_modules/nx/schemas/project-schema.json",
           "sourceRoot": "libs/shared/ui-kit/src",
           "prefix": "lib",
-          "tags": [
-            "scope:shared",
-            "type:ui"
-          ],
+          "tags": ["scope:shared", "type:ui"],
           "implicitDependencies": []
         }
       },
@@ -1896,9 +1697,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -1908,13 +1707,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/shared-theme"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/shared-theme"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -1936,9 +1731,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -1947,9 +1740,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -1964,9 +1755,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -1974,9 +1763,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects shared-theme --includeDependentProjects -- npx nx build-deps shared-theme"
@@ -1994,9 +1781,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2006,13 +1791,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/shared-theme"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/shared-theme"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2035,9 +1816,7 @@
           "$schema": "../../node_modules/nx/schemas/project-schema.json",
           "sourceRoot": "libs/shared-theme/src",
           "prefix": "lib",
-          "tags": [
-            "scope:shared"
-          ],
+          "tags": ["scope:shared"],
           "implicitDependencies": []
         }
       },
@@ -2072,9 +1851,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2084,13 +1861,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/shared/auth"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/shared/auth"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2112,9 +1885,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -2123,9 +1894,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -2140,9 +1909,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -2150,9 +1917,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects auth --includeDependentProjects -- npx nx build-deps auth"
@@ -2170,9 +1935,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2182,13 +1945,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/shared/auth"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/shared/auth"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2233,18 +1992,12 @@
                 "{workspaceRoot}/eslint.config.mjs",
                 "{workspaceRoot}/tools/eslint-rules/**/*",
                 {
-                  "externalDependencies": [
-                    "eslint"
-                  ]
+                  "externalDependencies": ["eslint"]
                 }
               ],
-              "outputs": [
-                "{options.outputFile}"
-              ],
+              "outputs": ["{options.outputFile}"],
               "metadata": {
-                "technologies": [
-                  "eslint"
-                ],
+                "technologies": ["eslint"],
                 "description": "Runs ESLint on project",
                 "help": {
                   "command": "npx eslint --help",
@@ -2261,22 +2014,16 @@
             },
             "build": {
               "executor": "@nx/esbuild:esbuild",
-              "outputs": [
-                "{options.outputPath}"
-              ],
+              "outputs": ["{options.outputPath}"],
               "defaultConfiguration": "production",
               "options": {
                 "platform": "node",
                 "outputPath": "dist/apps/ems-backend",
-                "format": [
-                  "cjs"
-                ],
+                "format": ["cjs"],
                 "bundle": false,
                 "main": "apps/ems-backend/src/main.ts",
                 "tsConfig": "apps/ems-backend/tsconfig.app.json",
-                "assets": [
-                  "apps/ems-backend/src/assets"
-                ],
+                "assets": ["apps/ems-backend/src/assets"],
                 "generatePackageJson": true,
                 "esbuildOptions": {
                   "sourcemap": true,
@@ -2298,18 +2045,11 @@
               },
               "parallelism": true,
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
-              "inputs": [
-                "production",
-                "^production"
-              ]
+              "dependsOn": ["^build"],
+              "inputs": ["production", "^production"]
             },
             "prune-lockfile": {
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "cache": true,
               "executor": "@nx/js:prune-lockfile",
               "outputs": [
@@ -2323,9 +2063,7 @@
               "parallelism": true
             },
             "copy-workspace-modules": {
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "cache": true,
               "outputs": [
                 "{workspaceRoot}/dist/apps/ems-backend/workspace_modules"
@@ -2338,10 +2076,7 @@
               "parallelism": true
             },
             "prune": {
-              "dependsOn": [
-                "prune-lockfile",
-                "copy-workspace-modules"
-              ],
+              "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
               "executor": "nx:noop",
               "configurations": {},
               "options": {},
@@ -2351,9 +2086,7 @@
               "continuous": true,
               "executor": "@nx/js:node",
               "defaultConfiguration": "development",
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "options": {
                 "buildTarget": "ems-backend:build",
                 "runBuildTargetDependencies": false
@@ -2408,9 +2141,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2420,13 +2151,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems_login"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems_login"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2448,9 +2175,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -2459,9 +2184,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.app.json --help",
                   "example": {
@@ -2476,9 +2199,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -2486,9 +2207,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_login --includeDependentProjects -- npx nx build-deps ems_login"
@@ -2506,9 +2225,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2518,13 +2235,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/apps/ems_login"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/apps/ems_login"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2542,9 +2255,7 @@
             },
             "build": {
               "executor": "@nx/angular:webpack-browser",
-              "outputs": [
-                "{options.outputPath}"
-              ],
+              "outputs": ["{options.outputPath}"],
               "options": {
                 "outputPath": "dist/apps/ems_login",
                 "index": "apps/ems_login/src/index.html",
@@ -2556,9 +2267,7 @@
                     "input": "apps/ems_login/public"
                   }
                 ],
-                "styles": [
-                  "apps/ems_login/src/styles.scss"
-                ],
+                "styles": ["apps/ems_login/src/styles.scss"],
                 "stylePreprocessorOptions": {
                   "includePaths": [
                     ".",
@@ -2601,9 +2310,7 @@
               "defaultConfiguration": "production",
               "parallelism": true,
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
@@ -2628,9 +2335,7 @@
                 }
               },
               "defaultConfiguration": "development",
-              "dependsOn": [
-                "ems-dashboard:serve"
-              ],
+              "dependsOn": ["ems-dashboard:serve"],
               "parallelism": true
             },
             "extract-i18n": {
@@ -2702,9 +2407,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2714,13 +2417,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_login"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_login"],
               "metadata": {
-                "technologies": [
-                  "vite"
-                ],
+                "technologies": ["vite"],
                 "description": "Run Vite tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2742,9 +2441,7 @@
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "options": {
@@ -2753,9 +2450,7 @@
               },
               "metadata": {
                 "description": "Runs type-checking for the project.",
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "help": {
                   "command": "npx tsc -p tsconfig.lib.json --help",
                   "example": {
@@ -2770,9 +2465,7 @@
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -2780,9 +2473,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects ems_login_lib --includeDependentProjects -- npx nx build-deps ems_login_lib"
@@ -2800,9 +2491,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
@@ -2812,13 +2501,9 @@
                   "transitive": true
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/coverage/libs/ems_login"
-              ],
+              "outputs": ["{workspaceRoot}/coverage/libs/ems_login"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -2841,9 +2526,7 @@
           "$schema": "../../node_modules/nx/schemas/project-schema.json",
           "sourceRoot": "libs/ems_login/src",
           "prefix": "app",
-          "tags": [
-            "scope:shared"
-          ],
+          "tags": ["scope:shared"],
           "implicitDependencies": []
         }
       }

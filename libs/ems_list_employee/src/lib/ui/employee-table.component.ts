@@ -7,7 +7,7 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './employee-table.view.html',
-  styleUrls: ['./employee-table.component.scss']
+  styleUrls: ['./employee-table.component.scss'],
 })
 export class EmployeeTableComponent {
   @Input() employees: Employee[] = [];

@@ -52,21 +52,35 @@ export class EmployeeListFacade {
       return [1, '...', ...Array.from({ length: 7 }, (_, i) => total - 6 + i)];
     }
 
-    return [1, '...', current - 2, current - 1, current, current + 1, current + 2, '...', total];
+    return [
+      1,
+      '...',
+      current - 2,
+      current - 1,
+      current,
+      current + 1,
+      current + 2,
+      '...',
+      total,
+    ];
   });
 
   constructor() {
     // 1. Initialize states from query params in route snapshot on load
     const queryParams = this.route.snapshot.queryParams;
-    if (queryParams['firstName']) this.searchFirstName.set(queryParams['firstName']);
-    if (queryParams['lastName']) this.searchLastName.set(queryParams['lastName']);
+    if (queryParams['firstName'])
+      this.searchFirstName.set(queryParams['firstName']);
+    if (queryParams['lastName'])
+      this.searchLastName.set(queryParams['lastName']);
     if (queryParams['status']) this.searchStatus.set(queryParams['status']);
     if (queryParams['group']) this.searchGroup.set(queryParams['group']);
     if (queryParams['email']) this.searchEmail.set(queryParams['email']);
     if (queryParams['page']) this.currentPage.set(Number(queryParams['page']));
     if (queryParams['limit']) this.pageSize.set(Number(queryParams['limit']));
-    if (queryParams['sortBy']) this.sortColumn.set(queryParams['sortBy'] as keyof Employee);
-    if (queryParams['sortOrder']) this.sortDirection.set(queryParams['sortOrder'] as 'asc' | 'desc');
+    if (queryParams['sortBy'])
+      this.sortColumn.set(queryParams['sortBy'] as keyof Employee);
+    if (queryParams['sortOrder'])
+      this.sortDirection.set(queryParams['sortOrder'] as 'asc' | 'desc');
 
     // 2. Setup reactive effect to trigger backend search and sync to URL searchParams
     effect(() => {
@@ -93,14 +107,17 @@ export class EmployeeListFacade {
       };
 
       // Store in sessionStorage for global persistence across navigation
-      sessionStorage.setItem('ems_employee_list_params', JSON.stringify(queryParams));
+      sessionStorage.setItem(
+        'ems_employee_list_params',
+        JSON.stringify(queryParams),
+      );
 
       // Sync state to URL Query Params
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: queryParams,
         queryParamsHandling: 'merge',
-        replaceUrl: true
+        replaceUrl: true,
       });
 
       // Load employees from Backend
@@ -113,7 +130,9 @@ export class EmployeeListFacade {
         group,
         email,
         sortBy: sortBy || undefined,
-        sortOrder: sortBy ? (sortDirection.toUpperCase() as 'ASC' | 'DESC') : undefined
+        sortOrder: sortBy
+          ? (sortDirection.toUpperCase() as 'ASC' | 'DESC')
+          : undefined,
       });
     });
   }

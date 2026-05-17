@@ -10,10 +10,10 @@ async function run() {
 
   const employeeService = app.get(EmployeeService);
   console.log('🌱 Seeding employees into the database...');
-  
+
   // Directly trigger the seedEmployees method
   await (employeeService as any).seedEmployees();
-  
+
   console.log('🎉 Employee seeding completed successfully!');
   await app.close();
 }

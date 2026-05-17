@@ -20,15 +20,9 @@
             "input": "apps/ems-dashboard/public"
           }
         ],
-        "styles": [
-          "apps/ems-dashboard/src/styles.scss"
-        ],
+        "styles": ["apps/ems-dashboard/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            ".",
-            "node_modules",
-            "libs/shared-theme/src/lib"
-          ]
+          "includePaths": [".", "node_modules", "libs/shared-theme/src/lib"]
         },
         "customWebpackConfig": {
           "path": "apps/ems-dashboard/webpack.config.ts"

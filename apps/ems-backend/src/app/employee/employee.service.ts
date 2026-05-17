@@ -8,7 +8,7 @@ import { generateUuid, encrypt } from '../utils/crypto.util';
 export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>
+    private employeeRepository: Repository<Employee>,
   ) {}
 
   async addEmployee(employeeData: Partial<Employee>): Promise<Employee> {
@@ -42,17 +42,19 @@ export class EmployeeService {
     return await this.employeeRepository.save(employee);
   }
 
-  async findAll(query: {
-    page?: number;
-    limit?: number;
-    firstName?: string;
-    lastName?: string;
-    status?: string;
-    group?: string;
-    email?: string;
-    sortBy?: string;
-    sortOrder?: 'ASC' | 'DESC';
-  } = {}): Promise<{ data: Employee[]; total: number }> {
+  async findAll(
+    query: {
+      page?: number;
+      limit?: number;
+      firstName?: string;
+      lastName?: string;
+      status?: string;
+      group?: string;
+      email?: string;
+      sortBy?: string;
+      sortOrder?: 'ASC' | 'DESC';
+    } = {},
+  ): Promise<{ data: Employee[]; total: number }> {
     const count = await this.employeeRepository.count();
     if (count < 100) {
       await this.seedEmployees();
@@ -65,9 +67,12 @@ export class EmployeeService {
     const queryBuilder = this.employeeRepository.createQueryBuilder('employee');
 
     if (query.firstName) {
-      queryBuilder.andWhere('LOWER(employee.firstName) LIKE LOWER(:firstName)', {
-        firstName: `%${query.firstName}%`,
-      });
+      queryBuilder.andWhere(
+        'LOWER(employee.firstName) LIKE LOWER(:firstName)',
+        {
+          firstName: `%${query.firstName}%`,
+        },
+      );
     }
 
     if (query.lastName) {
@@ -91,11 +96,17 @@ export class EmployeeService {
     if (query.status) {
       const statusVal = query.status.toLowerCase();
       if (statusVal === 'active') {
-        queryBuilder.andWhere('LOWER(employee.status) = :status', { status: 'active' });
+        queryBuilder.andWhere('LOWER(employee.status) = :status', {
+          status: 'active',
+        });
       } else if (statusVal === 'resign' || statusVal === 'resigned') {
-        queryBuilder.andWhere('LOWER(employee.status) LIKE :status', { status: 'resign%' });
+        queryBuilder.andWhere('LOWER(employee.status) LIKE :status', {
+          status: 'resign%',
+        });
       } else {
-        queryBuilder.andWhere('LOWER(employee.status) = :status', { status: statusVal });
+        queryBuilder.andWhere('LOWER(employee.status) = :status', {
+          status: statusVal,
+        });
       }
     }
 
@@ -144,7 +155,7 @@ export class EmployeeService {
       'Operations',
     ];
     const statuses = ['Active', 'Resigned'];
-    
+
     for (let i = 1; i <= 100; i++) {
       const birthDateObj = new Date(1990, 0, (i % 28) + 1);
       const year = birthDateObj.getFullYear();
@@ -164,10 +175,10 @@ export class EmployeeService {
         uuidKey: userUuid,
         email: `user${i}@example.com`,
         birthDate: birthDateStr as any,
-        basicSalary: 5000000 + (i * 100000),
+        basicSalary: 5000000 + i * 100000,
         status: statuses[i % statuses.length],
         group: groups[i % groups.length],
-        description: new Date()
+        description: new Date(),
       });
       await this.employeeRepository.save(employee);
     }
