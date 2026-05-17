@@ -6,11 +6,12 @@ import { EmployeeTableComponent } from '../ui/employee-table.component';
 import { Employee } from '../domain/employee.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '@org/shared-theme';
+import { InputComponent, ButtonIconComponent } from '@org/ui-kit';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, EmployeeTableComponent],
+  imports: [CommonModule, FormsModule, EmployeeTableComponent, InputComponent, ButtonIconComponent],
   providers: [EmployeeListFacade],
   templateUrl: './employee-list.view.html'
 })

@@ -1,0 +1,13 @@
+<button 
+  [type]="type" 
+  [disabled]="disabled || isLoading" 
+  (click)="onClick($event)"
+  class="btn btn-{{ variant }} {{ styleClass }}"
+>
+  @if (isLoading) {
+    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    <span>{{ loadingText }}</span>
+  } @else {
+    <span>{{ label }}</span>
+  }
+</button>

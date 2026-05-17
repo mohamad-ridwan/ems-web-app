@@ -1,9 +1,13 @@
 <div class="container-fluid p-3 p-md-4">
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
     <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Employee Management</h2>
-    <button class="btn btn-primary px-4" (click)="goToAddEmployee()">
-      <i class="bi bi-plus-lg me-2"></i> Add Employee
-    </button>
+    <ems-button-icon
+      label="Add Employee"
+      icon="bi bi-plus-lg"
+      variant="primary"
+      styleClass="px-4"
+      (clicked)="goToAddEmployee()">
+    </ems-button-icon>
   </div>
 
   <!-- Filters -->
@@ -11,19 +15,31 @@
     <div class="card-body">
       <div class="row g-3">
         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-          <label for="firstNameInput" class="form-label small text-muted fw-bold">First Name</label>
-          <input id="firstNameInput" type="text" class="form-control" placeholder="Search first name..." 
-                 [ngModel]="facade.searchFirstName()" (ngModelChange)="facade.updateFirstName($event)">
+          <ems-input 
+            id="firstNameInput" 
+            label="First Name" 
+            placeholder="Search first name..." 
+            [value]="facade.searchFirstName()" 
+            (valueChange)="facade.updateFirstName($event)">
+          </ems-input>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-          <label for="lastNameInput" class="form-label small text-muted fw-bold">Last Name</label>
-          <input id="lastNameInput" type="text" class="form-control" placeholder="Search last name..." 
-                 [ngModel]="facade.searchLastName()" (ngModelChange)="facade.updateLastName($event)">
+          <ems-input 
+            id="lastNameInput" 
+            label="Last Name" 
+            placeholder="Search last name..." 
+            [value]="facade.searchLastName()" 
+            (valueChange)="facade.updateLastName($event)">
+          </ems-input>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-          <label for="emailInput" class="form-label small text-muted fw-bold">Email</label>
-          <input id="emailInput" type="text" class="form-control" placeholder="Search email..." 
-                 [ngModel]="facade.searchEmail()" (ngModelChange)="facade.updateEmail($event)">
+          <ems-input 
+            id="emailInput" 
+            label="Email" 
+            placeholder="Search email..." 
+            [value]="facade.searchEmail()" 
+            (valueChange)="facade.updateEmail($event)">
+          </ems-input>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2">
           <label for="statusSelect" class="form-label small text-muted fw-bold">Status</label>

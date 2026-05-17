@@ -25,14 +25,24 @@
         </div>
       </div>
 
-      <div *ngIf="facade.errorMessage()" class="alert alert-danger small py-2 border-0 rounded-3 mb-4">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ facade.errorMessage() }}
-      </div>
+      @if (facade.errorMessage()) {
+        <ems-notification
+          type="danger"
+          [message]="facade.errorMessage()!"
+          [dismissible]="false"
+          styleClass="mb-4 py-2 small">
+        </ems-notification>
+      }
 
-      <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm" [disabled]="!loginForm.form.valid || facade.isLoading()">
-        <span *ngIf="facade.isLoading()" class="spinner-border spinner-border-sm me-2"></span>
-        MASUK
-      </button>
+      <ems-button
+        type="submit"
+        label="MASUK"
+        variant="primary"
+        styleClass="w-100 fw-bold shadow-sm"
+        [disabled]="!loginForm.form.valid || facade.isLoading()"
+        [isLoading]="facade.isLoading()"
+        loadingText="MASUK...">
+      </ems-button>
 
       <div class="text-center mt-4">
         <a href="#" class="text-primary text-decoration-none small fw-bold">Lupa Password?</a>

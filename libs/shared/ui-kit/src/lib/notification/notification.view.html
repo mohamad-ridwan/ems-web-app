@@ -1,0 +1,16 @@
+@if (!dismissed) {
+  <div class="alert {{ getAlertClass() }} d-flex align-items-start gap-3 shadow-sm border-0 rounded-3 p-3 {{ styleClass }}" role="alert">
+    <div class="alert-icon fs-4 flex-shrink-0 d-flex align-items-center">
+      <i [class]="getIconClass()"></i>
+    </div>
+    <div class="flex-grow-1 align-self-center">
+      @if (title) {
+        <h6 class="alert-heading fw-bold mb-1">{{ title }}</h6>
+      }
+      <div class="mb-0 small text-dark opacity-90">{{ message }}</div>
+    </div>
+    @if (dismissible) {
+      <button type="button" class="btn-close flex-shrink-0 ms-auto p-2" aria-label="Close" (click)="onClose()"></button>
+    }
+  </div>
+}

@@ -1,0 +1,68 @@
+<div class="mb-3">
+  @if (label) {
+    <label [attr.for]="id" class="form-label">{{ label }}</label>
+  }
+  
+  @if (prependText) {
+    <div class="input-group" [class.is-invalid]="control && control.invalid && control.touched">
+      <span class="input-group-text">{{ prependText }}</span>
+      @if (control) {
+        <input 
+          [type]="type" 
+          [id]="id" 
+          [placeholder]="placeholder" 
+          [formControl]="control" 
+          [class.is-invalid]="control && control.invalid && control.touched"
+          [disabled]="disabled"
+          [readonly]="readOnly"
+          [max]="maxDate"
+          class="form-control {{ styleClass }}"
+        />
+      } @else {
+        <input 
+          [type]="type" 
+          [id]="id" 
+          [placeholder]="placeholder" 
+          [value]="value"
+          (input)="onInputChange($event)"
+          [disabled]="disabled"
+          [readonly]="readOnly"
+          [max]="maxDate"
+          class="form-control {{ styleClass }}"
+        />
+      }
+    </div>
+  } @else {
+    @if (control) {
+      <input 
+        [type]="type" 
+        [id]="id" 
+        [placeholder]="placeholder" 
+        [formControl]="control" 
+        [class.is-invalid]="control && control.invalid && control.touched"
+        [disabled]="disabled"
+        [readonly]="readOnly"
+        [max]="maxDate"
+        class="form-control {{ styleClass }}"
+      />
+    } @else {
+      <input 
+        [type]="type" 
+        [id]="id" 
+        [placeholder]="placeholder" 
+        [value]="value"
+        (input)="onInputChange($event)"
+        [disabled]="disabled"
+        [readonly]="readOnly"
+        [max]="maxDate"
+        class="form-control {{ styleClass }}"
+      />
+    }
+  }
+
+  @if (control && control.invalid && control.touched && errorMessage) {
+    <div class="invalid-feedback d-block">
+      {{ errorMessage }}
+    </div>
+  }
+</div>

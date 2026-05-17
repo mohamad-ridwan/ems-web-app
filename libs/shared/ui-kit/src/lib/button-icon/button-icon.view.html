@@ -1,0 +1,23 @@
+<button 
+  [type]="type" 
+  [disabled]="disabled || isLoading" 
+  (click)="onClick($event)"
+  class="btn btn-{{ variant }} {{ styleClass }}"
+>
+  @if (isLoading) {
+    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    <span>{{ loadingText }}</span>
+  } @else {
+    <span class="d-flex align-items-center justify-content-center">
+      @if (icon && iconPosition === 'left') {
+        <i [class]="icon + ' me-2'"></i>
+      }
+      @if (label) {
+        <span>{{ label }}</span>
+      }
+      @if (icon && iconPosition === 'right') {
+        <i [class]="icon + ' ms-2'"></i>
+      }
+    </span>
+  }
+</button>

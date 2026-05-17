@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Employee } from '../domain/employee.model';
+import { ButtonComponent, ButtonIconComponent } from '@org/ui-kit';
 
 @Component({
   selector: 'app-employee-detail-ui',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent, ButtonIconComponent],
   template: `
     @if (employee) {
       <div class="card shadow-sm border-0">
@@ -47,12 +48,21 @@ import { Employee } from '../domain/employee.model';
           </div>
 
           <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-outline-secondary px-4" (click)="back.emit()">
-              <i class="bi bi-arrow-left me-2"></i> Cancel
-            </button>
-            <button type="button" class="btn btn-primary px-4 fw-bold" (click)="back.emit()">
-              OK
-            </button>
+            <ems-button-icon
+              type="button"
+              label="Cancel"
+              icon="bi bi-arrow-left"
+              variant="outline-secondary"
+              styleClass="px-4"
+              (clicked)="back.emit()">
+            </ems-button-icon>
+            <ems-button
+              type="button"
+              label="OK"
+              variant="primary"
+              styleClass="px-4 fw-bold"
+              (clicked)="back.emit()">
+            </ems-button>
           </div>
         </div>
       </div>
