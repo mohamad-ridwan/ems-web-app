@@ -1,85 +1,32 @@
-# Rencana Implementasi: Navbar Account Info & NgRx Global State
+# Implementasi Peningkatan Fitur Employee List & Backend API
 
-Dokumen ini memaparkan langkah-langkah implementasi untuk memindahkan informasi akun dari sidebar ke navbar (sebagai dropdown) menggunakan Bootstrap, serta menerapkan NgRx untuk global state management dengan arsitektur Domain-Driven Design (DDD) dan Model-View-ViewModel (MVVM).
+File ini berisi panduan implementasi untuk pembaruan fitur pagination, pencarian, dan state management pada aplikasi micro frontend **Employee List**, serta penyesuaian di sisi backend.
 
-## Fasa 1: Setup Global State (NgRx & DDD)
-Karena proyek ini menggunakan arsitektur micro frontend (Nx) dan DDD, state otentikasi harus dikelola sebagai shared domain.
+## Detail Pekerjaan
 
-1.  **Inisialisasi NgRx Auth Domain**:
-    *   Buat atau update library shared untuk auth (misal: `libs/shared/data-access-auth`).
-    *   **State**: Definisikan `AuthState` interface berisi properti `user` (menyimpan `username`, `group`, dll).
-    *   **Actions**: Buat action seperti `[Auth] Login Success`, `[Auth] Logout`.
-    *   **Reducer**: Implementasikan reducer untuk memodifikasi state berdasarkan action.
-    *   **Selectors**: Buat `selectCurrentUser` untuk mengambil data user dari global store.
+### 1. Update Pagination Logic
+**Target File:** `apps/ems_list_employee/src/app/employee-list/employee-list/employee-list.component.ts`
+- Ubah logic pagination agar hanya menampilkan maksimal 5 tombol navigasi halaman (misalnya: jika berada di halaman 4, tampilkan tombol 2, 3, 4, 5, 6).
+- Lakukan perubahan tampilan ini secara responsif dan dinamis, menyesuaikan halaman (pagination) yang sedang aktif.
 
-2.  **Registrasi Store di Shell App**:
-    *   Pada `apps/ems-dashboard/src/app/app.config.ts`, daftarkan NgRx Store (`provideStore`, `provideEffects`).
-    *   Pastikan library dependensi NgRx di-share secara singleton pada `module-federation.config.ts` agar shell dan remote apps menggunakan state yang sama.
+### 2. Fetching Data Berdasarkan Pagination & Sorting
+- Eksekusi *fetching data* ke backend pada setiap aksi klik di tombol pagination.
+- Kirim permintaan (request) dengan menyertakan parameter pagination (seperti `page` atau `offset`).
+- Batasi jumlah data yang diambil dari backend dengan menggunakan parameter `limit`. Nilai limit ini diambil dari query *items per page* yang diatur melalui *client sorting/filtering*.
 
-3.  **Update Login Remote App (`ems_login`)**:
-    *   Setelah pemanggilan API login berhasil, dispatch action `[Auth] Login Success` dengan payload data user (`username`, `group`) ke dalam NgRx store.
+### 3. Sinkronisasi State Filter & Pagination dengan URL (`searchParams`)
+- Update setiap perubahan nilai pada filter maupun halaman (pagination) ke URL sebagai query string / `searchParams`.
+- **Tujuan:** Memungkinkan pengguna untuk mempertahankan *active data state* yang sedang dilihat saat pengguna melakukan *refresh* halaman web (State Restoration).
 
-## Fasa 2: Implementasi ViewModel (MVVM)
-Shell app (`ems-dashboard`) membutuhkan ViewModel untuk menghubungkan View (`app.html`) dengan Model/State (NgRx).
+### 4. Penyesuaian API Backend (`ems-backend`)
+- Lakukan pembaruan pada API List Employee di aplikasi `ems-backend`.
+- Tambahkan atau sesuaikan dukungan untuk parameter *Query String* yang masuk dari frontend, seperti `page`, `limit`, maupun parameter filter terkait.
 
-1.  **Pembuatan/Penyesuaian Dashboard ViewModel**:
-    *   Buat facade/ViewModel class (misal `app.viewmodel.ts`).
-    *   Inject NgRx `Store`.
-    *   Gunakan `selectSignal(selectCurrentUser)` dari NgRx untuk membuat *reactive signal* `user()` yang berisi data akun.
-    *   Implementasikan fungsi `logout()` di ViewModel yang akan men-dispatch action `[Auth] Logout`, menghapus local storage, dan melakukan navigasi ke `/login`.
+## Aturan Arsitektur & Design Pattern
+Pastikan seluruh perubahan dan pembuatan kode mengikuti pola arsitektur berikut:
 
-2.  **Integrasi di Component (`app.ts`)**:
-    *   Inject ViewModel ke dalam komponen `App`.
-    *   Ganti fungsi `logout()` eksisting untuk memanggil method `logout()` dari ViewModel.
-    *   Ekspos signal `user()` dari ViewModel agar bisa dibaca oleh template HTML.
-
-## Fasa 3: Refactoring UI (Sidebar ke Navbar)
-Melakukan perombakan tampilan sesuai dengan kaidah Bootstrap dan UX backoffice modern.
-
-1.  **Hapus Account Info dari Sidebar**:
-    *   Buka `apps/ems-dashboard/src/app/app.html`.
-    *   Hapus block kode `<div class="sidebar-footer">...</div>` yang berisi info Administrator dan tombol Logout (sekitar baris 24-37).
-
-2.  **Tambahkan Account Dropdown di Navbar**:
-    *   Pada bagian `<header class="navbar ...">`, lokasikan div sebelah kanan (`<div class="ms-auto d-flex align-items-center">`).
-    *   Tambahkan elemen Bootstrap Dropdown reaktif yang menampilkan inisial/icon circle dan memuat info user:
-
-```html
-<!-- Account Dropdown -->
-<div class="dropdown ms-3">
-  <button class="btn btn-link text-dark p-0 position-relative dropdown-toggle d-flex align-items-center text-decoration-none" 
-          type="button" 
-          id="accountDropdown" 
-          data-bs-toggle="dropdown" 
-          aria-expanded="false" 
-          style="outline: none; box-shadow: none;">
-    <div class="rounded-circle bg-gold p-1 d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
-      <i class="bi bi-person-fill text-dark fs-5"></i>
-    </div>
-  </button>
-  <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="accountDropdown" style="min-width: 220px;">
-    <!-- Reactive User Info -->
-    <li class="px-3 py-3 border-bottom bg-light">
-      @if (vm.user()) {
-        <p class="mb-0 fw-bold text-dark text-truncate">{{ vm.user()?.username }}</p>
-        <p class="mb-0 text-muted small text-truncate">{{ vm.user()?.group }}</p>
-      } @else {
-        <p class="mb-0 fw-bold text-dark">Guest</p>
-      }
-    </li>
-    <!-- Logout Action -->
-    <li>
-      <button class="dropdown-item text-danger d-flex align-items-center py-2 mt-1" (click)="vm.logout()">
-        <i class="bi bi-box-arrow-right me-2"></i> Keluar
-      </button>
-    </li>
-  </ul>
-</div>
-```
-
-3.  **Pengujian Tampilan**:
-    *   Pastikan script JS Bootstrap dimuat sehingga dropdown berfungsi dengan baik (bisa di klik/toggle).
-    *   Pastikan dropdown menu tidak tertutup/terpotong oleh elemen lain (z-index aman).
-
----
-Dengan langkah-langkah di atas, EMS Dashboard akan sepenuhnya berbasis arsitektur NgRx + MVVM, dan antarmuka akan lebih rapi dengan account profile diletakkan pada posisi standar aplikasi enterprise (Kanan Atas).
+1. **MVVM (Model View ViewModel)**
+   - Pisahkan logika presentasi (UI) di View, dan pengelolaan state/logika interaksi di ViewModel (biasanya berupa Store/Facade), serta manajemen data di Model.
+   
+2. **DDD (Domain Driven Design)**
+   - Pastikan kode dan arsitektur file difokuskan pada domain bisnis yang diisolasi dengan baik (seperti pemisahan ke modul `data-access`, `ui`, `feature`, `domain`).

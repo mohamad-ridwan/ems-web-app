@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Inject } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Inject, Query } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { Employee } from '../entities/employee.entity';
 
@@ -12,8 +12,22 @@ export class EmployeeController {
   }
 
   @Get('list')
-  async getEmployees() {
-    return await this.employeeService.findAll();
+  async getEmployees(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('firstName') firstName?: string,
+    @Query('lastName') lastName?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC'
+  ) {
+    return await this.employeeService.findAll({
+      page,
+      limit,
+      firstName,
+      lastName,
+      sortBy,
+      sortOrder,
+    });
   }
 
   @Get(':id')
@@ -21,3 +35,4 @@ export class EmployeeController {
     return await this.employeeService.findById(Number(id));
   }
 }
+

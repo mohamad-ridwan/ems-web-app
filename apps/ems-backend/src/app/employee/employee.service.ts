@@ -15,12 +15,62 @@ export class EmployeeService {
     return await this.employeeRepository.save(employee);
   }
 
-  async findAll(): Promise<Employee[]> {
+  async findAll(query: {
+    page?: number;
+    limit?: number;
+    firstName?: string;
+    lastName?: string;
+    sortBy?: string;
+    sortOrder?: 'ASC' | 'DESC';
+  } = {}): Promise<{ data: Employee[]; total: number }> {
     const count = await this.employeeRepository.count();
     if (count < 100) {
       await this.seedEmployees();
     }
-    return await this.employeeRepository.find();
+
+    const page = query.page ? Number(query.page) : 1;
+    const limit = query.limit ? Number(query.limit) : 10;
+    const skip = (page - 1) * limit;
+
+    const queryBuilder = this.employeeRepository.createQueryBuilder('employee');
+
+    if (query.firstName) {
+      queryBuilder.andWhere('LOWER(employee.firstName) LIKE LOWER(:firstName)', {
+        firstName: `%${query.firstName}%`,
+      });
+    }
+
+    if (query.lastName) {
+      queryBuilder.andWhere('LOWER(employee.lastName) LIKE LOWER(:lastName)', {
+        lastName: `%${query.lastName}%`,
+      });
+    }
+
+    if (query.sortBy) {
+      const validColumns = [
+        'id',
+        'username',
+        'firstName',
+        'lastName',
+        'email',
+        'birthDate',
+        'basicSalary',
+        'status',
+        'group',
+        'description',
+      ];
+      if (validColumns.includes(query.sortBy)) {
+        const order = query.sortOrder === 'DESC' ? 'DESC' : 'ASC';
+        queryBuilder.orderBy(`employee.${query.sortBy}`, order);
+      }
+    } else {
+      queryBuilder.orderBy('employee.id', 'ASC');
+    }
+
+    queryBuilder.skip(skip).take(limit);
+
+    const [data, total] = await queryBuilder.getManyAndCount();
+    return { data, total };
   }
 
   async findById(id: number): Promise<Employee> {

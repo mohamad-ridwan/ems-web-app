@@ -35,12 +35,12 @@ import { Router } from '@angular/router';
             <div class="col-12 col-md-4">
               <label class="form-label small text-muted fw-bold">First Name</label>
               <input type="text" class="form-control" placeholder="Search first name..." 
-                     [ngModel]="vm.searchFirstName()" (ngModelChange)="vm.searchFirstName.set($event)">
+                     [ngModel]="vm.searchFirstName()" (ngModelChange)="vm.updateFirstName($event)">
             </div>
             <div class="col-12 col-md-4">
               <label class="form-label small text-muted fw-bold">Last Name</label>
               <input type="text" class="form-control" placeholder="Search last name..." 
-                     [ngModel]="vm.searchLastName()" (ngModelChange)="vm.searchLastName.set($event)">
+                     [ngModel]="vm.searchLastName()" (ngModelChange)="vm.updateLastName($event)">
             </div>
             <div class="col-12 col-md-4 d-flex align-items-end">
               <div class="w-100">
@@ -84,9 +84,9 @@ import { Router } from '@angular/router';
               <span class="d-inline d-sm-none">&laquo;</span>
             </a>
           </li>
-          <li class="page-item" *ngFor="let p of [].constructor(vm.totalPages()); let i = index" 
-              [class.active]="vm.currentPage() === i + 1">
-            <a class="page-link" (click)="vm.setPage(i + 1)" style="cursor: pointer;">{{ i + 1 }}</a>
+          <li class="page-item" *ngFor="let p of vm.visiblePages()" 
+              [class.active]="vm.currentPage() === p">
+            <a class="page-link" (click)="vm.setPage(p)" style="cursor: pointer;">{{ p }}</a>
           </li>
           <li class="page-item" [class.disabled]="vm.currentPage() === vm.totalPages()">
             <a class="page-link" (click)="vm.setPage(vm.currentPage() + 1)" style="cursor: pointer;">

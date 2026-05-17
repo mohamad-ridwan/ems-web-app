@@ -12,20 +12,39 @@ export class EmployeeDataAccessService {
 
   // State
   private employeesState = signal<Employee[]>([]);
+  private totalItemsState = signal<number>(0);
   private loadingState = signal<boolean>(false);
   private errorState = signal<string | null>(null);
 
   // Selectors
   employees = computed(() => this.employeesState());
+  totalItems = computed(() => this.totalItemsState());
   loading = computed(() => this.loadingState());
   error = computed(() => this.errorState());
 
-  loadEmployees() {
+  loadEmployees(params: {
+    page?: number;
+    limit?: number;
+    firstName?: string;
+    lastName?: string;
+    sortBy?: string;
+    sortOrder?: 'ASC' | 'DESC';
+  } = {}) {
     this.loadingState.set(true);
-    this.http.get<Employee[]>(this.apiUrl).pipe(
+
+    const queryParams: Record<string, string> = {};
+    if (params.page !== undefined) queryParams['page'] = params.page.toString();
+    if (params.limit !== undefined) queryParams['limit'] = params.limit.toString();
+    if (params.firstName) queryParams['firstName'] = params.firstName;
+    if (params.lastName) queryParams['lastName'] = params.lastName;
+    if (params.sortBy) queryParams['sortBy'] = params.sortBy;
+    if (params.sortOrder) queryParams['sortOrder'] = params.sortOrder;
+
+    this.http.get<{ data: Employee[]; total: number }>(this.apiUrl, { params: queryParams }).pipe(
       tap({
-        next: (employees) => {
-          this.employeesState.set(employees);
+        next: (res) => {
+          this.employeesState.set(res.data || []);
+          this.totalItemsState.set(res.total || 0);
           this.loadingState.set(false);
         },
         error: (err) => {
