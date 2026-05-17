@@ -29,7 +29,7 @@ import { Employee } from '../domain/employee.model';
               <p class="fs-6 mb-0 text-primary fw-medium">{{ employee.email }}</p>
             </div>
           </div>
-          <div class="col-md-6 border-start ps-md-4">
+          <div class="col-md-6 border-md-start ps-md-4">
             <div class="detail-group mb-3">
               <span class="text-muted small text-uppercase fw-bold mb-1 d-block">Basic Salary</span>
               <p class="fs-5 mb-0 fw-bold text-success">{{ formatCurrency(employee.basicSalary) }}</p>
@@ -59,6 +59,11 @@ import { Employee } from '../domain/employee.model';
   styles: [`
     .detail-group span {
       letter-spacing: 0.5px;
+    }
+    @media (min-width: 768px) {
+      .border-md-start {
+        border-left: 1px solid var(--bs-border-color, #dee2e6) !important;
+      }
     }
   `]
 })
