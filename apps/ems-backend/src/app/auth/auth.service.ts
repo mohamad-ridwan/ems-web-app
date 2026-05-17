@@ -30,4 +30,23 @@ export class AuthService {
       employee: user,
     };
   }
+
+  async getProfileByToken(token: string) {
+    try {
+      const payload = this.jwtService.verify(token, { secret: 'secretKey' });
+      if (!payload || !payload.sub) {
+        return null;
+      }
+      const id = Number(payload.sub);
+      const employee = await this.employeeRepository.findOne({ where: { id } });
+      if (employee) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...result } = employee;
+        return result;
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
 }
