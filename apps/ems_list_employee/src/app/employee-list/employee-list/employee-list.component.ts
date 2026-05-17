@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { EmployeeListViewModel } from './employee-list.viewmodel';
 import { EmployeeTableComponent } from '../ui/employee-table.component';
 import { Employee } from '../domain/employee.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -112,6 +112,7 @@ import { Router } from '@angular/router';
 export class EmployeeListComponent {
   vm = inject(EmployeeListViewModel);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   notification = signal<{ type: 'edit' | 'delete', message: string } | null>(null);
 
@@ -126,7 +127,13 @@ export class EmployeeListComponent {
   }
 
   onDetail(emp: Employee) {
-    this.router.navigate(['/detail-employee', emp.id]);
+    const queryParams = this.route.snapshot.queryParams;
+    this.router.navigate(['/detail-employee', emp.id], {
+      state: {
+        fromList: true,
+        queryParams: queryParams
+      }
+    });
   }
 
   onEdit(emp: Employee) {

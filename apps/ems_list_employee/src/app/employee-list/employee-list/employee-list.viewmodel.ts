@@ -71,17 +71,22 @@ export class EmployeeListViewModel {
       const sortBy = this.sortColumn();
       const sortDirection = this.sortDirection();
 
+      const queryParams = {
+        page: page !== 1 ? page : null,
+        limit: limit !== 10 ? limit : null,
+        firstName: firstName || null,
+        lastName: lastName || null,
+        sortBy: sortBy || null,
+        sortOrder: sortBy ? sortDirection : null,
+      };
+
+      // Store in sessionStorage for global persistence across navigation
+      sessionStorage.setItem('ems_employee_list_params', JSON.stringify(queryParams));
+
       // Sync state to URL Query Params
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: {
-          page: page !== 1 ? page : null,
-          limit: limit !== 10 ? limit : null,
-          firstName: firstName || null,
-          lastName: lastName || null,
-          sortBy: sortBy || null,
-          sortOrder: sortBy ? sortDirection : null,
-        },
+        queryParams: queryParams,
         queryParamsHandling: 'merge',
         replaceUrl: true
       });
