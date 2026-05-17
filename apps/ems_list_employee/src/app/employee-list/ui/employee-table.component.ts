@@ -34,6 +34,15 @@ import { Employee } from '../domain/employee.model';
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="employees.length === 0">
+            <td colspan="7" class="text-center py-5 text-muted">
+              <div class="py-3">
+                <i class="bi bi-search display-5 d-block mb-3 text-secondary opacity-75"></i>
+                <span class="fw-bold fs-5 text-dark d-block">Pencarian tidak ditemukan</span>
+                <p class="small text-muted mt-2 mb-0">Tidak ada data karyawan yang cocok dengan filter pencarian Anda.</p>
+              </div>
+            </td>
+          </tr>
           <tr *ngFor="let emp of employees">
             <td>{{ emp.username }}</td>
             <td>{{ emp.firstName }}</td>
