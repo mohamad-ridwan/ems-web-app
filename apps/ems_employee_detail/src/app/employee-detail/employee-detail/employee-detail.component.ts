@@ -14,13 +14,6 @@ import { Observable } from 'rxjs';
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-8">
-          <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#" (click)="goBack($event)" class="text-decoration-none">Employees</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Detail</li>
-            </ol>
-          </nav>
-
           <ng-container *ngIf="employee$ | async as employee; else loading">
             <app-employee-detail-ui 
               [employee]="employee"
