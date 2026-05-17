@@ -37,7 +37,7 @@ Each frontend module adheres to the MVVM architectural pattern:
 To run this application locally, ensure your environment meets the following prerequisites:
 - **Node.js**: v20 or later
 - **npm**: v10 or later
-- **PostgreSQL**: A running instance is required for the NestJS backend API database (TypeORM).
+- **PostgreSQL**: A running instance is required for the NestJS backend API database (TypeORM). An exported backup of the database is provided in the `databases` directory.
 
 ---
 
@@ -49,14 +49,18 @@ Clone the repository and install all necessary dependencies using npm:
 npm install
 ```
 
-### 2. Start the Backend API
+### 2. Set Up the Database
+This application requires a PostgreSQL database to run. A pre-configured database export is located in the `databases` directory. 
+Please restore this export to your local PostgreSQL instance and ensure your credentials match the ones in `apps/ems-backend/src/app/app.module.ts`.
+
+### 3. Start the Backend API
 Start the NestJS backend service. It will run by default on `http://localhost:3400/api`.
 ```bash
 npm run start-backend
 # Alternatively: nx serve ems-backend
 ```
 
-### 3. Start the Frontend Application
+### 4. Start the Frontend Application
 Start the Angular Shell (`ems-dashboard`) along with all its remote micro-frontends. The Nx Module Federation dev-server will automatically handle starting the static proxies for the remote apps.
 Open a **new terminal** and run:
 ```bash
@@ -64,6 +68,6 @@ npm run start-dashboard
 # Alternatively: nx serve ems-dashboard
 ```
 
-### 4. Access the App
+### 5. Access the App
 Once the dev-servers are ready, open your web browser and navigate to:
 **http://localhost:4400**
