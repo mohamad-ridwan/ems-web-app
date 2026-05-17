@@ -1,8 +1,8 @@
 {
-  "name": "shared-theme",
+  "name": "ems_add_employee_lib",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared-theme/src",
-  "prefix": "lib",
+  "sourceRoot": "libs/ems_add_employee/src",
+  "prefix": "app",
   "projectType": "library",
   "tags": ["scope:shared"],
   "targets": {

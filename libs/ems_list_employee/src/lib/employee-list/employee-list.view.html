@@ -1,0 +1,118 @@
+<div class="container-fluid p-3 p-md-4">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
+    <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Employee Management</h2>
+    <button class="btn btn-primary px-4" (click)="goToAddEmployee()">
+      <i class="bi bi-plus-lg me-2"></i> Add Employee
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+          <label for="firstNameInput" class="form-label small text-muted fw-bold">First Name</label>
+          <input id="firstNameInput" type="text" class="form-control" placeholder="Search first name..." 
+                 [ngModel]="facade.searchFirstName()" (ngModelChange)="facade.updateFirstName($event)">
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+          <label for="lastNameInput" class="form-label small text-muted fw-bold">Last Name</label>
+          <input id="lastNameInput" type="text" class="form-control" placeholder="Search last name..." 
+                 [ngModel]="facade.searchLastName()" (ngModelChange)="facade.updateLastName($event)">
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+          <label for="emailInput" class="form-label small text-muted fw-bold">Email</label>
+          <input id="emailInput" type="text" class="form-control" placeholder="Search email..." 
+                 [ngModel]="facade.searchEmail()" (ngModelChange)="facade.updateEmail($event)">
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+          <label for="statusSelect" class="form-label small text-muted fw-bold">Status</label>
+          <select id="statusSelect" class="form-select" [ngModel]="facade.searchStatus()" (ngModelChange)="facade.updateStatus($event)">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="resigned">Resigned</option>
+          </select>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+          <label for="groupSelect" class="form-label small text-muted fw-bold">Group</label>
+          <select id="groupSelect" class="form-select" [ngModel]="facade.searchGroup()" (ngModelChange)="facade.updateGroup($event)">
+            <option value="">All Group</option>
+            @for (g of groups; track g) {
+              <option [value]="g">{{ g }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex align-items-end">
+          <div class="w-100">
+            <label for="pageSizeSelect" class="form-label small text-muted fw-bold">Items per page</label>
+            <select id="pageSizeSelect" class="form-select" [ngModel]="facade.pageSize()" (ngModelChange)="facade.setPageSize($event)">
+              <option [ngValue]="5">5</option>
+              <option [ngValue]="10">10</option>
+              <option [ngValue]="20">20</option>
+              <option [ngValue]="50">50</option>
+              <option [ngValue]="100">100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card border-0 shadow-sm overflow-hidden mb-4">
+    @if (facade.loading()) {
+      <div class="p-5 text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    }
+
+    @if (!facade.loading()) {
+      <app-employee-table
+        [employees]="facade.pagedEmployees()"
+        (sort)="facade.toggleSort($event)"
+        (detail)="onDetail($event)"
+        (edit)="onEdit($event)"
+        (delete)="onDelete($event)">
+      </app-employee-table>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (!facade.loading() && facade.totalPages() > 1) {
+    <nav class="d-flex justify-content-center overflow-auto py-2" aria-label="Employee List Pagination">
+      <ul class="pagination pagination-sm shadow-sm mb-0">
+        <li class="page-item" [class.disabled]="facade.currentPage() === 1">
+          <button type="button" class="page-link" (click)="facade.setPage(facade.currentPage() - 1)">
+            <span class="d-none d-sm-inline">Previous</span>
+            <span class="d-inline d-sm-none">&laquo;</span>
+          </button>
+        </li>
+        
+        @for (p of facade.visiblePages(); track p) {
+          @if (p !== '...') {
+            <li class="page-item" [class.active]="isPageActive(p)">
+              <button type="button" class="page-link" (click)="onPageClick(p)">{{ p }}</button>
+            </li>
+          } @else {
+            <li class="page-item disabled">
+              <span class="page-link">&hellip;</span>
+            </li>
+          }
+        }
+
+        <li class="page-item" [class.disabled]="facade.currentPage() === facade.totalPages()">
+          <button type="button" class="page-link" (click)="facade.setPage(facade.currentPage() + 1)">
+            <span class="d-none d-sm-inline">Next</span>
+            <span class="d-inline d-sm-none">&raquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  }
+  
+  <div class="text-center text-muted small mt-2">
+    Showing {{ facade.pagedEmployees().length }} of {{ facade.totalItems() }} records
+  </div>
+</div>

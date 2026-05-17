@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee } from '../domain/employee.model';
@@ -8,8 +8,7 @@ import { Employee } from '../domain/employee.model';
 })
 export class EmployeeService {
   private apiUrl = 'http://localhost:3400/api/employee';
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getEmployeeById(id: string | number): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/${id}`);

@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { EmployeeService } from '../../data-access/employee.service';
 import { Employee } from '../../domain/employee.model';
 import { NotificationService } from '@org/shared-theme';
@@ -75,7 +76,7 @@ export class EmployeeAddFacade {
         );
         this.router.navigate(['/list-employee']);
       },
-      error: (err: any) => {
+      error: (err: HttpErrorResponse) => {
         console.error(err);
         const errMsg = err.error?.message;
         if (err.status === 400 && errMsg) {
