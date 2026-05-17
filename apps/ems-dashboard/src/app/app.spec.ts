@@ -1,16 +1,39 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
-import { NxWelcome } from './nx-welcome';
-import { Router, RouterModule } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
+import { provideStore } from '@ngrx/store';
+import { provideHttpClient } from '@angular/common/http';
+import { authReducer } from '@org/auth';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  template: '<h1>List Employee Page</h1>'
+})
+class DummyComponent {}
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([{ path: '', component: NxWelcome }]),
         App,
-        NxWelcome,
       ],
+      providers: [
+        provideHttpClient(),
+        provideStore({ auth: authReducer }),
+        provideRouter([
+          {
+            path: 'list-employee',
+            component: DummyComponent,
+          },
+          {
+            path: '',
+            redirectTo: 'list-employee',
+            pathMatch: 'full',
+          }
+        ]),
+      ]
     }).compileComponents();
   });
 
@@ -26,14 +49,12 @@ describe('App', () => {
     expect(app.title).toEqual('ems-dashboard');
   });
 
-  it('should render title', async () => {
+  it('should redirect to list-employee page', async () => {
     const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
+    
     await router.navigate(['']);
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome ems-dashboard',
-    );
+    expect(router.url).toBe('/list-employee');
   });
 });
