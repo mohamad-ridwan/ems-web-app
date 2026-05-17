@@ -5,6 +5,7 @@ import { provideStore } from '@ngrx/store';
 import { provideHttpClient } from '@angular/common/http';
 import { authReducer } from '@org/auth';
 import { Component } from '@angular/core';
+import { guestGuard } from './guest.guard';
 
 @Component({
   selector: 'app-dummy',
@@ -28,6 +29,11 @@ describe('App', () => {
             component: DummyComponent,
           },
           {
+            path: 'login',
+            component: DummyComponent,
+            canActivate: [guestGuard],
+          },
+          {
             path: '',
             redirectTo: 'list-employee',
             pathMatch: 'full',
@@ -35,6 +41,10 @@ describe('App', () => {
         ]),
       ]
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    localStorage.clear();
   });
 
   it('should create the app', () => {
@@ -56,5 +66,27 @@ describe('App', () => {
     await router.navigate(['']);
     await fixture.whenStable();
     expect(router.url).toBe('/list-employee');
+  });
+
+  describe('guestGuard', () => {
+    it('should allow navigation to login if NOT logged in', async () => {
+      const fixture = TestBed.createComponent(App);
+      const router = TestBed.inject(Router);
+      
+      localStorage.removeItem('access_token');
+      await router.navigate(['/login']);
+      await fixture.whenStable();
+      expect(router.url).toBe('/login');
+    });
+
+    it('should redirect to list-employee if already logged in', async () => {
+      const fixture = TestBed.createComponent(App);
+      const router = TestBed.inject(Router);
+      
+      localStorage.setItem('access_token', 'mock-token');
+      await router.navigate(['/login']);
+      await fixture.whenStable();
+      expect(router.url).toBe('/list-employee');
+    });
   });
 });
