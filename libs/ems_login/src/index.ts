@@ -1,1 +1,1 @@
-export { LoginComponent } from './lib/login.component';
+export { LoginComponent } from './lib/form/login.component';

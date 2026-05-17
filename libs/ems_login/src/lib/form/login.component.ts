@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LoginFacade } from './facade/login.facade';
+import { LoginFacade } from '../facade/login.facade';
 import { ButtonComponent, NotificationComponent } from '@org/ui-kit';
 
 @Component({

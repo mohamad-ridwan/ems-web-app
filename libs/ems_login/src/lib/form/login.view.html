@@ -19,9 +19,9 @@
         <div class="input-group">
           <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-primary"></i></span>
           <input [type]="facade.showPassword() ? 'text' : 'password'" class="form-control border-start-0 border-end-0" id="password" name="password" [(ngModel)]="facade.loginData.password" required placeholder="Masukkan password">
-          <span class="input-group-text bg-white border-start-0 cursor-pointer" (click)="facade.showPassword.set(!facade.showPassword())" style="cursor: pointer;">
+          <button type="button" class="input-group-text bg-white border-start-0 cursor-pointer" (click)="facade.showPassword.set(!facade.showPassword())" aria-label="Toggle Password Visibility" style="cursor: pointer; border: 1px solid #dee2e6; border-left: none;">
             <i class="bi text-primary" [ngClass]="facade.showPassword() ? 'bi-eye' : 'bi-eye-slash'"></i>
-          </span>
+          </button>
         </div>
       </div>
 
