@@ -213,7 +213,7 @@ export class EmployeeAddComponent {
       next: () => {
         this.isSubmitting.set(false);
         alert('Employee added successfully!');
-        this.router.navigate(['/employee-list']);
+        this.router.navigate(['/list-employee']);
       },
       error: (err) => {
         console.error(err);
@@ -224,6 +224,6 @@ export class EmployeeAddComponent {
   }
 
   onCancel() {
-    this.router.navigate(['/employee-list']);
+    this.router.navigate(['/list-employee']);
   }
 }
