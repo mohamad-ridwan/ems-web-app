@@ -84,10 +84,16 @@ import { Router } from '@angular/router';
               <span class="d-inline d-sm-none">&laquo;</span>
             </a>
           </li>
-          <li class="page-item" *ngFor="let p of vm.visiblePages()" 
-              [class.active]="vm.currentPage() === p">
-            <a class="page-link" (click)="vm.setPage(p)" style="cursor: pointer;">{{ p }}</a>
-          </li>
+          
+          <ng-container *ngFor="let p of vm.visiblePages()">
+            <li class="page-item" *ngIf="p !== '...'" [class.active]="isPageActive(p)">
+              <a class="page-link" (click)="onPageClick(p)" style="cursor: pointer;">{{ p }}</a>
+            </li>
+            <li class="page-item disabled" *ngIf="p === '...'">
+              <span class="page-link">&hellip;</span>
+            </li>
+          </ng-container>
+
           <li class="page-item" [class.disabled]="vm.currentPage() === vm.totalPages()">
             <a class="page-link" (click)="vm.setPage(vm.currentPage() + 1)" style="cursor: pointer;">
               <span class="d-none d-sm-inline">Next</span>
@@ -108,6 +114,16 @@ export class EmployeeListComponent {
   private router = inject(Router);
 
   notification = signal<{ type: 'edit' | 'delete', message: string } | null>(null);
+
+  onPageClick(p: number | string) {
+    if (typeof p === 'number') {
+      this.vm.setPage(p);
+    }
+  }
+
+  isPageActive(p: number | string): boolean {
+    return this.vm.currentPage() === p;
+  }
 
   onDetail(emp: Employee) {
     this.router.navigate(['/detail-employee', emp.id]);

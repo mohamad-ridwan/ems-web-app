@@ -32,28 +32,24 @@ export class EmployeeListViewModel {
     return Math.ceil(total / size);
   });
 
-  // Calculate visible pages (max 5 buttons, responsive to active page)
-  visiblePages = computed(() => {
+  // Calculate visible pages (showing first/last pages & ellipsis if far)
+  visiblePages = computed<(number | string)[]>(() => {
     const current = this.currentPage();
     const total = this.totalPages();
-    const maxButtons = 5;
 
-    if (total <= maxButtons) {
+    if (total <= 7) {
       return Array.from({ length: total }, (_, i) => i + 1);
     }
 
-    let start = current - Math.floor(maxButtons / 2);
-    let end = current + Math.floor(maxButtons / 2);
-
-    if (start < 1) {
-      start = 1;
-      end = maxButtons;
-    } else if (end > total) {
-      end = total;
-      start = total - maxButtons + 1;
+    if (current <= 4) {
+      return [...Array.from({ length: 5 }, (_, i) => i + 1), '...', total];
     }
 
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    if (current >= total - 3) {
+      return [1, '...', ...Array.from({ length: 5 }, (_, i) => total - 4 + i)];
+    }
+
+    return [1, '...', current - 1, current, current + 1, '...', total];
   });
 
   constructor() {
