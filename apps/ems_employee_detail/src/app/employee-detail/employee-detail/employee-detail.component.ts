@@ -47,9 +47,9 @@ export class EmployeeDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const email = this.route.snapshot.paramMap.get('email');
-    if (email) {
-      this.employee$ = this.employeeService.getEmployeeByEmail(email);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.employee$ = this.employeeService.getEmployeeByEmail(id);
     }
   }
 
