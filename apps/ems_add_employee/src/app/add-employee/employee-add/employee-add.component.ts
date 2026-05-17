@@ -4,13 +4,21 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { Router } from '@angular/router';
 import { EmployeeService } from '../data-access/employee.service';
 import { Employee } from '../domain/employee.model';
+import { NotificationComponent, NotificationType } from '@org/shared-theme';
 
 @Component({
   selector: 'app-employee-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NotificationComponent],
   template: `
     <div class="container-fluid p-3 p-md-4">
+      <lib-notification
+        *ngIf="notification()"
+        [type]="notification()!.type"
+        [title]="notification()!.title"
+        [message]="notification()!.message"
+        (close)="clearNotification()"
+      ></lib-notification>
       <div class="mb-4">
         <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
       </div>
@@ -170,6 +178,16 @@ export class EmployeeAddComponent {
   selectedGroup = '';
   isSubmitting = signal(false);
 
+  notification = signal<{ type: NotificationType; title: string; message: string } | null>(null);
+
+  showNotification(type: NotificationType, title: string, message: string) {
+    this.notification.set({ type, title, message });
+  }
+
+  clearNotification() {
+    this.notification.set(null);
+  }
+
   constructor() {
     this.today = new Date().toISOString().split('T')[0];
     this.groups = this.employeeService.getGroups();
@@ -216,12 +234,14 @@ export class EmployeeAddComponent {
     this.employeeService.addEmployee(employeeData).subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        alert('Employee added successfully!');
-        this.router.navigate(['/list-employee']);
+        this.showNotification('success', 'Success!', 'Employee added successfully! Redirecting...');
+        setTimeout(() => {
+          this.router.navigate(['/list-employee']);
+        }, 2500);
       },
       error: (err) => {
         console.error(err);
-        alert('Failed to add employee. Please check backend connection.');
+        this.showNotification('danger', 'Error!', 'Failed to add employee. Please check backend connection.');
         this.isSubmitting.set(false);
       }
     });

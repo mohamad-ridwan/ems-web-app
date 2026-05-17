@@ -5,11 +5,12 @@ import { EmployeeListViewModel } from './employee-list.viewmodel';
 import { EmployeeTableComponent } from '../ui/employee-table.component';
 import { Employee } from '../domain/employee.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NotificationComponent, NotificationType } from '@org/shared-theme';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, EmployeeTableComponent],
+  imports: [CommonModule, FormsModule, EmployeeTableComponent, NotificationComponent],
   providers: [EmployeeListViewModel],
   template: `
     <div class="container-fluid p-3 p-md-4">
@@ -20,13 +21,13 @@ import { Router, ActivatedRoute } from '@angular/router';
         </button>
       </div>
 
-      <!-- Notifications -->
-      <div *ngIf="notification()" class="alert alert-dismissible fade show shadow-sm" 
-           [ngClass]="notification()?.type === 'edit' ? 'alert-warning' : 'alert-danger'" role="alert">
-        <strong>{{ notification()?.type === 'edit' ? 'Edit' : 'Delete' }} Action!</strong> 
-        {{ notification()?.message }}
-        <button type="button" class="btn-close" (click)="clearNotification()"></button>
-      </div>
+      <!-- Reusable Notification Component -->
+      <lib-notification
+        *ngIf="notification()"
+        [type]="notification()!.type"
+        [message]="notification()!.message"
+        (close)="clearNotification()"
+      ></lib-notification>
 
       <!-- Filters -->
       <div class="card mb-4 border-0 shadow-sm">
@@ -134,7 +135,7 @@ export class EmployeeListComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  notification = signal<{ type: 'edit' | 'delete', message: string } | null>(null);
+  notification = signal<{ type: NotificationType, message: string } | null>(null);
 
   groups = [
     'Engineering',
@@ -174,7 +175,6 @@ export class EmployeeListComponent {
       type: 'edit',
       message: `Editing employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
     });
-    setTimeout(() => this.clearNotification(), 3000);
   }
 
   onDelete(emp: Employee) {
@@ -182,7 +182,6 @@ export class EmployeeListComponent {
       type: 'delete',
       message: `Deleting employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
     });
-    setTimeout(() => this.clearNotification(), 3000);
   }
 
   clearNotification() {
