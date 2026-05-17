@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EmployeeService } from '../../data-access/employee.service';
 import { Employee } from '../../domain/employee.model';
-import { NotificationService } from '@org/shared-theme';
+import { PopupNotificationService } from '@org/ui-kit';
 
 @Injectable()
 export class EmployeeAddFacade {
   private fb = inject(FormBuilder);
   private employeeService = inject(EmployeeService);
   private router = inject(Router);
-  private notificationService = inject(NotificationService);
+  private notificationService = inject(PopupNotificationService);
 
   employeeForm: FormGroup;
   today: string;

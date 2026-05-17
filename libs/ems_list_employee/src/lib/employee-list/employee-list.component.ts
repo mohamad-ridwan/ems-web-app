@@ -5,8 +5,7 @@ import { EmployeeListFacade } from './facade/employee-list.facade';
 import { EmployeeTableComponent } from '../ui/employee-table.component';
 import { Employee } from '../domain/employee.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NotificationService } from '@org/shared-theme';
-import { InputComponent, ButtonIconComponent } from '@org/ui-kit';
+import { InputComponent, ButtonIconComponent, PopupNotificationService } from '@org/ui-kit';
 
 @Component({
   selector: 'app-employee-list',
@@ -25,7 +24,7 @@ export class EmployeeListComponent {
   facade = inject(EmployeeListFacade);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private notificationService = inject(NotificationService);
+  private notificationService = inject(PopupNotificationService);
 
   groups = [
     'Engineering',

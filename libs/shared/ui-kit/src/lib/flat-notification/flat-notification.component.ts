@@ -2,13 +2,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'ems-notification',
+  selector: 'ems-flat-notification',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './notification.view.html',
-  styleUrl: './notification.component.scss'
+  templateUrl: './flat-notification.view.html',
+  styleUrl: './flat-notification.component.scss'
 })
-export class NotificationComponent {
+export class FlatNotificationComponent {
   @Input() type: 'success' | 'warning' | 'danger' | 'info' = 'info';
   @Input() title = '';
   @Input() message = '';

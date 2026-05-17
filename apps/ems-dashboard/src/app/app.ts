@@ -7,18 +7,17 @@ import {
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AppViewModel } from '@org/ems-dashboard';
-import { NotificationComponent, NotificationService } from '@org/shared-theme';
-import { SidebarComponent } from '@org/ui-kit';
+import { PopupNotificationComponent, PopupNotificationService, SidebarComponent } from '@org/ui-kit';
 
 @Component({
-  imports: [RouterModule, NotificationComponent, SidebarComponent],
+  imports: [RouterModule, PopupNotificationComponent, SidebarComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   public readonly vm = inject(AppViewModel);
-  public readonly notificationService = inject(NotificationService);
+  public readonly notificationService = inject(PopupNotificationService);
   isLoginPage = signal(false);
   public readonly pageTitle = signal<string>('Portal');
 

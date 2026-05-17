@@ -69,13 +69,13 @@
       </div>
 
       @if (facade.errorMessage()) {
-      <ems-notification
+      <ems-flat-notification
         type="danger"
         [message]="facade.errorMessage()!"
         [dismissible]="false"
         styleClass="mb-4 py-2 small"
       >
-      </ems-notification>
+      </ems-flat-notification>
       }
 
       <ems-button

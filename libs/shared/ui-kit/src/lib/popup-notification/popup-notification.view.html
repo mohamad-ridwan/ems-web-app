@@ -1,0 +1,51 @@
+<div 
+  class="notification-toast shadow-lg" 
+  [class.hide]="isHiding"
+  [class.toast-success]="type === 'success'"
+  [class.toast-warning]="type === 'warning' || type === 'edit'"
+  [class.toast-danger]="type === 'danger' || type === 'delete'"
+  [class.toast-info]="type === 'info'"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <!-- Accent Left Border Line -->
+  <div class="accent-bar"></div>
+
+  <!-- Content Area -->
+  <div class="toast-content p-3 flex-grow-1">
+    <div class="d-flex align-items-center gap-3">
+      <!-- Icon -->
+      <div class="icon-container d-flex align-items-center justify-content-center">
+        <i [ngClass]="getIconClass()"></i>
+      </div>
+
+      <!-- Message & Title -->
+      <div class="message-container flex-grow-1">
+        <h6 class="mb-1 fw-bold text-dark toast-title">
+          {{ title || getDefaultTitle() }}
+        </h6>
+        <p class="mb-0 text-muted small toast-message">
+          {{ message }}
+        </p>
+      </div>
+
+      <!-- Close Button -->
+      <button 
+        type="button" 
+        class="btn-close ms-auto btn-close-custom" 
+        aria-label="Close"
+        (click)="dismiss()"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Animated Progress Bar for Auto-dismiss -->
+  <div class="progress-bar-container" *ngIf="duration > 0">
+    <div 
+      class="progress-bar-fill" 
+      [style.animationDuration]="duration + 'ms'"
+      [style.background-color]="getThemeColor()"
+    ></div>
+  </div>
+</div>

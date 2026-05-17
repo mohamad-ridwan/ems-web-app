@@ -13,11 +13,11 @@
   </main>
 </div>
 } @if (notificationService.notification(); as currentNotification) {
-<lib-notification
+<ems-popup-notification
   [type]="currentNotification.type"
   [title]="currentNotification.title || ''"
   [message]="currentNotification.message"
   [duration]="currentNotification.duration ?? 4000"
   (close)="notificationService.clearNotification()"
-></lib-notification>
+></ems-popup-notification>
 }

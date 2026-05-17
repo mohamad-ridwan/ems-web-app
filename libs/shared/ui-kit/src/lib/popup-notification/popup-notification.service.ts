@@ -1,9 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { NotificationType } from './notification.component';
+import { PopupNotificationType } from './popup-notification.component';
 
-
-export interface NotificationState {
-  type: NotificationType;
+export interface PopupNotificationState {
+  type: PopupNotificationType;
   title?: string;
   message: string;
   duration?: number;
@@ -12,17 +11,17 @@ export interface NotificationState {
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationService {
-  private notificationSignal = signal<NotificationState | null>(null);
+export class PopupNotificationService {
+  private notificationSignal = signal<PopupNotificationState | null>(null);
 
   // Read-only signal exposed to components
   notification = this.notificationSignal.asReadonly();
 
-  showNotification(type: NotificationType, title: string, message: string, duration = 4000) {
+  showNotification(type: PopupNotificationType, title: string, message: string, duration = 4000) {
     this.notificationSignal.set({ type, title, message, duration });
   }
 
-  show(type: NotificationType, message: string, title?: string, duration = 4000) {
+  show(type: PopupNotificationType, message: string, title?: string, duration = 4000) {
     this.notificationSignal.set({ type, title, message, duration });
   }
 
