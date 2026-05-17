@@ -17,6 +17,9 @@ export class Employee {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  uuidKey: string;
+
   @Column({ type: 'varchar', length: 150 })
   email: string;
 

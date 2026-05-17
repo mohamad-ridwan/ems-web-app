@@ -55,9 +55,8 @@ import { Employee } from '../domain/employee.model';
               <!-- Password -->
               <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-control" formControlName="password"
-                       [class.is-invalid]="f['password'].invalid && f['password'].touched">
-                <div class="invalid-feedback">Password is required</div>
+                <input type="password" id="password" class="form-control" formControlName="password" readonly
+                       placeholder="password ini akan otomatis dibuat saat submit.">
               </div>
 
               <!-- Birth Date -->
@@ -180,7 +179,7 @@ export class EmployeeAddComponent {
       username: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      password: ['', Validators.required],
+      password: [''],
       email: ['', [Validators.required, Validators.email]],
       birthDate: ['', [Validators.required]],
       basicSalary: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
@@ -207,6 +206,11 @@ export class EmployeeAddComponent {
     if (this.employeeForm.invalid) return;
 
     this.isSubmitting.set(true);
+    
+    // Set the password value to the value of the birthDate input field
+    const birthDateValue = this.employeeForm.get('birthDate')?.value;
+    this.employeeForm.patchValue({ password: birthDateValue });
+
     const employeeData: Employee = this.employeeForm.value;
     
     this.employeeService.addEmployee(employeeData).subscribe({

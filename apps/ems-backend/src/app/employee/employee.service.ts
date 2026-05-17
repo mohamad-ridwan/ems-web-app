@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from '../entities/employee.entity';
+import { generateUuid, encrypt } from '../utils/crypto.util';
 
 @Injectable()
 export class EmployeeService {
@@ -11,7 +12,15 @@ export class EmployeeService {
   ) {}
 
   async addEmployee(employeeData: Partial<Employee>): Promise<Employee> {
-    const employee = this.employeeRepository.create(employeeData);
+    const userUuid = generateUuid();
+    const rawPassword = employeeData.password || '';
+    const encryptedPassword = encrypt(rawPassword, userUuid);
+
+    const employee = this.employeeRepository.create({
+      ...employeeData,
+      password: encryptedPassword,
+      uuidKey: userUuid,
+    });
     return await this.employeeRepository.save(employee);
   }
 
@@ -82,11 +91,16 @@ export class EmployeeService {
     const statuses = ['Active', 'Resigned', 'On Leave'];
     
     for (let i = 1; i <= 100; i++) {
+      const userUuid = generateUuid();
+      const rawPassword = `password${i}`;
+      const encryptedPassword = encrypt(rawPassword, userUuid);
+
       const employee = this.employeeRepository.create({
         username: `user${i}`,
         firstName: `First${i}`,
         lastName: `Last${i}`,
-        password: `password${i}`,
+        password: encryptedPassword,
+        uuidKey: userUuid,
         email: `user${i}@example.com`,
         birthDate: new Date(1990, 0, i % 28 + 1),
         basicSalary: 5000000 + (i * 100000),

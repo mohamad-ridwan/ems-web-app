@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from '../entities/employee.entity';
+import { decrypt } from '../utils/crypto.util';
 
 @Injectable()
 export class AuthService {
@@ -15,10 +16,26 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const employee = await this.employeeRepository.findOne({ where: { username } });
-    if (employee && employee.password === pass) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = employee;
-      return result;
+    if (employee) {
+      if (!employee.uuidKey) {
+        // Fallback for legacy passwords
+        if (employee.password === pass) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { password, uuidKey, ...result } = employee;
+          return result;
+        }
+      } else {
+        try {
+          const decryptedPassword = decrypt(employee.password, employee.uuidKey);
+          if (decryptedPassword === pass) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { password, uuidKey, ...result } = employee;
+            return result;
+          }
+        } catch (e) {
+          console.error('Password decryption failed during login:', e);
+        }
+      }
     }
     return null;
   }
@@ -41,7 +58,7 @@ export class AuthService {
       const employee = await this.employeeRepository.findOne({ where: { id } });
       if (employee) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...result } = employee;
+        const { password, uuidKey, ...result } = employee;
         return result;
       }
     } catch (e) {
