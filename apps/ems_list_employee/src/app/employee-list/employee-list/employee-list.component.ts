@@ -110,7 +110,7 @@ export class EmployeeListComponent {
   notification = signal<{ type: 'edit' | 'delete', message: string } | null>(null);
 
   onDetail(emp: Employee) {
-    this.router.navigate(['/detail-employee', emp.email]);
+    this.router.navigate(['/detail-employee', emp.id]);
   }
 
   onEdit(emp: Employee) {

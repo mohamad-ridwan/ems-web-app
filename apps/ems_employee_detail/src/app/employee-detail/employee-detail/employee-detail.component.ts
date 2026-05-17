@@ -21,17 +21,21 @@ import { Observable } from 'rxjs';
             </ol>
           </nav>
 
-          <app-employee-detail-ui 
-            [employee]="employee$ | async"
-            (onBack)="goBack()">
-          </app-employee-detail-ui>
+          <ng-container *ngIf="employee$ | async as employee; else loading">
+            <app-employee-detail-ui 
+              [employee]="employee"
+              (onBack)="goBack()">
+            </app-employee-detail-ui>
+          </ng-container>
 
-          <div *ngIf="!(employee$ | async)" class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+          <ng-template #loading>
+            <div class="text-center py-5">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2 text-muted">Fetching employee data...</p>
             </div>
-            <p class="mt-2 text-muted">Fetching employee data...</p>
-          </div>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -49,7 +53,7 @@ export class EmployeeDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.employee$ = this.employeeService.getEmployeeByEmail(id);
+      this.employee$ = this.employeeService.getEmployeeById(id);
     }
   }
 

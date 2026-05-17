@@ -7,11 +7,11 @@ import { Employee } from '../domain/employee.model';
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = '/api/employee';
+  private apiUrl = 'http://localhost:3400/api/employee';
 
   constructor(private http: HttpClient) {}
 
-  getEmployeeByEmail(email: string): Observable<Employee> {
-    return this.http.get<Employee>(`${this.apiUrl}/${email}`);
+  getEmployeeById(id: string | number): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
 }

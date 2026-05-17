@@ -16,8 +16,8 @@ export class EmployeeController {
     return await this.employeeService.findAll();
   }
 
-  @Get(':email')
-  async getEmployeeByEmail(@Param('email') email: string) {
-    return await this.employeeService.findByEmail(email);
+  @Get(':id')
+  async getEmployeeById(@Param('id') id: string) {
+    return await this.employeeService.findById(Number(id));
   }
 }
