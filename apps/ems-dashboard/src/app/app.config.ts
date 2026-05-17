@@ -7,7 +7,7 @@ import { provideStore } from '@ngrx/store';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authReducer } from '@org/auth';
 import { appRoutes } from './app.routes';
-import { authInterceptor } from './auth.interceptor';
+import { authInterceptor } from '@org/ems-dashboard';
 
 export const appConfig: ApplicationConfig = {
   providers: [

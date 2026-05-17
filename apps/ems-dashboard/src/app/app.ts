@@ -6,7 +6,7 @@ import {
   ActivatedRoute,
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { AppViewModel } from './app.viewmodel';
+import { AppViewModel } from '@org/ems-dashboard';
 import { NotificationComponent, NotificationService } from '@org/shared-theme';
 import { SidebarComponent } from '@org/ui-kit';
 

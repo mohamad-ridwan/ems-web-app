@@ -41,7 +41,8 @@
       "@org/ems_employee_detail": ["./libs/ems_employee_detail/src/index.ts"],
       "@org/ems_list_employee": ["./libs/ems_list_employee/src/index.ts"],
       "@org/ems_login": ["./libs/ems_login/src/index.ts"],
-      "@org/ui-kit": ["./libs/shared/ui-kit/src/index.ts"]
+      "@org/ui-kit": ["./libs/shared/ui-kit/src/index.ts"],
+      "@org/ems-dashboard": ["./libs/ems-dashboard/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

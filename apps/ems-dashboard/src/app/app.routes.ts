@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { authGuard } from './auth.guard';
-import { guestGuard } from './guest.guard';
+import { authGuard, guestGuard } from '@org/ems-dashboard';
+
 
 export const appRoutes: Route[] = [
   {
