@@ -32,24 +32,24 @@ export class EmployeeListViewModel {
     return Math.ceil(total / size);
   });
 
-  // Calculate visible pages (showing first/last pages & ellipsis if far)
+  // Calculate visible pages (showing first/last pages & 5 page window in middle with ellipsis if far)
   visiblePages = computed<(number | string)[]>(() => {
     const current = this.currentPage();
     const total = this.totalPages();
 
-    if (total <= 7) {
+    if (total <= 9) {
       return Array.from({ length: total }, (_, i) => i + 1);
     }
 
-    if (current <= 4) {
-      return [...Array.from({ length: 5 }, (_, i) => i + 1), '...', total];
+    if (current <= 5) {
+      return [...Array.from({ length: 7 }, (_, i) => i + 1), '...', total];
     }
 
-    if (current >= total - 3) {
-      return [1, '...', ...Array.from({ length: 5 }, (_, i) => total - 4 + i)];
+    if (current >= total - 4) {
+      return [1, '...', ...Array.from({ length: 7 }, (_, i) => total - 6 + i)];
     }
 
-    return [1, '...', current - 1, current, current + 1, '...', total];
+    return [1, '...', current - 2, current - 1, current, current + 1, current + 2, '...', total];
   });
 
   constructor() {
