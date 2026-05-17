@@ -1,70 +1,74 @@
 <div class="d-flex">
   <!-- Sidebar -->
-  <aside class="sidebar d-flex flex-column" [class.show]="isSidebarOpen()">
-    <div class="sidebar-header d-flex align-items-center">
-      <h3 class="fw-bold text-white mb-0">
-        EMS <span class="text-gold">PORTAL</span>
-      </h3>
-    </div>
-
-    <nav class="nav flex-column mt-3 flex-grow-1">
-      <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <i class="bi bi-speedometer2"></i> Dashboard
-      </a>
-      <a class="nav-link" routerLink="/list-employee" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
-        <i class="bi bi-people-fill"></i> List Employee
-      </a>
-      <a class="nav-link" routerLink="/add-employee" routerLinkActive="active">
-        <i class="bi bi-person-plus-fill"></i> Add Employee
-      </a>
-    </nav>
-
-    <!-- Sidebar Footer (Account Info) -->
-    <div class="sidebar-footer">
-      <div class="d-flex align-items-center mb-3">
-        <div class="rounded-circle bg-gold p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-          <i class="bi bi-person-fill text-dark fs-5"></i>
-        </div>
-        <div class="overflow-hidden">
-          <p class="text-white small fw-bold mb-0 text-truncate">Administrator</p>
-          <p class="text-white-50 x-small mb-0">Super Admin</p>
-        </div>
+  @if (!isLoginPage()) {
+    <aside class="sidebar d-flex flex-column" [class.show]="isSidebarOpen()">
+      <div class="sidebar-header d-flex align-items-center">
+        <h3 class="fw-bold text-white mb-0">
+          EMS <span class="text-gold">PORTAL</span>
+        </h3>
       </div>
-      <button (click)="logout()" class="btn btn-outline-danger btn-sm w-100 fw-bold d-flex align-items-center justify-content-center">
-        <i class="bi bi-box-arrow-right me-2"></i> KELUAR
-      </button>
-    </div>
-  </aside>
 
-  <!-- Main Content Area -->
-  <div class="main-content d-flex flex-column">
-    <!-- Top Navbar (Mobile toggle & Branding) -->
-    <header class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-3 fixed-header">
-      <button class="btn btn-link text-dark p-0 d-lg-none me-3" (click)="toggleSidebar()">
-        <i class="bi bi-list fs-3"></i>
-      </button>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0">
-          <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">EMS</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Portal</li>
-        </ol>
+      <nav class="nav flex-column mt-3 flex-grow-1">
+        <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a class="nav-link" routerLink="/list-employee" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+          <i class="bi bi-people-fill"></i> List Employee
+        </a>
+        <a class="nav-link" routerLink="/add-employee" routerLinkActive="active">
+          <i class="bi bi-person-plus-fill"></i> Add Employee
+        </a>
       </nav>
-      <div class="ms-auto d-flex align-items-center">
-        <button class="btn btn-link text-muted p-0 me-3 position-relative">
-          <i class="bi bi-bell fs-5"></i>
-          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+
+      <!-- Sidebar Footer (Account Info) -->
+      <div class="sidebar-footer">
+        <div class="d-flex align-items-center mb-3">
+          <div class="rounded-circle bg-gold p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+            <i class="bi bi-person-fill text-dark fs-5"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-white small fw-bold mb-0 text-truncate">Administrator</p>
+            <p class="text-white-50 x-small mb-0">Super Admin</p>
+          </div>
+        </div>
+        <button (click)="logout()" class="btn btn-outline-danger btn-sm w-100 fw-bold d-flex align-items-center justify-content-center">
+          <i class="bi bi-box-arrow-right me-2"></i> KELUAR
         </button>
       </div>
-    </header>
+    </aside>
+  }
+
+  <!-- Main Content Area -->
+  <div class="main-content d-flex flex-column" [class.w-100]="isLoginPage()" [style.margin-left]="isLoginPage() ? '0' : ''">
+    <!-- Top Navbar (Mobile toggle & Branding) -->
+    @if (!isLoginPage()) {
+      <header class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-3 fixed-header">
+        <button class="btn btn-link text-dark p-0 d-lg-none me-3" (click)="toggleSidebar()">
+          <i class="bi bi-list fs-3"></i>
+        </button>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">EMS</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Portal</li>
+          </ol>
+        </nav>
+        <div class="ms-auto d-flex align-items-center">
+          <button class="btn btn-link text-muted p-0 me-3 position-relative">
+            <i class="bi bi-bell fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+          </button>
+        </div>
+      </header>
+    }
 
     <!-- Content Outlet -->
-    <main class="flex-grow-1 p-4" style="margin-top: 72px;">
+    <main class="flex-grow-1" [class.p-4]="!isLoginPage()" [style.margin-top]="isLoginPage() ? '0' : '72px'">
       <router-outlet></router-outlet>
     </main>
   </div>
 </div>
 
 <!-- Overlay for Mobile Sidebar -->
-@if (isSidebarOpen()) {
+@if (isSidebarOpen() && !isLoginPage()) {
   <div class="sidebar-overlay d-lg-none" (click)="toggleSidebar()"></div>
 }
