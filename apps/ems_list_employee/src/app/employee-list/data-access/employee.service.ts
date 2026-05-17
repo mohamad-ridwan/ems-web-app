@@ -29,6 +29,7 @@ export class EmployeeDataAccessService {
     lastName?: string;
     status?: string;
     group?: string;
+    email?: string;
     sortBy?: string;
     sortOrder?: 'ASC' | 'DESC';
   } = {}) {
@@ -41,6 +42,7 @@ export class EmployeeDataAccessService {
     if (params.lastName) queryParams['lastName'] = params.lastName;
     if (params.status) queryParams['status'] = params.status;
     if (params.group) queryParams['group'] = params.group;
+    if (params.email) queryParams['email'] = params.email;
     if (params.sortBy) queryParams['sortBy'] = params.sortBy;
     if (params.sortOrder) queryParams['sortOrder'] = params.sortOrder;
 

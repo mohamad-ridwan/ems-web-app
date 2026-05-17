@@ -31,6 +31,7 @@ export class EmployeeService {
     lastName?: string;
     status?: string;
     group?: string;
+    email?: string;
     sortBy?: string;
     sortOrder?: 'ASC' | 'DESC';
   } = {}): Promise<{ data: Employee[]; total: number }> {
@@ -54,6 +55,12 @@ export class EmployeeService {
     if (query.lastName) {
       queryBuilder.andWhere('LOWER(employee.lastName) LIKE LOWER(:lastName)', {
         lastName: `%${query.lastName}%`,
+      });
+    }
+
+    if (query.email) {
+      queryBuilder.andWhere('LOWER(employee.email) LIKE LOWER(:email)', {
+        email: `%${query.email}%`,
       });
     }
 

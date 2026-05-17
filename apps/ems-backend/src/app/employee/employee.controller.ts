@@ -19,6 +19,7 @@ export class EmployeeController {
     @Query('lastName') lastName?: string,
     @Query('status') status?: string,
     @Query('group') group?: string,
+    @Query('email') email?: string,
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'ASC' | 'DESC'
   ) {
@@ -29,6 +30,7 @@ export class EmployeeController {
       lastName,
       status,
       group,
+      email,
       sortBy,
       sortOrder,
     });

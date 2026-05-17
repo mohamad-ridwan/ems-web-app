@@ -14,6 +14,7 @@ export class EmployeeListViewModel {
   searchLastName = signal<string>('');
   searchStatus = signal<string>('');
   searchGroup = signal<string>('');
+  searchEmail = signal<string>('');
 
   // Paging
   currentPage = signal<number>(1);
@@ -61,6 +62,7 @@ export class EmployeeListViewModel {
     if (queryParams['lastName']) this.searchLastName.set(queryParams['lastName']);
     if (queryParams['status']) this.searchStatus.set(queryParams['status']);
     if (queryParams['group']) this.searchGroup.set(queryParams['group']);
+    if (queryParams['email']) this.searchEmail.set(queryParams['email']);
     if (queryParams['page']) this.currentPage.set(Number(queryParams['page']));
     if (queryParams['limit']) this.pageSize.set(Number(queryParams['limit']));
     if (queryParams['sortBy']) this.sortColumn.set(queryParams['sortBy'] as keyof Employee);
@@ -74,6 +76,7 @@ export class EmployeeListViewModel {
       const lastName = this.searchLastName();
       const status = this.searchStatus();
       const group = this.searchGroup();
+      const email = this.searchEmail();
       const sortBy = this.sortColumn();
       const sortDirection = this.sortDirection();
 
@@ -84,6 +87,7 @@ export class EmployeeListViewModel {
         lastName: lastName || null,
         status: status || null,
         group: group || null,
+        email: email || null,
         sortBy: sortBy || null,
         sortOrder: sortBy ? sortDirection : null,
       };
@@ -107,6 +111,7 @@ export class EmployeeListViewModel {
         lastName,
         status,
         group,
+        email,
         sortBy: sortBy || undefined,
         sortOrder: sortBy ? (sortDirection.toUpperCase() as 'ASC' | 'DESC') : undefined
       });
@@ -130,6 +135,11 @@ export class EmployeeListViewModel {
 
   updateGroup(group: string) {
     this.searchGroup.set(group);
+    this.currentPage.set(1);
+  }
+
+  updateEmail(email: string) {
+    this.searchEmail.set(email);
     this.currentPage.set(1);
   }
 
