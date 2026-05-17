@@ -45,7 +45,7 @@ import { NotificationService, NotificationType } from '@org/shared-theme';
               <select class="form-select" [ngModel]="vm.searchStatus()" (ngModelChange)="vm.updateStatus($event)">
                 <option value="">All Status</option>
                 <option value="active">Active</option>
-                <option value="resign">Resign</option>
+                <option value="resigned">Resigned</option>
               </select>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">
