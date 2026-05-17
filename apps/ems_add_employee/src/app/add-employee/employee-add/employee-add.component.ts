@@ -10,7 +10,7 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
-    <div class="container-fluid p-3 p-md-5">
+    <div class="container-fluid p-3 p-md-4">
       <div class="mb-4">
         <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
       </div>
