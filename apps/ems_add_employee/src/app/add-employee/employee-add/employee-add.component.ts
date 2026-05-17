@@ -11,10 +11,10 @@ import { Employee } from '../domain/employee.model';
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
     <div class="container-fluid p-3 p-md-5">
+      <div class="mb-4">
+        <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
+      </div>
       <div class="card shadow-sm border-0">
-        <div class="card-header bg-mandiri-gradient text-white py-3">
-          <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Add New Employee</h4>
-        </div>
         <div class="card-body p-3 p-md-4">
           <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
             <div class="row g-3">
