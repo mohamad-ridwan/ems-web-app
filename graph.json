@@ -1,0 +1,2966 @@
+{
+  "graph": {
+    "nodes": {
+      "ems_employee_detail": {
+        "name": "ems_employee_detail",
+        "type": "app",
+        "data": {
+          "root": "apps/ems_employee_detail",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/ems_employee_detail",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems_employee_detail"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "apps/ems_employee_detail",
+                "command": "tsc --noEmit -p tsconfig.app.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.app.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_employee_detail --includeDependentProjects -- npx nx build-deps ems_employee_detail"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "apps/ems_employee_detail",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems_employee_detail"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/angular:webpack-browser",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/ems_employee_detail",
+                "index": "apps/ems_employee_detail/src/index.html",
+                "main": "apps/ems_employee_detail/src/main.ts",
+                "tsConfig": "apps/ems_employee_detail/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                  {
+                    "glob": "**/*",
+                    "input": "apps/ems_employee_detail/public"
+                  }
+                ],
+                "styles": [
+                  "apps/ems_employee_detail/src/styles.scss"
+                ],
+                "customWebpackConfig": {
+                  "path": "apps/ems_employee_detail/webpack.config.ts"
+                }
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "4kb",
+                      "maximumError": "8kb"
+                    }
+                  ],
+                  "outputHashing": "all",
+                  "customWebpackConfig": {
+                    "path": "apps/ems_employee_detail/webpack.prod.config.ts"
+                  }
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production",
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "env": "NX_MF_DEV_REMOTES"
+                }
+              ]
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/angular:dev-server",
+              "options": {
+                "port": 4404,
+                "publicHost": "http://localhost:4404"
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "ems_employee_detail:build:production"
+                },
+                "development": {
+                  "buildTarget": "ems_employee_detail:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "ems-dashboard:serve"
+              ],
+              "parallelism": true
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "ems_employee_detail:build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "executor": "@nx/web:file-server",
+              "defaultConfiguration": "production",
+              "options": {
+                "buildTarget": "ems_employee_detail:build",
+                "port": 4404,
+                "watch": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "ems_employee_detail:build:development"
+                },
+                "production": {
+                  "buildTarget": "ems_employee_detail:build:production"
+                }
+              },
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "application",
+          "name": "ems_employee_detail",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "prefix": "app",
+          "sourceRoot": "apps/ems_employee_detail/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ems_employee_detail_lib": {
+        "name": "ems_employee_detail_lib",
+        "type": "lib",
+        "data": {
+          "root": "libs/ems_employee_detail",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/ems_employee_detail",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_employee_detail"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/ems_employee_detail",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_employee_detail_lib --includeDependentProjects -- npx nx build-deps ems_employee_detail_lib"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/ems_employee_detail",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_employee_detail"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "ems_employee_detail_lib",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/ems_employee_detail/src",
+          "prefix": "app",
+          "tags": [
+            "scope:shared"
+          ],
+          "implicitDependencies": []
+        }
+      },
+      "ems_list_employee": {
+        "name": "ems_list_employee",
+        "type": "app",
+        "data": {
+          "root": "apps/ems_list_employee",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/ems_list_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/apps/coverage/ems_list_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "apps/ems_list_employee",
+                "command": "tsc --noEmit -p tsconfig.app.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.app.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_list_employee --includeDependentProjects -- npx nx build-deps ems_list_employee"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "apps/ems_list_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/apps/coverage/ems_list_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/angular:webpack-browser",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/ems_list_employee",
+                "index": "apps/ems_list_employee/src/index.html",
+                "main": "apps/ems_list_employee/src/main.ts",
+                "tsConfig": "apps/ems_list_employee/tsconfig.app.json",
+                "assets": [
+                  {
+                    "glob": "**/*",
+                    "input": "apps/ems_list_employee/public"
+                  }
+                ],
+                "styles": [
+                  "apps/ems_list_employee/src/styles.scss"
+                ],
+                "stylePreprocessorOptions": {
+                  "includePaths": [
+                    ".",
+                    "node_modules",
+                    "libs/shared-theme/src/lib"
+                  ]
+                },
+                "customWebpackConfig": {
+                  "path": "apps/ems_list_employee/webpack.config.ts"
+                }
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "4kb",
+                      "maximumError": "8kb"
+                    }
+                  ],
+                  "outputHashing": "all",
+                  "customWebpackConfig": {
+                    "path": "apps/ems_list_employee/webpack.prod.config.ts"
+                  }
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production",
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "env": "NX_MF_DEV_REMOTES"
+                }
+              ]
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/angular:dev-server",
+              "options": {
+                "port": 4403,
+                "publicHost": "http://localhost:4403"
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "ems_list_employee:build:production"
+                },
+                "development": {
+                  "buildTarget": "ems_list_employee:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "ems-dashboard:serve"
+              ],
+              "parallelism": true
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "ems_list_employee:build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "executor": "@nx/web:file-server",
+              "defaultConfiguration": "production",
+              "options": {
+                "buildTarget": "ems_list_employee:build",
+                "port": 4403,
+                "watch": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "ems_list_employee:build:development"
+                },
+                "production": {
+                  "buildTarget": "ems_list_employee:build:production"
+                }
+              },
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "application",
+          "name": "ems_list_employee",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "prefix": "app",
+          "sourceRoot": "apps/ems_list_employee/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ems_list_employee_lib": {
+        "name": "ems_list_employee_lib",
+        "type": "lib",
+        "data": {
+          "root": "libs/ems_list_employee",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/ems_list_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_list_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/ems_list_employee",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_list_employee_lib --includeDependentProjects -- npx nx build-deps ems_list_employee_lib"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/ems_list_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_list_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "ems_list_employee_lib",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/ems_list_employee/src",
+          "prefix": "app",
+          "tags": [
+            "scope:shared"
+          ],
+          "implicitDependencies": []
+        }
+      },
+      "ems_add_employee": {
+        "name": "ems_add_employee",
+        "type": "app",
+        "data": {
+          "root": "apps/ems_add_employee",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/ems_add_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems_add_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "apps/ems_add_employee",
+                "command": "tsc --noEmit -p tsconfig.app.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.app.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_add_employee --includeDependentProjects -- npx nx build-deps ems_add_employee"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "apps/ems_add_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems_add_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/angular:webpack-browser",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/ems_add_employee",
+                "index": "apps/ems_add_employee/src/index.html",
+                "main": "apps/ems_add_employee/src/main.ts",
+                "tsConfig": "apps/ems_add_employee/tsconfig.app.json",
+                "assets": [
+                  {
+                    "glob": "**/*",
+                    "input": "apps/ems_add_employee/public"
+                  }
+                ],
+                "styles": [
+                  "apps/ems_add_employee/src/styles.scss"
+                ],
+                "stylePreprocessorOptions": {
+                  "includePaths": [
+                    ".",
+                    "node_modules",
+                    "libs/shared-theme/src/lib"
+                  ]
+                },
+                "customWebpackConfig": {
+                  "path": "apps/ems_add_employee/webpack.config.ts"
+                }
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "4kb",
+                      "maximumError": "8kb"
+                    }
+                  ],
+                  "outputHashing": "all",
+                  "customWebpackConfig": {
+                    "path": "apps/ems_add_employee/webpack.prod.config.ts"
+                  }
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production",
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "env": "NX_MF_DEV_REMOTES"
+                }
+              ]
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/angular:dev-server",
+              "options": {
+                "port": 4402,
+                "publicHost": "http://localhost:4402"
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "ems_add_employee:build:production"
+                },
+                "development": {
+                  "buildTarget": "ems_add_employee:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "ems-dashboard:serve"
+              ],
+              "parallelism": true
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "ems_add_employee:build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "executor": "@nx/web:file-server",
+              "defaultConfiguration": "production",
+              "options": {
+                "buildTarget": "ems_add_employee:build",
+                "port": 4402,
+                "watch": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "ems_add_employee:build:development"
+                },
+                "production": {
+                  "buildTarget": "ems_add_employee:build:production"
+                }
+              },
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "application",
+          "name": "ems_add_employee",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "prefix": "app",
+          "sourceRoot": "apps/ems_add_employee/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ems_add_employee_lib": {
+        "name": "ems_add_employee_lib",
+        "type": "lib",
+        "data": {
+          "root": "libs/ems_add_employee",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/ems_add_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_add_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/ems_add_employee",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_add_employee_lib --includeDependentProjects -- npx nx build-deps ems_add_employee_lib"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/ems_add_employee",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_add_employee"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "ems_add_employee_lib",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/ems_add_employee/src",
+          "prefix": "app",
+          "tags": [
+            "scope:shared"
+          ],
+          "implicitDependencies": []
+        }
+      },
+      "ems-dashboard": {
+        "name": "ems-dashboard",
+        "type": "app",
+        "data": {
+          "root": "apps/ems-dashboard",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/ems-dashboard",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems-dashboard"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "apps/ems-dashboard",
+                "command": "tsc --noEmit -p tsconfig.app.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.app.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems-dashboard --includeDependentProjects -- npx nx build-deps ems-dashboard"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "apps/ems-dashboard",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems-dashboard"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/angular:webpack-browser",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/ems-dashboard",
+                "index": "apps/ems-dashboard/src/index.html",
+                "main": "apps/ems-dashboard/src/main.ts",
+                "tsConfig": "apps/ems-dashboard/tsconfig.app.json",
+                "assets": [
+                  {
+                    "glob": "**/*",
+                    "input": "apps/ems-dashboard/public"
+                  }
+                ],
+                "styles": [
+                  "apps/ems-dashboard/src/styles.scss"
+                ],
+                "stylePreprocessorOptions": {
+                  "includePaths": [
+                    ".",
+                    "node_modules",
+                    "libs/shared-theme/src/lib"
+                  ]
+                },
+                "customWebpackConfig": {
+                  "path": "apps/ems-dashboard/webpack.config.ts"
+                }
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "4kb",
+                      "maximumError": "8kb"
+                    }
+                  ],
+                  "outputHashing": "all",
+                  "customWebpackConfig": {
+                    "path": "apps/ems-dashboard/webpack.prod.config.ts"
+                  }
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production",
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "env": "NX_MF_DEV_REMOTES"
+                }
+              ]
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/angular:module-federation-dev-server",
+              "options": {
+                "port": 4400,
+                "publicHost": "http://localhost:4400"
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "ems-dashboard:build:production"
+                },
+                "development": {
+                  "buildTarget": "ems-dashboard:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "parallelism": true
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "ems-dashboard:build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "ems-dashboard:build",
+                "port": 4400,
+                "spa": true
+              },
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "application",
+          "name": "ems-dashboard",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "prefix": "app",
+          "sourceRoot": "apps/ems-dashboard/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ui-kit": {
+        "name": "ui-kit",
+        "type": "lib",
+        "data": {
+          "root": "libs/shared/ui-kit",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/shared/ui-kit",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/shared/ui-kit"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/shared/ui-kit",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ui-kit --includeDependentProjects -- npx nx build-deps ui-kit"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/shared/ui-kit",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/shared/ui-kit"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "ui-kit",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/shared/ui-kit/src",
+          "prefix": "lib",
+          "tags": [
+            "scope:shared",
+            "type:ui"
+          ],
+          "implicitDependencies": []
+        }
+      },
+      "shared-theme": {
+        "name": "shared-theme",
+        "type": "lib",
+        "data": {
+          "root": "libs/shared-theme",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/shared-theme",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/shared-theme"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/shared-theme",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects shared-theme --includeDependentProjects -- npx nx build-deps shared-theme"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/shared-theme",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/shared-theme"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "shared-theme",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/shared-theme/src",
+          "prefix": "lib",
+          "tags": [
+            "scope:shared"
+          ],
+          "implicitDependencies": []
+        }
+      },
+      "auth": {
+        "name": "auth",
+        "type": "lib",
+        "data": {
+          "root": "libs/shared/auth",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/shared/auth",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/shared/auth"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/shared/auth",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects auth --includeDependentProjects -- npx nx build-deps auth"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/shared/auth",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/shared/auth"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "auth",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/shared/auth/src",
+          "prefix": "lib",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ems-backend": {
+        "name": "ems-backend",
+        "type": "app",
+        "data": {
+          "root": "apps/ems-backend",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/ems-backend",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{options.outputFile}"
+              ],
+              "metadata": {
+                "technologies": [
+                  "eslint"
+                ],
+                "description": "Runs ESLint on project",
+                "help": {
+                  "command": "npx eslint --help",
+                  "example": {
+                    "options": {
+                      "max-warnings": 0
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/esbuild:esbuild",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "defaultConfiguration": "production",
+              "options": {
+                "platform": "node",
+                "outputPath": "dist/apps/ems-backend",
+                "format": [
+                  "cjs"
+                ],
+                "bundle": false,
+                "main": "apps/ems-backend/src/main.ts",
+                "tsConfig": "apps/ems-backend/tsconfig.app.json",
+                "assets": [
+                  "apps/ems-backend/src/assets"
+                ],
+                "generatePackageJson": true,
+                "esbuildOptions": {
+                  "sourcemap": true,
+                  "outExtension": {
+                    ".js": ".js"
+                  }
+                }
+              },
+              "configurations": {
+                "development": {},
+                "production": {
+                  "esbuildOptions": {
+                    "sourcemap": false,
+                    "outExtension": {
+                      ".js": ".js"
+                    }
+                  }
+                }
+              },
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ]
+            },
+            "prune-lockfile": {
+              "dependsOn": [
+                "build"
+              ],
+              "cache": true,
+              "executor": "@nx/js:prune-lockfile",
+              "outputs": [
+                "{workspaceRoot}/dist/apps/ems-backend/package.json",
+                "{workspaceRoot}/dist/apps/ems-backend/package-lock.json"
+              ],
+              "options": {
+                "buildTarget": "build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "copy-workspace-modules": {
+              "dependsOn": [
+                "build"
+              ],
+              "cache": true,
+              "outputs": [
+                "{workspaceRoot}/dist/apps/ems-backend/workspace_modules"
+              ],
+              "executor": "@nx/js:copy-workspace-modules",
+              "options": {
+                "buildTarget": "build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "prune": {
+              "dependsOn": [
+                "prune-lockfile",
+                "copy-workspace-modules"
+              ],
+              "executor": "nx:noop",
+              "configurations": {},
+              "options": {},
+              "parallelism": true
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/js:node",
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "buildTarget": "ems-backend:build",
+                "runBuildTargetDependencies": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "ems-backend:build:development"
+                },
+                "production": {
+                  "buildTarget": "ems-backend:build:production"
+                }
+              },
+              "parallelism": true
+            }
+          },
+          "name": "ems-backend",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/ems-backend/src",
+          "projectType": "application",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ems_login": {
+        "name": "ems_login",
+        "type": "app",
+        "data": {
+          "root": "apps/ems_login",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/ems_login",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems_login"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "apps/ems_login",
+                "command": "tsc --noEmit -p tsconfig.app.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.app.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_login --includeDependentProjects -- npx nx build-deps ems_login"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "apps/ems_login",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/ems_login"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "@nx/angular:webpack-browser",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/ems_login",
+                "index": "apps/ems_login/src/index.html",
+                "main": "apps/ems_login/src/main.ts",
+                "tsConfig": "apps/ems_login/tsconfig.app.json",
+                "assets": [
+                  {
+                    "glob": "**/*",
+                    "input": "apps/ems_login/public"
+                  }
+                ],
+                "styles": [
+                  "apps/ems_login/src/styles.scss"
+                ],
+                "stylePreprocessorOptions": {
+                  "includePaths": [
+                    ".",
+                    "node_modules",
+                    "libs/shared-theme/src/lib"
+                  ]
+                },
+                "customWebpackConfig": {
+                  "path": "apps/ems_login/webpack.config.ts"
+                }
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "4kb",
+                      "maximumError": "8kb"
+                    }
+                  ],
+                  "outputHashing": "all",
+                  "customWebpackConfig": {
+                    "path": "apps/ems_login/webpack.prod.config.ts"
+                  }
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production",
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "env": "NX_MF_DEV_REMOTES"
+                }
+              ]
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/angular:dev-server",
+              "options": {
+                "port": 4401,
+                "publicHost": "http://localhost:4401"
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "ems_login:build:production"
+                },
+                "development": {
+                  "buildTarget": "ems_login:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "ems-dashboard:serve"
+              ],
+              "parallelism": true
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "ems_login:build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "executor": "@nx/web:file-server",
+              "defaultConfiguration": "production",
+              "options": {
+                "buildTarget": "ems_login:build",
+                "port": 4401,
+                "watch": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "ems_login:build:development"
+                },
+                "production": {
+                  "buildTarget": "ems_login:build:production"
+                }
+              },
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "application",
+          "name": "ems_login",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "prefix": "app",
+          "sourceRoot": "apps/ems_login/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "ems_login_lib": {
+        "name": "ems_login_lib",
+        "type": "lib",
+        "data": {
+          "root": "libs/ems_login",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "options": {},
+              "configurations": {},
+              "parallelism": true,
+              "cache": true,
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*"
+              ]
+            },
+            "test": {
+              "options": {
+                "cwd": "libs/ems_login",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_login"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "libs/ems_login",
+                "command": "tsc --noEmit -p tsconfig.lib.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.lib.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects ems_login_lib --includeDependentProjects -- npx nx build-deps ems_login_lib"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "vite:test": {
+              "options": {
+                "cwd": "libs/ems_login",
+                "command": "vitest"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                },
+                {
+                  "dependentTasksOutputFiles": "**/*.js",
+                  "transitive": true
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/libs/ems_login"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {},
+          "projectType": "library",
+          "name": "ems_login_lib",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/ems_login/src",
+          "prefix": "app",
+          "tags": [
+            "scope:shared"
+          ],
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "ems_employee_detail": [
+        {
+          "source": "ems_employee_detail",
+          "target": "ems_employee_detail_lib",
+          "type": "static"
+        }
+      ],
+      "ems_employee_detail_lib": [
+        {
+          "source": "ems_employee_detail_lib",
+          "target": "ui-kit",
+          "type": "static"
+        }
+      ],
+      "ems_list_employee": [
+        {
+          "source": "ems_list_employee",
+          "target": "ems_list_employee_lib",
+          "type": "static"
+        }
+      ],
+      "ems_list_employee_lib": [
+        {
+          "source": "ems_list_employee_lib",
+          "target": "shared-theme",
+          "type": "static"
+        },
+        {
+          "source": "ems_list_employee_lib",
+          "target": "ui-kit",
+          "type": "static"
+        }
+      ],
+      "ems_add_employee": [
+        {
+          "source": "ems_add_employee",
+          "target": "ems_add_employee_lib",
+          "type": "static"
+        }
+      ],
+      "ems_add_employee_lib": [
+        {
+          "source": "ems_add_employee_lib",
+          "target": "ui-kit",
+          "type": "static"
+        },
+        {
+          "source": "ems_add_employee_lib",
+          "target": "shared-theme",
+          "type": "static"
+        }
+      ],
+      "ems-dashboard": [
+        {
+          "source": "ems-dashboard",
+          "target": "auth",
+          "type": "static"
+        },
+        {
+          "source": "ems-dashboard",
+          "target": "ems_employee_detail",
+          "type": "dynamic"
+        },
+        {
+          "source": "ems-dashboard",
+          "target": "ems_list_employee",
+          "type": "dynamic"
+        },
+        {
+          "source": "ems-dashboard",
+          "target": "ems_add_employee",
+          "type": "dynamic"
+        },
+        {
+          "source": "ems-dashboard",
+          "target": "ems_login",
+          "type": "dynamic"
+        },
+        {
+          "source": "ems-dashboard",
+          "target": "shared-theme",
+          "type": "static"
+        }
+      ],
+      "ui-kit": [],
+      "shared-theme": [],
+      "auth": [],
+      "ems-backend": [],
+      "ems_login": [
+        {
+          "source": "ems_login",
+          "target": "auth",
+          "type": "static"
+        },
+        {
+          "source": "ems_login",
+          "target": "ems_login_lib",
+          "type": "static"
+        }
+      ],
+      "ems_login_lib": [
+        {
+          "source": "ems_login_lib",
+          "target": "auth",
+          "type": "static"
+        },
+        {
+          "source": "ems_login_lib",
+          "target": "ui-kit",
+          "type": "static"
+        }
+      ]
+    }
+  }
+}
