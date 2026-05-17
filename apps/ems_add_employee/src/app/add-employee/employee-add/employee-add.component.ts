@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,17 +10,17 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
-    <div class="container mt-5">
+    <div class="container-fluid p-3 p-md-4">
+      <div class="mb-4">
+        <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
+      </div>
       <div class="card shadow-sm border-0">
-        <div class="card-header bg-primary-mandiri text-white py-3">
-          <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Add New Employee</h4>
-        </div>
-        <div class="card-body p-4">
+        <div class="card-body p-3 p-md-4">
           <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
             <div class="row g-3">
               <!-- Username -->
               <div class="col-md-6">
-                <label for="username" class="form-label fw-bold">Username</label>
+                <label for="username" class="form-label">Username</label>
                 <input type="text" id="username" class="form-control" formControlName="username" 
                        [class.is-invalid]="f['username'].invalid && f['username'].touched">
                 <div class="invalid-feedback">Username is required</div>
@@ -28,7 +28,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Email -->
               <div class="col-md-6">
-                <label for="email" class="form-label fw-bold">Email</label>
+                <label for="email" class="form-label">Email</label>
                 <input type="email" id="email" class="form-control" formControlName="email"
                        [class.is-invalid]="f['email'].invalid && f['email'].touched">
                 <div class="invalid-feedback">
@@ -38,7 +38,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- First Name -->
               <div class="col-md-6">
-                <label for="firstName" class="form-label fw-bold">First Name</label>
+                <label for="firstName" class="form-label">First Name</label>
                 <input type="text" id="firstName" class="form-control" formControlName="firstName"
                        [class.is-invalid]="f['firstName'].invalid && f['firstName'].touched">
                 <div class="invalid-feedback">First name is required</div>
@@ -46,7 +46,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Last Name -->
               <div class="col-md-6">
-                <label for="lastName" class="form-label fw-bold">Last Name</label>
+                <label for="lastName" class="form-label">Last Name</label>
                 <input type="text" id="lastName" class="form-control" formControlName="lastName"
                        [class.is-invalid]="f['lastName'].invalid && f['lastName'].touched">
                 <div class="invalid-feedback">Last name is required</div>
@@ -54,7 +54,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Password -->
               <div class="col-md-6">
-                <label for="password" class="form-label fw-bold">Password</label>
+                <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" class="form-control" formControlName="password"
                        [class.is-invalid]="f['password'].invalid && f['password'].touched">
                 <div class="invalid-feedback">Password is required</div>
@@ -62,7 +62,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Birth Date -->
               <div class="col-md-6">
-                <label for="birthDate" class="form-label fw-bold">Birth Date</label>
+                <label for="birthDate" class="form-label">Birth Date</label>
                 <input type="date" id="birthDate" class="form-control" formControlName="birthDate"
                        [max]="today"
                        [class.is-invalid]="f['birthDate'].invalid && f['birthDate'].touched">
@@ -73,7 +73,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Basic Salary -->
               <div class="col-md-6">
-                <label for="basicSalary" class="form-label fw-bold">Basic Salary</label>
+                <label for="basicSalary" class="form-label">Basic Salary</label>
                 <div class="input-group">
                   <span class="input-group-text">Rp</span>
                   <input type="number" id="basicSalary" class="form-control" formControlName="basicSalary"
@@ -84,7 +84,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Status -->
               <div class="col-md-6">
-                <label for="status" class="form-label fw-bold">Status</label>
+                <label for="status" class="form-label">Status</label>
                 <select id="status" class="form-select" formControlName="status"
                         [class.is-invalid]="f['status'].invalid && f['status'].touched">
                   <option value="" disabled selected>Select Status</option>
@@ -97,7 +97,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Group (Searchable Dropdown) -->
               <div class="col-md-6">
-                <label for="group" class="form-label fw-bold">Group</label>
+                <label for="group" class="form-label">Group</label>
                 <div class="dropdown" (clickOutside)="showGroupDropdown = false">
                   <input type="text" class="form-control" 
                          [placeholder]="selectedGroup || 'Search and Select Group...'"
@@ -126,7 +126,7 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Description (Date) -->
               <div class="col-md-6">
-                <label for="description" class="form-label fw-bold">Description Date</label>
+                <label for="description" class="form-label">Description Date</label>
                 <input type="date" id="description" class="form-control" formControlName="description"
                        [class.is-invalid]="f['description'].invalid && f['description'].touched">
                 <div class="invalid-feedback">Description date is required</div>
@@ -138,9 +138,14 @@ import { Employee } from '../domain/employee.model';
               <button type="button" class="btn btn-outline-secondary px-4" (click)="onCancel()">
                 <i class="bi bi-x-circle me-2"></i>Cancel
               </button>
-              <button type="submit" class="btn btn-primary-mandiri px-4" [disabled]="employeeForm.invalid || isSubmitting">
-                <i class="bi" [class.bi-save]="!isSubmitting" [class.bi-hourglass-split]="isSubmitting"></i>
-                <span class="ms-2">{{ isSubmitting ? 'Saving...' : 'Save' }}</span>
+              <button type="submit" class="btn btn-primary px-4" [disabled]="employeeForm.invalid || isSubmitting()">
+                @if (isSubmitting()) {
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span>Saving...</span>
+                } @else {
+                  <i class="bi bi-save me-2"></i>
+                  <span>Save</span>
+                }
               </button>
             </div>
           </form>
@@ -151,14 +156,6 @@ import { Employee } from '../domain/employee.model';
   styles: [`
     .dropdown-menu.show {
       display: block;
-    }
-    .card {
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .form-control:focus, .form-select:focus {
-      border-color: #003d79;
-      box-shadow: 0 0 0 0.25rem rgba(0, 61, 121, 0.25);
     }
   `]
 })
@@ -173,7 +170,7 @@ export class EmployeeAddComponent {
   groupSearch = '';
   showGroupDropdown = false;
   selectedGroup = '';
-  isSubmitting = false;
+  isSubmitting = signal(false);
 
   constructor() {
     this.today = new Date().toISOString().split('T')[0];
@@ -209,18 +206,19 @@ export class EmployeeAddComponent {
   onSubmit() {
     if (this.employeeForm.invalid) return;
 
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
     const employeeData: Employee = this.employeeForm.value;
     
     this.employeeService.addEmployee(employeeData).subscribe({
       next: () => {
+        this.isSubmitting.set(false);
         alert('Employee added successfully!');
         this.router.navigate(['/employee-list']);
       },
       error: (err) => {
         console.error(err);
         alert('Failed to add employee. Please check backend connection.');
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
       }
     });
   }

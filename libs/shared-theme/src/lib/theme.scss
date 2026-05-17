@@ -1,0 +1,197 @@
+// Custom Bootstrap Theme - Mandiri Livin Style
+
+// 1. Variable Overrides
+$primary: #003d79;
+$secondary: #ffcc00;
+$info: #00a4e4;
+$light: #f4f7f9;
+$dark: #002d5a;
+
+$mandiri-blue: #003d79;
+$mandiri-gold: #ffcc00;
+
+$body-bg: #f4f7f9;
+$body-color: #333333;
+
+$font-family-sans-serif: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-size-base: 1rem;
+$enable-rfs: true;
+
+$input-btn-padding-y: 0.55rem;
+$input-btn-padding-x: 1.0rem;
+$input-border-radius: 8px;
+$btn-border-radius: 8px;
+
+// 2. Import Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// 3. Custom Mandiri Styles
+.bg-mandiri-gradient {
+  background: linear-gradient(135deg, #003d79 0%, #0056a3 100%);
+}
+
+.text-gold {
+  color: #ffcc00 !important;
+}
+
+// Enterprise Input Styling
+.form-label {
+  // Responsive font size: 12px on mobile up to 14px on desktop
+  font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.form-control, .form-select {
+  height: 48px;
+  border-color: #dee2e6;
+  &:focus {
+    border-color: #003d79;
+    box-shadow: 0 0 0 0.25rem rgba(0, 61, 121, 0.15);
+  }
+}
+
+// Premium Card Styling
+.card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  
+  &.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Global Transitions
+a, button {
+  transition: all 0.2s ease-in-out;
+}
+
+// Enterprise Sidebar Styling
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #003d79;
+  background: linear-gradient(180deg, #003d79 0%, #002d5a 100%);
+  color: white;
+  z-index: 1050; // Higher than sticky-top (1020) to cover navbar on mobile
+  transition: all 0.3s ease-in-out;
+  
+  .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin: 0.25rem 1rem;
+    font-weight: 500;
+    
+    i {
+      font-size: 1.25rem;
+      margin-right: 1rem;
+    }
+    
+    &:hover, &.active {
+      color: #ffcc00;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid #ffcc00;
+      border-radius: 0 8px 8px 0;
+      margin-left: 0;
+    }
+  }
+}
+
+.sidebar-header {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.main-content {
+  flex: 1;
+  background: #f4f7f9;
+  min-height: 100vh;
+  margin-left: 280px;
+  overflow-x: hidden;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    left: -280px;
+    &.show {
+      left: 0;
+    }
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 0 !important;
+    .p-4 {
+      padding: 1rem !important; // Reduce 1.5rem/2rem to 1rem on mobile
+    }
+  }
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 280px; // Offset for sidebar on desktop
+  z-index: 999;
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 991.98px) {
+  .fixed-header {
+    left: 0;
+  }
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+// Enterprise Table Content Styling
+.table-enterprise {
+  th, td {
+    // Responsive font size: 12px on mobile up to 14.4px on desktop
+    font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.9rem);
+    vertical-align: middle;
+    padding: 0.75rem 0.5rem;
+    white-space: nowrap;
+  }
+  
+  thead th {
+    background-color: #f8f9fa;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 0.65rem + 0.2vw, 0.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+  }
+}
+

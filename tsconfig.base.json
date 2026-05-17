@@ -32,9 +32,8 @@
       "ems_list_employee/Routes": [
         "./apps/ems_list_employee/src/app/remote-entry/entry.routes.ts"
       ],
-      "ems_employee_detail/Routes": [
-        "./apps/ems_employee_detail/src/app/remote-entry/entry.routes.ts"
-      ]
+      "@org/shared-theme": ["./libs/shared-theme/src/index.ts"],
+      "@org/auth": ["./libs/shared/auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

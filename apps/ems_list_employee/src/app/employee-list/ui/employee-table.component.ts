@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Employee } from '../domain/employee.model';
 
 @Component({
@@ -7,9 +8,9 @@ import { Employee } from '../domain/employee.model';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="table-responsive">
-      <table class="table table-hover table-striped border shadow-sm">
-        <thead class="table-light">
+    <div class="table-responsive" style="padding: 16px;">
+      <table class="table table-hover table-striped border table-enterprise">
+        <thead>
           <tr>
             <th (click)="sort.emit('username')" style="cursor: pointer;">
               Username <i class="bi bi-arrow-down-up small ms-1"></i>
@@ -46,15 +47,12 @@ import { Employee } from '../domain/employee.model';
               }">{{ emp.status }}</span>
             </td>
             <td>{{ emp.group }}</td>
-            <td>
-              <button class="btn btn-sm btn-info text-white me-1" (click)="detail.emit(emp)">
-                <i class="bi bi-eye"></i> Detail
-              </button>
-              <button class="btn btn-sm btn-warning me-1" (click)="edit.emit(emp)">
-                <i class="bi bi-pencil"></i> Edit
+            <td class="text-nowrap">
+              <button class="btn btn-sm btn-warning me-2" (click)="navigateToDetail(emp.id)">
+                <i class="bi bi-pencil"></i> <span class="d-none d-md-inline">Edit</span>
               </button>
               <button class="btn btn-sm btn-danger" (click)="delete.emit(emp)">
-                <i class="bi bi-trash"></i> Delete
+                <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Delete</span>
               </button>
             </td>
           </tr>
@@ -69,4 +67,12 @@ export class EmployeeTableComponent {
   @Output() detail = new EventEmitter<Employee>();
   @Output() edit = new EventEmitter<Employee>();
   @Output() delete = new EventEmitter<Employee>();
+
+  private router = inject(Router);
+
+  navigateToDetail(id?: number) {
+    if (id !== undefined) {
+      this.router.navigate(['/detail-employee', id]);
+    }
+  }
 }

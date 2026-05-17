@@ -1,67 +1,85 @@
-# Rencana Implementasi: Micro Frontend Employee Detail
+# Rencana Implementasi: Navbar Account Info & NgRx Global State
 
-Dokumen ini berisi panduan dan langkah-langkah untuk mengimplementasikan fitur detail employee dengan menggunakan arsitektur Micro Frontend (Module Federation), DDD (Domain-Driven Design), dan pola MVVM (Model-View-ViewModel) pada workspace Nx.
+Dokumen ini memaparkan langkah-langkah implementasi untuk memindahkan informasi akun dari sidebar ke navbar (sebagai dropdown) menggunakan Bootstrap, serta menerapkan NgRx untuk global state management dengan arsitektur Domain-Driven Design (DDD) dan Model-View-ViewModel (MVVM).
 
-## 1. Pembuatan API Endpoint (`ems-backend`)
-Tambahkan endpoint baru pada backend NestJS untuk mengambil data detail employee.
+## Fasa 1: Setup Global State (NgRx & DDD)
+Karena proyek ini menggunakan arsitektur micro frontend (Nx) dan DDD, state otentikasi harus dikelola sebagai shared domain.
 
-- **Endpoint:** `/api/employee/:email`
-- **Method:** `GET`
-- **Parameter:**
-  ```json
-  {
-      "email": "string"
-  }
-  ```
-- **Langkah-langkah:**
-  - Tambahkan route handler di dalam controller (misal: `EmployeeController`) untuk menerima request GET dengan parameter `email`.
-  - Implementasikan logic pada service untuk mengambil spesifik data employee berdasarkan parameter tersebut.
-  - Pastikan response sesuai dengan model data yang dibutuhkan di frontend.
+1.  **Inisialisasi NgRx Auth Domain**:
+    *   Buat atau update library shared untuk auth (misal: `libs/shared/data-access-auth`).
+    *   **State**: Definisikan `AuthState` interface berisi properti `user` (menyimpan `username`, `group`, dll).
+    *   **Actions**: Buat action seperti `[Auth] Login Success`, `[Auth] Logout`.
+    *   **Reducer**: Implementasikan reducer untuk memodifikasi state berdasarkan action.
+    *   **Selectors**: Buat `selectCurrentUser` untuk mengambil data user dari global store.
 
-## 2. Pembuatan Remote App (`ems-employee-detail`)
-Buat aplikasi remote Angular baru.
+2.  **Registrasi Store di Shell App**:
+    *   Pada `apps/ems-dashboard/src/app/app.config.ts`, daftarkan NgRx Store (`provideStore`, `provideEffects`).
+    *   Pastikan library dependensi NgRx di-share secara singleton pada `module-federation.config.ts` agar shell dan remote apps menggunakan state yang sama.
 
-- **Langkah-langkah:**
-  - Generate remote app menggunakan Nx CLI dengan framework Angular (Angular 21) dan mendukung Module Federation: `@nx/module-federation/angular`.
-  - Setup styling global pada aplikasi remote tersebut menggunakan **Bootstrap 5** terbaru agar sesuai dengan standar enterprise.
-  - Konfigurasi `module-federation.config.ts` untuk mengekspos file routing atau modul aplikasi ini.
+3.  **Update Login Remote App (`ems_login`)**:
+    *   Setelah pemanggilan API login berhasil, dispatch action `[Auth] Login Success` dengan payload data user (`username`, `group`) ke dalam NgRx store.
 
-## 3. Struktur Arsitektur (DDD & MVVM)
-Bangun fitur detail employee di dalam struktur folder yang mengikuti pola DDD dan MVVM.
+## Fasa 2: Implementasi ViewModel (MVVM)
+Shell app (`ems-dashboard`) membutuhkan ViewModel untuk menghubungkan View (`app.html`) dengan Model/State (NgRx).
 
-```text
-employee-detail/               # DOMAIN: Fitur detail employee
-   ├─ employee-detail/         # ViewModel: Logic Detail Employee (Smart Component / Feature)
-   ├─ ui/                      # View: Komponen presentasi (Dumb Components)
-   ├─ data-access/             # Model: NgRx State, Services, API Calls
-   ├─ domain/                  # Model: Interfaces, DTOs, Business Logic
+1.  **Pembuatan/Penyesuaian Dashboard ViewModel**:
+    *   Buat facade/ViewModel class (misal `app.viewmodel.ts`).
+    *   Inject NgRx `Store`.
+    *   Gunakan `selectSignal(selectCurrentUser)` dari NgRx untuk membuat *reactive signal* `user()` yang berisi data akun.
+    *   Implementasikan fungsi `logout()` di ViewModel yang akan men-dispatch action `[Auth] Logout`, menghapus local storage, dan melakukan navigasi ke `/login`.
+
+2.  **Integrasi di Component (`app.ts`)**:
+    *   Inject ViewModel ke dalam komponen `App`.
+    *   Ganti fungsi `logout()` eksisting untuk memanggil method `logout()` dari ViewModel.
+    *   Ekspos signal `user()` dari ViewModel agar bisa dibaca oleh template HTML.
+
+## Fasa 3: Refactoring UI (Sidebar ke Navbar)
+Melakukan perombakan tampilan sesuai dengan kaidah Bootstrap dan UX backoffice modern.
+
+1.  **Hapus Account Info dari Sidebar**:
+    *   Buka `apps/ems-dashboard/src/app/app.html`.
+    *   Hapus block kode `<div class="sidebar-footer">...</div>` yang berisi info Administrator dan tombol Logout (sekitar baris 24-37).
+
+2.  **Tambahkan Account Dropdown di Navbar**:
+    *   Pada bagian `<header class="navbar ...">`, lokasikan div sebelah kanan (`<div class="ms-auto d-flex align-items-center">`).
+    *   Tambahkan elemen Bootstrap Dropdown reaktif yang menampilkan inisial/icon circle dan memuat info user:
+
+```html
+<!-- Account Dropdown -->
+<div class="dropdown ms-3">
+  <button class="btn btn-link text-dark p-0 position-relative dropdown-toggle d-flex align-items-center text-decoration-none" 
+          type="button" 
+          id="accountDropdown" 
+          data-bs-toggle="dropdown" 
+          aria-expanded="false" 
+          style="outline: none; box-shadow: none;">
+    <div class="rounded-circle bg-gold p-1 d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
+      <i class="bi bi-person-fill text-dark fs-5"></i>
+    </div>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="accountDropdown" style="min-width: 220px;">
+    <!-- Reactive User Info -->
+    <li class="px-3 py-3 border-bottom bg-light">
+      @if (vm.user()) {
+        <p class="mb-0 fw-bold text-dark text-truncate">{{ vm.user()?.username }}</p>
+        <p class="mb-0 text-muted small text-truncate">{{ vm.user()?.group }}</p>
+      } @else {
+        <p class="mb-0 fw-bold text-dark">Guest</p>
+      }
+    </li>
+    <!-- Logout Action -->
+    <li>
+      <button class="dropdown-item text-danger d-flex align-items-center py-2 mt-1" (click)="vm.logout()">
+        <i class="bi bi-box-arrow-right me-2"></i> Keluar
+      </button>
+    </li>
+  </ul>
+</div>
 ```
 
-- **Domain:** Definisikan tipe data (Interfaces / Types / DTOs) untuk Employee Detail.
-- **Data Access (Model):** Buat Angular Service yang membungkus pemanggilan HTTP (API) ke `/api/employee/:email`. Gunakan state management seperti NgRx, SignalStore, atau BehaviorSubject untuk mengelola siklus data, loading, dan error.
-- **UI (View):** 
-  - Buat komponen UI presentasional yang menerima data (via `@Input()`) dan memancarkan aksi (via `@Output()`).
-  - Lakukan formating data secara lokal di View, misal membuat atau memanfaatkan Pipe untuk mengubah `basicSalary` ke dalam format **Rp. xx.xxx,xx**.
-  - Gunakan class-class Bootstrap 5 untuk styling komponen agar terlihat profesional dan konsisten.
-  - Tambahkan tombol **'OK'** yang berfungsi untuk kembali.
-- **ViewModel (`employee-detail`):** 
-  - Buat Smart Component yang berfungsi mendengarkan parameter route (misalnya dari ActivatedRoute untuk mendapatkan nilai `email`).
-  - Memicu pemanggilan data di layer `data-access`.
-  - Mengelola navigasi ketika event dari UI dipicu. Saat menekan tombol **'OK'**, aplikasi harus kembali ke halaman Employee List tanpa menghilangkan data pencarian. Anda dapat menggunakan injeksi `Location` dari `@angular/common` lalu mengeksekusi `location.back()`, atau melewatkan query parameter navigasi secara utuh.
+3.  **Pengujian Tampilan**:
+    *   Pastikan script JS Bootstrap dimuat sehingga dropdown berfungsi dengan baik (bisa di klik/toggle).
+    *   Pastikan dropdown menu tidak tertutup/terpotong oleh elemen lain (z-index aman).
 
-## 4. Update Shell App (`ems-dashboard`)
-Integrasikan aplikasi remote ke dalam aplikasi host.
-
-- **Langkah-langkah:**
-  - Deklarasikan remote `ems-employee-detail` pada konfigurasi module federation di dalam `ems-dashboard`.
-  - Tambahkan route baru pada router utama `ems-dashboard`:
-    ```typescript
-    {
-      path: 'employee-detail/:email', // atau struktur yang lebih sesuai, contoh employee/:email
-      loadChildren: () => import('ems-employee-detail/Routes').then(m => m.remoteRoutes)
-    }
-    ```
-
-## 5. Konsistensi UI Enterprise
-- Pastikan penggunaan warna, border, spacing, dan typography Bootstrap 5 diaplikasikan secara konsisten seperti modul-modul lainnya.
-- Implementasikan layout yang clean, error handling state, dan loading state di dalam UI components untuk pengalaman pengguna yang maksimal.
+---
+Dengan langkah-langkah di atas, EMS Dashboard akan sepenuhnya berbasis arsitektur NgRx + MVVM, dan antarmuka akan lebih rapi dengan account profile diletakkan pada posisi standar aplikasi enterprise (Kanan Atas).

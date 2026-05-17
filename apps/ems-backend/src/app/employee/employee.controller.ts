@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Inject } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { Employee } from '../entities/employee.entity';
 
 @Controller('employee')
 export class EmployeeController {
-  constructor(private readonly employeeService: EmployeeService) {}
+  constructor(@Inject(EmployeeService) private readonly employeeService: EmployeeService) {}
 
   @Post('add')
   async addEmployee(@Body() employeeData: Partial<Employee>) {
