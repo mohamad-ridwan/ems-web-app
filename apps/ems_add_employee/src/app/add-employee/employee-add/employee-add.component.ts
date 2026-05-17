@@ -55,7 +55,7 @@ import { Employee } from '../domain/employee.model';
               <!-- Password -->
               <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
-                <input type="text" id="password" class="form-control bg-light text-muted" value="Password otomatis dibuat saat Submit" disabled style="cursor: not-allowed; user-select: none;">
+                <input type="text" [maxLength]="0" id="password" class="form-control bg-light text-muted" value="Password otomatis dibuat saat Submit" disabled style="cursor: not-allowed; user-select: none;">
               </div>
 
               <!-- Birth Date -->
