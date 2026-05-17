@@ -12,13 +12,14 @@ import { NotificationComponent, NotificationType } from '@org/shared-theme';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, NotificationComponent],
   template: `
     <div class="container-fluid p-3 p-md-4">
-      <lib-notification
-        *ngIf="notification()"
-        [type]="notification()!.type"
-        [title]="notification()!.title"
-        [message]="notification()!.message"
-        (close)="clearNotification()"
-      ></lib-notification>
+      @if (notification()) {
+        <lib-notification
+          [type]="notification()!.type"
+          [title]="notification()!.title"
+          [message]="notification()!.message"
+          (close)="clearNotification()"
+        ></lib-notification>
+      }
       <div class="mb-4">
         <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
       </div>
@@ -31,7 +32,9 @@ import { NotificationComponent, NotificationType } from '@org/shared-theme';
                 <label for="username" class="form-label">Username</label>
                 <input type="text" id="username" class="form-control" formControlName="username" 
                        [class.is-invalid]="f['username'].invalid && f['username'].touched">
-                <div class="invalid-feedback">Username is required</div>
+                <div class="invalid-feedback">
+                  {{ f['username'].errors?.['required'] ? 'Username is required' : (f['username'].errors?.['duplicate'] ? 'Username is already taken' : 'Invalid username') }}
+                </div>
               </div>
 
               <!-- Email -->
@@ -40,7 +43,7 @@ import { NotificationComponent, NotificationType } from '@org/shared-theme';
                 <input type="email" id="email" class="form-control" formControlName="email"
                        [class.is-invalid]="f['email'].invalid && f['email'].touched">
                 <div class="invalid-feedback">
-                  {{ f['email'].errors?.['required'] ? 'Email is required' : 'Invalid email format' }}
+                  {{ f['email'].errors?.['required'] ? 'Email is required' : (f['email'].errors?.['duplicate'] ? 'Email is already registered' : 'Invalid email format') }}
                 </div>
               </div>
 
@@ -235,13 +238,26 @@ export class EmployeeAddComponent {
       next: () => {
         this.isSubmitting.set(false);
         this.showNotification('success', 'Success!', 'Employee added successfully! Redirecting...');
-        setTimeout(() => {
-          this.router.navigate(['/list-employee']);
-        }, 2500);
+        this.router.navigate(['/list-employee']);
       },
       error: (err) => {
         console.error(err);
-        this.showNotification('danger', 'Error!', 'Failed to add employee. Please check backend connection.');
+        const errMsg = err.error?.message;
+        if (err.status === 400 && errMsg) {
+          if (errMsg === 'Email is already registered') {
+            this.employeeForm.get('email')?.setErrors({ duplicate: true });
+            this.employeeForm.get('email')?.markAsTouched();
+            this.showNotification('danger', 'Error!', 'Email is already registered.');
+          } else if (errMsg === 'Username is already taken') {
+            this.employeeForm.get('username')?.setErrors({ duplicate: true });
+            this.employeeForm.get('username')?.markAsTouched();
+            this.showNotification('danger', 'Error!', 'Username is already taken.');
+          } else {
+            this.showNotification('danger', 'Error!', errMsg);
+          }
+        } else {
+          this.showNotification('danger', 'Error!', 'Failed to add employee. Please check backend connection.');
+        }
         this.isSubmitting.set(false);
       }
     });
