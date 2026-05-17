@@ -5,12 +5,12 @@ import { EmployeeListViewModel } from './employee-list.viewmodel';
 import { EmployeeTableComponent } from '../ui/employee-table.component';
 import { Employee } from '../domain/employee.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NotificationComponent, NotificationType } from '@org/shared-theme';
+import { NotificationService, NotificationType } from '@org/shared-theme';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, EmployeeTableComponent, NotificationComponent],
+  imports: [CommonModule, FormsModule, EmployeeTableComponent],
   providers: [EmployeeListViewModel],
   template: `
     <div class="container-fluid p-3 p-md-4">
@@ -20,14 +20,6 @@ import { NotificationComponent, NotificationType } from '@org/shared-theme';
           <i class="bi bi-plus-lg me-2"></i> Add Employee
         </button>
       </div>
-
-      <!-- Reusable Notification Component -->
-      <lib-notification
-        *ngIf="notification()"
-        [type]="notification()!.type"
-        [message]="notification()!.message"
-        (close)="clearNotification()"
-      ></lib-notification>
 
       <!-- Filters -->
       <div class="card mb-4 border-0 shadow-sm">
@@ -134,8 +126,7 @@ export class EmployeeListComponent {
   vm = inject(EmployeeListViewModel);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-
-  notification = signal<{ type: NotificationType, message: string } | null>(null);
+  private notificationService = inject(NotificationService);
 
   groups = [
     'Engineering',
@@ -171,21 +162,17 @@ export class EmployeeListComponent {
   }
 
   onEdit(emp: Employee) {
-    this.notification.set({
-      type: 'edit',
-      message: `Editing employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
-    });
+    this.notificationService.show(
+      'edit',
+      `Editing employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
+    );
   }
 
   onDelete(emp: Employee) {
-    this.notification.set({
-      type: 'delete',
-      message: `Deleting employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
-    });
-  }
-
-  clearNotification() {
-    this.notification.set(null);
+    this.notificationService.show(
+      'delete',
+      `Deleting employee: ${emp.firstName} ${emp.lastName} (${emp.username})`
+    );
   }
 
   goToAddEmployee() {

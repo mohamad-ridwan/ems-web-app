@@ -2,15 +2,17 @@ import { Component, signal, inject } from '@angular/core';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AppViewModel } from './app.viewmodel';
+import { NotificationComponent, NotificationService } from '@org/shared-theme';
 
 @Component({
-  imports: [RouterModule],
+  imports: [RouterModule, NotificationComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   public readonly vm = inject(AppViewModel);
+  public readonly notificationService = inject(NotificationService);
   isSidebarOpen = signal(false);
   isLoginPage = signal(false);
   isDropdownOpen = signal(false);
