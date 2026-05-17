@@ -2,5 +2,5 @@ import { Route } from '@angular/router';
 import { EmployeeDetailComponent } from '../employee-detail/employee-detail/employee-detail.component';
 
 export const remoteRoutes: Route[] = [
-  { path: ':id', component: EmployeeDetailComponent }
+  { path: ':id', component: EmployeeDetailComponent, title: 'Detail Employee' }
 ];

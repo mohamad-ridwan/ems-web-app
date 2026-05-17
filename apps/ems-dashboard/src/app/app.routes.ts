@@ -9,16 +9,19 @@ export const appRoutes: Route[] = [
     children: [
       {
         path: 'detail-employee',
+        title: 'Detail Employee',
         loadChildren: () =>
           import('ems_employee_detail/Routes').then((m) => m!.remoteRoutes),
       },
       {
         path: 'list-employee',
+        title: 'List Employee',
         loadChildren: () =>
           import('ems_list_employee/Routes').then((m) => m!.remoteRoutes),
       },
       {
         path: 'add-employee',
+        title: 'Add Employee',
         loadChildren: () =>
           import('ems_add_employee/Routes').then((m) => m!.remoteRoutes),
       },
@@ -31,6 +34,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'login',
+    title: 'Login',
     loadChildren: () => import('ems_login/Routes').then((m) => m!.remoteRoutes),
     canActivate: [guestGuard],
   },
