@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Employee } from '../domain/employee.model';
 
 @Component({
@@ -47,7 +48,7 @@ import { Employee } from '../domain/employee.model';
             </td>
             <td>{{ emp.group }}</td>
             <td class="text-nowrap">
-              <button class="btn btn-sm btn-warning me-2" (click)="edit.emit(emp)">
+              <button class="btn btn-sm btn-warning me-2" (click)="navigateToDetail(emp.id)">
                 <i class="bi bi-pencil"></i> <span class="d-none d-md-inline">Edit</span>
               </button>
               <button class="btn btn-sm btn-danger" (click)="delete.emit(emp)">
@@ -65,4 +66,12 @@ export class EmployeeTableComponent {
   @Output() sort = new EventEmitter<keyof Employee>();
   @Output() edit = new EventEmitter<Employee>();
   @Output() delete = new EventEmitter<Employee>();
+
+  private router = inject(Router);
+
+  navigateToDetail(id?: number) {
+    if (id !== undefined) {
+      this.router.navigate(['/detail-employee', id]);
+    }
+  }
 }
