@@ -54,9 +54,12 @@ import { Employee } from '../domain/employee.model';
 
               <!-- Password -->
               <div class="col-md-6">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-control" formControlName="password" readonly
-                       placeholder="password ini akan otomatis dibuat saat submit.">
+                <span class="form-label d-block">Password</span>
+                <div class="form-control bg-light text-muted d-flex align-items-center" style="user-select: none; cursor: not-allowed; height: 38px;">
+                  <span class="text-truncate" style="color: #aaa">
+                    Password otomatis dibuat saat Submit
+                  </span>
+                </div>
               </div>
 
               <!-- Birth Date -->
@@ -179,7 +182,6 @@ export class EmployeeAddComponent {
       username: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      password: [''],
       email: ['', [Validators.required, Validators.email]],
       birthDate: ['', [Validators.required]],
       basicSalary: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
@@ -207,11 +209,13 @@ export class EmployeeAddComponent {
 
     this.isSubmitting.set(true);
     
-    // Set the password value to the value of the birthDate input field
+    // Construct the payload by taking form values and overriding password with birthDateValue.
+    // This avoids mutating the form control's state, preventing DOM manipulation during loading.
     const birthDateValue = this.employeeForm.get('birthDate')?.value;
-    this.employeeForm.patchValue({ password: birthDateValue });
-
-    const employeeData: Employee = this.employeeForm.value;
+    const employeeData: Employee = {
+      ...this.employeeForm.value,
+      password: birthDateValue
+    };
     
     this.employeeService.addEmployee(employeeData).subscribe({
       next: () => {
