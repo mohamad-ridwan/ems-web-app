@@ -1,0 +1,8 @@
+.detail-group span {
+  letter-spacing: 0.5px;
+}
+@media (min-width: 768px) {
+  .border-md-start {
+    border-left: 1px solid var(--bs-border-color, #dee2e6) !important;
+  }
+}
