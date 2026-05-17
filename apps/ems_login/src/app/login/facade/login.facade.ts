@@ -1,12 +1,13 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '@org/auth';
+import { AuthService } from '../data-access/auth.service';
+import { LoginRequest } from '../domain/auth.model';
 
 @Injectable()
 export class LoginFacade {
-  private http = inject(HttpClient);
+  private authService = inject(AuthService);
   private router = inject(Router);
   private store = inject(Store);
 
@@ -14,7 +15,7 @@ export class LoginFacade {
   errorMessage = signal<string>('');
   showPassword = signal<boolean>(false);
 
-  loginData = {
+  loginData: LoginRequest = {
     username: '',
     password: '',
     group: 'Operations'
@@ -24,7 +25,7 @@ export class LoginFacade {
     this.isLoading.set(true);
     this.errorMessage.set('');
 
-    this.http.post<any>('http://localhost:3400/api/auth/login', this.loginData).subscribe({
+    this.authService.login(this.loginData).subscribe({
       next: (response) => {
         localStorage.setItem('access_token', response.access_token);
 
