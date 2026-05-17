@@ -89,9 +89,8 @@ import { NotificationService, NotificationType } from '@org/shared-theme';
                 <select id="status" class="form-select" formControlName="status"
                         [class.is-invalid]="f['status'].invalid && f['status'].touched">
                   <option value="" disabled selected>Select Status</option>
-                  <option value="Permanent">Permanent</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Probation">Probation</option>
+                  <option value="Active">Active</option>
+                  <option value="Resigned">Resigned</option>
                 </select>
                 <div class="invalid-feedback">Status is required</div>
               </div>
