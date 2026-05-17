@@ -25,6 +25,7 @@ export class App {
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.checkIsLoginPage(event.urlAfterRedirects);
+      this.isSidebarOpen.set(false);
     });
   }
   protected title = 'ems-dashboard';
@@ -35,5 +36,9 @@ export class App {
 
   toggleSidebar() {
     this.isSidebarOpen.update(v => !v);
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen.set(false);
   }
 }

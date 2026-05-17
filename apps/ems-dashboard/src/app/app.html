@@ -9,10 +9,10 @@
       </div>
 
       <nav class="nav flex-column mt-3 flex-grow-1">
-        <a class="nav-link" routerLink="/list-employee" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <a class="nav-link" routerLink="/list-employee" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" (click)="closeSidebar()">
           <i class="bi bi-people-fill"></i> List Employee
         </a>
-        <a class="nav-link" routerLink="/add-employee" routerLinkActive="active">
+        <a class="nav-link" routerLink="/add-employee" routerLinkActive="active" (click)="closeSidebar()">
           <i class="bi bi-person-plus-fill"></i> Add Employee
         </a>
       </nav>
