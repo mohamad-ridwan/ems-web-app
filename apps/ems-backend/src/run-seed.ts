@@ -18,7 +18,7 @@ async function run() {
   await app.close();
 }
 
-run().catch((error) => {
-  console.error('❌ Error seeding database:', error);
-  process.exit(1);
-});
+// run().catch((error) => {
+//   console.error('❌ Error seeding database:', error);
+//   process.exit(1);
+// });
