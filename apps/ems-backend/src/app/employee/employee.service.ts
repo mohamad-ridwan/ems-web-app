@@ -29,6 +29,8 @@ export class EmployeeService {
     limit?: number;
     firstName?: string;
     lastName?: string;
+    status?: string;
+    group?: string;
     sortBy?: string;
     sortOrder?: 'ASC' | 'DESC';
   } = {}): Promise<{ data: Employee[]; total: number }> {
@@ -53,6 +55,23 @@ export class EmployeeService {
       queryBuilder.andWhere('LOWER(employee.lastName) LIKE LOWER(:lastName)', {
         lastName: `%${query.lastName}%`,
       });
+    }
+
+    if (query.group) {
+      queryBuilder.andWhere('employee.group = :group', {
+        group: query.group,
+      });
+    }
+
+    if (query.status) {
+      const statusVal = query.status.toLowerCase();
+      if (statusVal === 'active') {
+        queryBuilder.andWhere('LOWER(employee.status) = :status', { status: 'active' });
+      } else if (statusVal === 'resign' || statusVal === 'resigned') {
+        queryBuilder.andWhere('LOWER(employee.status) LIKE :status', { status: 'resign%' });
+      } else {
+        queryBuilder.andWhere('LOWER(employee.status) = :status', { status: statusVal });
+      }
     }
 
     if (query.sortBy) {
@@ -87,7 +106,18 @@ export class EmployeeService {
   }
 
   private async seedEmployees() {
-    const groups = ['IT', 'HR', 'Finance', 'Operations', 'Sales'];
+    const groups = [
+      'Engineering',
+      'Human Resources',
+      'Marketing',
+      'Sales',
+      'Finance',
+      'Legal',
+      'Product',
+      'Design',
+      'Customer Support',
+      'Operations',
+    ];
     const statuses = ['Active', 'Resigned', 'On Leave'];
     
     for (let i = 1; i <= 100; i++) {

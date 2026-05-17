@@ -17,6 +17,8 @@ export class EmployeeController {
     @Query('limit') limit?: number,
     @Query('firstName') firstName?: string,
     @Query('lastName') lastName?: string,
+    @Query('status') status?: string,
+    @Query('group') group?: string,
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'ASC' | 'DESC'
   ) {
@@ -25,6 +27,8 @@ export class EmployeeController {
       limit,
       firstName,
       lastName,
+      status,
+      group,
       sortBy,
       sortOrder,
     });

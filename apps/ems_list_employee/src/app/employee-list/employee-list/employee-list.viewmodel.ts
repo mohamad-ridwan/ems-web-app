@@ -12,6 +12,8 @@ export class EmployeeListViewModel {
   // Search Params
   searchFirstName = signal<string>('');
   searchLastName = signal<string>('');
+  searchStatus = signal<string>('');
+  searchGroup = signal<string>('');
 
   // Paging
   currentPage = signal<number>(1);
@@ -57,6 +59,8 @@ export class EmployeeListViewModel {
     const queryParams = this.route.snapshot.queryParams;
     if (queryParams['firstName']) this.searchFirstName.set(queryParams['firstName']);
     if (queryParams['lastName']) this.searchLastName.set(queryParams['lastName']);
+    if (queryParams['status']) this.searchStatus.set(queryParams['status']);
+    if (queryParams['group']) this.searchGroup.set(queryParams['group']);
     if (queryParams['page']) this.currentPage.set(Number(queryParams['page']));
     if (queryParams['limit']) this.pageSize.set(Number(queryParams['limit']));
     if (queryParams['sortBy']) this.sortColumn.set(queryParams['sortBy'] as keyof Employee);
@@ -68,6 +72,8 @@ export class EmployeeListViewModel {
       const limit = this.pageSize();
       const firstName = this.searchFirstName();
       const lastName = this.searchLastName();
+      const status = this.searchStatus();
+      const group = this.searchGroup();
       const sortBy = this.sortColumn();
       const sortDirection = this.sortDirection();
 
@@ -76,6 +82,8 @@ export class EmployeeListViewModel {
         limit: limit !== 10 ? limit : null,
         firstName: firstName || null,
         lastName: lastName || null,
+        status: status || null,
+        group: group || null,
         sortBy: sortBy || null,
         sortOrder: sortBy ? sortDirection : null,
       };
@@ -97,6 +105,8 @@ export class EmployeeListViewModel {
         limit,
         firstName,
         lastName,
+        status,
+        group,
         sortBy: sortBy || undefined,
         sortOrder: sortBy ? (sortDirection.toUpperCase() as 'ASC' | 'DESC') : undefined
       });
@@ -110,6 +120,16 @@ export class EmployeeListViewModel {
 
   updateLastName(name: string) {
     this.searchLastName.set(name);
+    this.currentPage.set(1);
+  }
+
+  updateStatus(status: string) {
+    this.searchStatus.set(status);
+    this.currentPage.set(1);
+  }
+
+  updateGroup(group: string) {
+    this.searchGroup.set(group);
     this.currentPage.set(1);
   }
 

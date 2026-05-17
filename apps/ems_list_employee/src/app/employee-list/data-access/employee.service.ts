@@ -27,6 +27,8 @@ export class EmployeeDataAccessService {
     limit?: number;
     firstName?: string;
     lastName?: string;
+    status?: string;
+    group?: string;
     sortBy?: string;
     sortOrder?: 'ASC' | 'DESC';
   } = {}) {
@@ -37,6 +39,8 @@ export class EmployeeDataAccessService {
     if (params.limit !== undefined) queryParams['limit'] = params.limit.toString();
     if (params.firstName) queryParams['firstName'] = params.firstName;
     if (params.lastName) queryParams['lastName'] = params.lastName;
+    if (params.status) queryParams['status'] = params.status;
+    if (params.group) queryParams['group'] = params.group;
     if (params.sortBy) queryParams['sortBy'] = params.sortBy;
     if (params.sortOrder) queryParams['sortOrder'] = params.sortOrder;
 

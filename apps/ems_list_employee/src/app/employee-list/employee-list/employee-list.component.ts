@@ -32,17 +32,32 @@ import { Router, ActivatedRoute } from '@angular/router';
       <div class="card mb-4 border-0 shadow-sm">
         <div class="card-body">
           <div class="row g-3">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-sm-6 col-lg-3">
               <label class="form-label small text-muted fw-bold">First Name</label>
               <input type="text" class="form-control" placeholder="Search first name..." 
                      [ngModel]="vm.searchFirstName()" (ngModelChange)="vm.updateFirstName($event)">
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-sm-6 col-lg-3">
               <label class="form-label small text-muted fw-bold">Last Name</label>
               <input type="text" class="form-control" placeholder="Search last name..." 
                      [ngModel]="vm.searchLastName()" (ngModelChange)="vm.updateLastName($event)">
             </div>
-            <div class="col-12 col-md-4 d-flex align-items-end">
+            <div class="col-12 col-sm-6 col-lg-2">
+              <label class="form-label small text-muted fw-bold">Status</label>
+              <select class="form-select" [ngModel]="vm.searchStatus()" (ngModelChange)="vm.updateStatus($event)">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="resign">Resign</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+              <label class="form-label small text-muted fw-bold">Group</label>
+              <select class="form-select" [ngModel]="vm.searchGroup()" (ngModelChange)="vm.updateGroup($event)">
+                <option value="">All Group</option>
+                <option *ngFor="let g of groups" [value]="g">{{ g }}</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-2 d-flex align-items-end">
               <div class="w-100">
                 <label class="form-label small text-muted fw-bold">Items per page</label>
                 <select class="form-select" [ngModel]="vm.pageSize()" (ngModelChange)="vm.setPageSize($event)">
@@ -115,6 +130,19 @@ export class EmployeeListComponent {
   private route = inject(ActivatedRoute);
 
   notification = signal<{ type: 'edit' | 'delete', message: string } | null>(null);
+
+  groups = [
+    'Engineering',
+    'Human Resources',
+    'Marketing',
+    'Sales',
+    'Finance',
+    'Legal',
+    'Product',
+    'Design',
+    'Customer Support',
+    'Operations',
+  ];
 
   onPageClick(p: number | string) {
     if (typeof p === 'number') {
