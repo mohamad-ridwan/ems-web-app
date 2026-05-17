@@ -14,6 +14,9 @@ export class AuthController {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
+    if (user.group !== 'Operations') {
+      throw new UnauthorizedException('Access denied: Only members of Operations group can login');
+    }
     return this.authService.login(user);
   }
 }

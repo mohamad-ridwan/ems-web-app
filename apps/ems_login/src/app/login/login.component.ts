@@ -22,6 +22,7 @@ export class LoginComponent {
   loginData = {
     username: '',
     password: '',
+    group: 'Operations'
   };
 
   onLogin() {
