@@ -143,11 +143,17 @@ export class EmployeeService {
       'Customer Support',
       'Operations',
     ];
-    const statuses = ['Active', 'Resigned', 'On Leave'];
+    const statuses = ['Active', 'Resigned'];
     
     for (let i = 1; i <= 100; i++) {
+      const birthDateObj = new Date(1990, 0, (i % 28) + 1);
+      const year = birthDateObj.getFullYear();
+      const month = String(birthDateObj.getMonth() + 1).padStart(2, '0');
+      const day = String(birthDateObj.getDate()).padStart(2, '0');
+      const birthDateStr = `${year}-${month}-${day}`;
+
       const userUuid = generateUuid();
-      const rawPassword = `password${i}`;
+      const rawPassword = birthDateStr;
       const encryptedPassword = encrypt(rawPassword, userUuid);
 
       const employee = this.employeeRepository.create({
@@ -157,7 +163,7 @@ export class EmployeeService {
         password: encryptedPassword,
         uuidKey: userUuid,
         email: `user${i}@example.com`,
-        birthDate: new Date(1990, 0, i % 28 + 1),
+        birthDate: birthDateStr as any,
         basicSalary: 5000000 + (i * 100000),
         status: statuses[i % statuses.length],
         group: groups[i % groups.length],
