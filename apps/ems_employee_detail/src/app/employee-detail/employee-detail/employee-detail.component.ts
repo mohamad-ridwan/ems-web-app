@@ -11,26 +11,28 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, EmployeeDetailUiComponent],
   template: `
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <ng-container *ngIf="employee$ | async as employee; else loading">
-            <app-employee-detail-ui 
-              [employee]="employee"
-              (onBack)="goBack()">
-            </app-employee-detail-ui>
-          </ng-container>
-
-          <ng-template #loading>
-            <div class="text-center py-5">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <p class="mt-2 text-muted">Fetching employee data...</p>
-            </div>
-          </ng-template>
-        </div>
+    <div class="container-fluid p-3 p-md-4">
+      <div class="mb-4">
+        <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Employee Detail</h2>
       </div>
+
+      <ng-container *ngIf="employee$ | async as employee; else loading">
+        <app-employee-detail-ui 
+          [employee]="employee"
+          (onBack)="goBack()">
+        </app-employee-detail-ui>
+      </ng-container>
+
+      <ng-template #loading>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-5 text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted mb-0">Fetching employee data...</p>
+          </div>
+        </div>
+      </ng-template>
     </div>
   `
 })
