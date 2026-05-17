@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NxWelcome } from './nx-welcome';
+import { LoginComponent } from '@org/ems_login';
 
 @Component({
-  imports: [NxWelcome],
-  selector: 'app-ems_login-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  imports: [LoginComponent],
+  selector: 'app-ems-login-entry',
+  template: `<app-login></app-login>`,
 })
 export class RemoteEntry {}
