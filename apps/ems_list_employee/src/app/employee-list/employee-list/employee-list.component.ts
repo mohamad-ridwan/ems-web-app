@@ -1,129 +1,21 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { EmployeeListViewModel } from './employee-list.viewmodel';
+import { EmployeeListFacade } from './facade/employee-list.facade';
 import { EmployeeTableComponent } from '../ui/employee-table.component';
 import { Employee } from '../domain/employee.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NotificationService, NotificationType } from '@org/shared-theme';
+import { NotificationService } from '@org/shared-theme';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
   imports: [CommonModule, FormsModule, EmployeeTableComponent],
-  providers: [EmployeeListViewModel],
-  template: `
-    <div class="container-fluid p-3 p-md-4">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
-        <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Employee Management</h2>
-        <button class="btn btn-primary px-4" (click)="goToAddEmployee()">
-          <i class="bi bi-plus-lg me-2"></i> Add Employee
-        </button>
-      </div>
-
-      <!-- Filters -->
-      <div class="card mb-4 border-0 shadow-sm">
-        <div class="card-body">
-          <div class="row g-3">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-              <label class="form-label small text-muted fw-bold">First Name</label>
-              <input type="text" class="form-control" placeholder="Search first name..." 
-                     [ngModel]="vm.searchFirstName()" (ngModelChange)="vm.updateFirstName($event)">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-              <label class="form-label small text-muted fw-bold">Last Name</label>
-              <input type="text" class="form-control" placeholder="Search last name..." 
-                     [ngModel]="vm.searchLastName()" (ngModelChange)="vm.updateLastName($event)">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-              <label class="form-label small text-muted fw-bold">Email</label>
-              <input type="text" class="form-control" placeholder="Search email..." 
-                     [ngModel]="vm.searchEmail()" (ngModelChange)="vm.updateEmail($event)">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-              <label class="form-label small text-muted fw-bold">Status</label>
-              <select class="form-select" [ngModel]="vm.searchStatus()" (ngModelChange)="vm.updateStatus($event)">
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="resigned">Resigned</option>
-              </select>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-              <label class="form-label small text-muted fw-bold">Group</label>
-              <select class="form-select" [ngModel]="vm.searchGroup()" (ngModelChange)="vm.updateGroup($event)">
-                <option value="">All Group</option>
-                <option *ngFor="let g of groups" [value]="g">{{ g }}</option>
-              </select>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex align-items-end">
-              <div class="w-100">
-                <label class="form-label small text-muted fw-bold">Items per page</label>
-                <select class="form-select" [ngModel]="vm.pageSize()" (ngModelChange)="vm.setPageSize($event)">
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="10">10</option>
-                  <option [ngValue]="20">20</option>
-                  <option [ngValue]="50">50</option>
-                  <option [ngValue]="100">100</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Table -->
-      <div class="card border-0 shadow-sm overflow-hidden mb-4">
-        <div *ngIf="vm.loading()" class="p-5 text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-
-        <app-employee-table *ngIf="!vm.loading()"
-          [employees]="vm.pagedEmployees()"
-          (sort)="vm.toggleSort($event)"
-          (detail)="onDetail($event)"
-          (edit)="onEdit($event)"
-          (delete)="onDelete($event)">
-        </app-employee-table>
-      </div>
-
-      <!-- Pagination -->
-      <nav *ngIf="!vm.loading() && vm.totalPages() > 1" class="d-flex justify-content-center overflow-auto py-2">
-        <ul class="pagination pagination-sm shadow-sm mb-0">
-          <li class="page-item" [class.disabled]="vm.currentPage() === 1">
-            <a class="page-link" (click)="vm.setPage(vm.currentPage() - 1)" style="cursor: pointer;">
-              <span class="d-none d-sm-inline">Previous</span>
-              <span class="d-inline d-sm-none">&laquo;</span>
-            </a>
-          </li>
-          
-          <ng-container *ngFor="let p of vm.visiblePages()">
-            <li class="page-item" *ngIf="p !== '...'" [class.active]="isPageActive(p)">
-              <a class="page-link" (click)="onPageClick(p)" style="cursor: pointer;">{{ p }}</a>
-            </li>
-            <li class="page-item disabled" *ngIf="p === '...'">
-              <span class="page-link">&hellip;</span>
-            </li>
-          </ng-container>
-
-          <li class="page-item" [class.disabled]="vm.currentPage() === vm.totalPages()">
-            <a class="page-link" (click)="vm.setPage(vm.currentPage() + 1)" style="cursor: pointer;">
-              <span class="d-none d-sm-inline">Next</span>
-              <span class="d-inline d-sm-none">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      
-      <div class="text-center text-muted small mt-2">
-        Showing {{ vm.pagedEmployees().length }} of {{ vm.totalItems() }} records
-      </div>
-    </div>
-  `
+  providers: [EmployeeListFacade],
+  templateUrl: './employee-list.view.html'
 })
 export class EmployeeListComponent {
-  vm = inject(EmployeeListViewModel);
+  facade = inject(EmployeeListFacade);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
@@ -143,12 +35,12 @@ export class EmployeeListComponent {
 
   onPageClick(p: number | string) {
     if (typeof p === 'number') {
-      this.vm.setPage(p);
+      this.facade.setPage(p);
     }
   }
 
   isPageActive(p: number | string): boolean {
-    return this.vm.currentPage() === p;
+    return this.facade.currentPage() === p;
   }
 
   onDetail(emp: Employee) {

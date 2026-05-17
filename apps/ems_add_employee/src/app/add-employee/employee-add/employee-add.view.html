@@ -1,0 +1,142 @@
+<div class="container-fluid p-3 p-md-4">
+  <div class="mb-4">
+    <h2 class="h4 mb-0 text-primary fw-bold text-center text-md-start">Add New Employee</h2>
+  </div>
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-3 p-md-4">
+      <form [formGroup]="facade.employeeForm" (ngSubmit)="facade.onSubmit()">
+        <div class="row g-3">
+          <!-- Username -->
+          <div class="col-md-6">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" class="form-control" formControlName="username" 
+                   [class.is-invalid]="facade.f['username'].invalid && facade.f['username'].touched">
+            <div class="invalid-feedback">
+              {{ facade.f['username'].errors?.['required'] ? 'Username is required' : (facade.f['username'].errors?.['duplicate'] ? 'Username is already taken' : 'Invalid username') }}
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email"
+                   [class.is-invalid]="facade.f['email'].invalid && facade.f['email'].touched">
+            <div class="invalid-feedback">
+              {{ facade.f['email'].errors?.['required'] ? 'Email is required' : (facade.f['email'].errors?.['duplicate'] ? 'Email is already registered' : 'Invalid email format') }}
+            </div>
+          </div>
+
+          <!-- First Name -->
+          <div class="col-md-6">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" class="form-control" formControlName="firstName"
+                   [class.is-invalid]="facade.f['firstName'].invalid && facade.f['firstName'].touched">
+            <div class="invalid-feedback">First name is required</div>
+          </div>
+
+          <!-- Last Name -->
+          <div class="col-md-6">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                   [class.is-invalid]="facade.f['lastName'].invalid && facade.f['lastName'].touched">
+            <div class="invalid-feedback">Last name is required</div>
+          </div>
+
+          <!-- Password -->
+          <div class="col-md-6">
+            <label for="password" class="form-label">Password</label>
+            <input type="text" [maxLength]="0" id="password" class="form-control bg-light text-muted" value="Password otomatis dibuat saat Submit" disabled style="cursor: not-allowed; user-select: none;">
+          </div>
+
+          <!-- Birth Date -->
+          <div class="col-md-6">
+            <label for="birthDate" class="form-label">Birth Date</label>
+            <input type="date" id="birthDate" class="form-control" formControlName="birthDate"
+                   [max]="facade.today"
+                   [class.is-invalid]="facade.f['birthDate'].invalid && facade.f['birthDate'].touched">
+            <div class="invalid-feedback">
+              {{ facade.f['birthDate'].errors?.['required'] ? 'Birth date is required' : 'Birth date cannot be in the future' }}
+            </div>
+          </div>
+
+          <!-- Basic Salary -->
+          <div class="col-md-6">
+            <label for="basicSalary" class="form-label">Basic Salary</label>
+            <div class="input-group">
+              <span class="input-group-text">Rp</span>
+              <input type="number" id="basicSalary" class="form-control" formControlName="basicSalary"
+                     [class.is-invalid]="facade.f['basicSalary'].invalid && facade.f['basicSalary'].touched">
+              <div class="invalid-feedback">Salary must be a valid number</div>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="col-md-6">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-select" formControlName="status"
+                    [class.is-invalid]="facade.f['status'].invalid && facade.f['status'].touched">
+              <option value="" disabled selected>Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Resigned">Resigned</option>
+            </select>
+            <div class="invalid-feedback">Status is required</div>
+          </div>
+
+          <!-- Group (Searchable Dropdown) -->
+          <div class="col-md-6">
+            <label for="group" class="form-label">Group</label>
+            <div class="dropdown" (clickOutside)="facade.showGroupDropdown.set(false)">
+              <input type="text" class="form-control" 
+                     [placeholder]="facade.selectedGroup() || 'Search and Select Group...'"
+                     (focus)="facade.showGroupDropdown.set(true)"
+                     [ngModel]="facade.groupSearch()"
+                     (ngModelChange)="facade.groupSearch.set($event)"
+                     [ngModelOptions]="{standalone: true}"
+                     [class.is-invalid]="facade.f['group'].invalid && facade.f['group'].touched">
+              <div class="dropdown-menu w-100 p-2 shadow" [class.show]="facade.showGroupDropdown()" style="max-height: 200px; overflow-y: auto;">
+                @for (group of facade.filteredGroups; track group) {
+                  <button type="button" class="dropdown-item" (click)="facade.selectGroup(group)">
+                    {{ group }}
+                  </button>
+                }
+                @if (facade.filteredGroups.length === 0) {
+                  <div class="px-3 text-muted">No groups found</div>
+                }
+              </div>
+              <input type="hidden" formControlName="group">
+            </div>
+            @if (facade.f['group'].invalid && facade.f['group'].touched) {
+              <div class="invalid-feedback d-block">
+                Group is required
+              </div>
+            }
+          </div>
+
+          <!-- Description (Date) -->
+          <div class="col-md-6">
+            <label for="description" class="form-label">Description Date</label>
+            <input type="date" id="description" class="form-control" formControlName="description"
+                   [class.is-invalid]="facade.f['description'].invalid && facade.f['description'].touched">
+            <div class="invalid-feedback">Description date is required</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
+          <button type="button" class="btn btn-outline-secondary px-4" (click)="facade.onCancel()">
+            <i class="bi bi-x-circle me-2"></i>Cancel
+          </button>
+          <button type="submit" class="btn btn-primary px-4" [disabled]="facade.employeeForm.invalid || facade.isSubmitting()">
+            @if (facade.isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <span>Saving...</span>
+            } @else {
+              <i class="bi bi-save me-2"></i>
+              <span>Save</span>
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

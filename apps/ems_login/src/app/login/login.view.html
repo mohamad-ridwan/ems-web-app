@@ -5,12 +5,12 @@
       <p class="text-muted small text-uppercase tracking-wider">Enterprise Management System</p>
     </div>
 
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <form (ngSubmit)="facade.onLogin()" #loginForm="ngForm">
       <div class="mb-4">
         <label for="username" class="form-label">USERNAME</label>
         <div class="input-group">
           <span class="input-group-text bg-white border-end-0"><i class="bi bi-person text-primary"></i></span>
-          <input type="text" class="form-control border-start-0" id="username" name="username" [(ngModel)]="loginData.username" required placeholder="Masukkan username">
+          <input type="text" class="form-control border-start-0" id="username" name="username" [(ngModel)]="facade.loginData.username" required placeholder="Masukkan username">
         </div>
       </div>
 
@@ -18,19 +18,19 @@
         <label for="password" class="form-label">PASSWORD</label>
         <div class="input-group">
           <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-primary"></i></span>
-          <input [type]="showPassword() ? 'text' : 'password'" class="form-control border-start-0 border-end-0" id="password" name="password" [(ngModel)]="loginData.password" required placeholder="Masukkan password">
-          <span class="input-group-text bg-white border-start-0 cursor-pointer" (click)="showPassword.set(!showPassword())" style="cursor: pointer;">
-            <i class="bi text-primary" [ngClass]="showPassword() ? 'bi-eye' : 'bi-eye-slash'"></i>
+          <input [type]="facade.showPassword() ? 'text' : 'password'" class="form-control border-start-0 border-end-0" id="password" name="password" [(ngModel)]="facade.loginData.password" required placeholder="Masukkan password">
+          <span class="input-group-text bg-white border-start-0 cursor-pointer" (click)="facade.showPassword.set(!facade.showPassword())" style="cursor: pointer;">
+            <i class="bi text-primary" [ngClass]="facade.showPassword() ? 'bi-eye' : 'bi-eye-slash'"></i>
           </span>
         </div>
       </div>
 
-      <div *ngIf="errorMessage()" class="alert alert-danger small py-2 border-0 rounded-3 mb-4">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage() }}
+      <div *ngIf="facade.errorMessage()" class="alert alert-danger small py-2 border-0 rounded-3 mb-4">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ facade.errorMessage() }}
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm" [disabled]="!loginForm.form.valid || isLoading()">
-        <span *ngIf="isLoading()" class="spinner-border spinner-border-sm me-2"></span>
+      <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm" [disabled]="!loginForm.form.valid || facade.isLoading()">
+        <span *ngIf="facade.isLoading()" class="spinner-border spinner-border-sm me-2"></span>
         MASUK
       </button>
 

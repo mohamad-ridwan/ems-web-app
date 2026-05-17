@@ -1,10 +1,10 @@
 import { Injectable, inject, signal, computed, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeeDataAccessService } from '../data-access/employee.service';
-import { Employee } from '../domain/employee.model';
+import { EmployeeDataAccessService } from '../../data-access/employee.service';
+import { Employee } from '../../domain/employee.model';
 
 @Injectable()
-export class EmployeeListViewModel {
+export class EmployeeListFacade {
   private dataService = inject(EmployeeDataAccessService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
