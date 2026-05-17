@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from '@org/ems_login';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [LoginComponent],
+  imports: [RouterOutlet],
   selector: 'app-ems-login-entry',
-  template: `<app-login></app-login>`,
+  template: `<router-outlet></router-outlet>`,
 })
 export class RemoteEntry {}
