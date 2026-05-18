@@ -1,18 +1,20 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, effect } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AppViewModel } from '@org/ems-dashboard';
-import { SidebarComponent } from '@org/ui-kit';
+import { SidebarComponent, PopupNotificationComponent, PopupNotificationService } from '@org/ui-kit';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'lib-sidebar-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SidebarComponent],
+  imports: [CommonModule, RouterOutlet, SidebarComponent, PopupNotificationComponent,RouterModule],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarLayoutComponent {
   public readonly vm = inject(AppViewModel);
+  public readonly notificationService = inject(PopupNotificationService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   isLoginPage = signal(false);

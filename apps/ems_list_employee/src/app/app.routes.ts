@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Route } from '@angular/router';
 import { authGuard, guestGuard } from '@org/ems-dashboard';
 
@@ -35,6 +34,7 @@ export const appRoutes: Route[] = [
   {
     path: 'login',
     title: 'Login',
+    // loadComponent: () => import('@org/ems_login').then((m) => m.LoginComponent),
     loadChildren: () => import('ems_login/Routes').then((m) => m!.remoteRoutes),
     canActivate: [guestGuard],
   },

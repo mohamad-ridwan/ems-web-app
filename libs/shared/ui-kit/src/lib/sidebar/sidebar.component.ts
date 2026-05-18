@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 export class SidebarComponent {
   @Input() pageTitle = 'Portal';
   @Input() user: { username: string; group: string; } | null = null;
+  @Input() isLoginPage = false;
   @Output() logout = new EventEmitter<void>();
 
   isSidebarOpen = signal(false);
