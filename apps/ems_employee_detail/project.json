@@ -22,6 +22,9 @@
           }
         ],
         "styles": ["apps/ems_employee_detail/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": [".", "node_modules", "libs/shared/theme/src/lib"]
+        },
         "customWebpackConfig": {
           "path": "apps/ems_employee_detail/webpack.config.ts"
         }

@@ -1,28 +1,35 @@
-# Pekerjaan Implementasi
+# Implementasi Micro Frontend (EMS)
 
-Refactor struktur folder:
+## Tujuan
+Mengaktifkan micro app untuk dapat dijalankan dan direview oleh user secara independen berdasarkan fiturnya.
 
-## Notification Case
+Micro app yang akan diimplementasikan:
+1. **`ems_add_employee`**
+2. **`ems_employee_detail`**
 
-### Flat Notification
-- Pada folder `libs/shared/ui-kit/src/lib/notification` rename folder menjadi `flat-notification`
-- Rubah nama kepemilikan class dan selector dengan sesuai ui nya `flat-notification`
+## Arsitektur: Konsep MVVM
+Setiap micro app harus menggunakan konsep MVVM pada level komponen utama.
+Contoh penerapan konsep MVVM pada folder root micro app:
 
-### Popup Notification
-- Pada folder `libs/shared-theme/src/lib/notification` rename folder menjadi `popup-notification`
-- Rubah nama kepemilikan class dan selector dengan sesuai ui nya `popup-notification`
-- Pindahkan folder `popup-notification` ke `libs/shared/ui-kit/src/lib/popup-notification`
-- Refactor code di `libs/shared-theme/src/lib/notification/notification.component.ts` menjadi konsep MVVM:
-  - `popup-notification.component.ts`
-  - `popup-notification.view.html`
-  - `popup-notification.view.scss`
+```text
+app/                      # Folder root micro app
+├── app.component.ts      # Fokus pada component class dan logic (ViewModel)
+├── app.view.html         # Fokus pada template markup (View)
+└── app.view.scss         # Fokus pada styling (View styling)
+```
 
-## Theme Case
-- Pindahkan folder `libs/shared-theme` ke folder `libs/shared/theme`
-- Tujuan refactor folder theme ini adalah untuk disimpan dalam 1 folder shared.
+## Fitur yang Diaktifkan
 
----
+### 1. `ems_add_employee`
+- Mengaktifkan fitur form penambahan employee (Add Employee).
 
-**Catatan:**
-- Pastikan remote maupun shell app yang menggunakan library ini sudah di perbarui dengan hasil refactor folder yang ada di `libs/` folder.
-- Setelah refactor selesai, anda dapat menghapus folder `shared-theme` pada `libs/` folder karena sudah tidak digunakan lagi.
+### 2. `ems_employee_detail`
+- Mengaktifkan fitur detail employee.
+
+## Panduan & Catatan Implementasi
+1. **Import dari Library**: 
+   Masing-masing fitur ini sebenarnya sudah tersedia di dalam workspace library. Implementasinya pada micro app hanya dengan melakukan import sebagai route menggunakan `loadComponent`.
+2. **Autentikasi (Login)**: 
+   Pastikan setiap micro app menggunakan fitur login. Hal ini diperlukan agar global `auth interceptor` dapat mengakses `access_token` (dari `localStorage`) pada saat melakukan request API.
+3. **Konsistensi Design Pattern**: 
+   Untuk struktur folder root app, ikuti referensi dari micro app yang sudah ada seperti di `apps/ems_list_employee/src/app` agar source micro app mengikuti design pattern yang konsisten.
