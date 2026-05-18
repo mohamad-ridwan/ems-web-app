@@ -32,12 +32,52 @@ Each frontend module adheres to the MVVM architectural pattern:
 
 ---
 
-## 🛠️ Environment Requirements
+## 🛠️ Environment & Port Configurations
 
 To run this application locally, ensure your environment meets the following prerequisites:
 - **Node.js**: v20 or later
 - **npm**: v10 or later
 - **PostgreSQL**: A running instance is required for the NestJS backend API database (TypeORM). An exported backup of the database is provided in the `databases` directory.
+
+---
+
+### 🌐 Port & HTTP URL Mapping
+
+Below is the network topology of all applications in the EMS micro-frontend ecosystem:
+
+| Project Name | Type | Dev Server URL | Default Port | Description | Start Command |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`ems-backend`** | Backend API (NestJS) | `http://localhost:3400/api` | `3400` | Serves REST endpoints for authentication and employee management. | `npm run start-backend` |
+| **`ems-dashboard`** | Host/Shell (Angular) | `http://localhost:4400` | `4400` | The main orchestrator that dynamically loads the remotes. | `npm run start-dashboard` |
+| **`ems_login`** | Remote MFE (Angular) | `http://localhost:4401` | `4401` | Handles authentication, login views, and token storage. | `npm run start-login` |
+| **`ems_add_employee`**| Remote MFE (Angular) | `http://localhost:4402` | `4402` | Renders employee onboarding forms and validations. | `npx nx serve ems_add_employee` |
+| **`ems_list_employee`**| Remote MFE (Angular) | `http://localhost:4403` | `4403` | Renders the paginated employee directory with filters. | `npx nx serve ems_list_employee` |
+| **`ems_employee_detail`**| Remote MFE (Angular) | `http://localhost:4404` | `4404` | Displays full employee profile cards and sensitive data. | `npx nx serve ems_employee_detail` |
+| **PostgreSQL DB** | Database | `localhost:5432` | `5432` | Stores relational tables under database name `ems`. | *System Service* |
+
+---
+
+### ⚙️ Environment & Service Configurations
+
+#### 1. Backend Configuration (`ems-backend`)
+*   **Database Settings**: Connection parameters are defined in [app.module.ts](file:///Users/mac/ems-web-app/apps/ems-backend/src/app/app.module.ts):
+    *   **Host**: `localhost`
+    *   **Port**: `5432`
+    *   **Username**: `postgres`
+    *   **Password**: `password`
+    *   **Database Name**: `ems`
+*   **Server Port**: Can be customized using the `PORT` environment variable (defaults to `3400`).
+
+#### 2. Frontend Configuration & API Endpoints
+All Angular micro-apps are configured to consume the backend API through hardcoded service URLs (targeting `http://localhost:3400/api`). If the backend port is customized via the `PORT` environment variable, ensure these endpoints in the services under `libs/` are adjusted accordingly:
+*   **Auth Service**: `http://localhost:3400/api/auth` (defined in [auth.service.ts](file:///Users/mac/ems-web-app/libs/ems_login/src/lib/data-access/auth.service.ts))
+*   **Employee Service**: `http://localhost:3400/api/employee` (defined in employee services in `libs/ems_add_employee`, `libs/ems_employee_detail`, and `libs/ems_list_employee`)
+
+#### 3. Module Federation Modes
+Nx Module Federation lets you run the host shell while running remotes either as **static assets** (faster, lightweight proxy) or as **active dev-servers** (enables hot-reload for that remote). You can configure this via the following commands:
+*   **Static Mode** (Default): Run `npm run start-dashboard`. Starts the Host on `http://localhost:4400` and serves the remotes statically on port `4405`.
+*   **Full Active Dev Mode**: Run `npm run start-dashboard-dev-all`. Boots up the Host along with all 4 remotes (`ems_login`, `ems_add_employee`, `ems_list_employee`, `ems_employee_detail`) in active dev mode with live-reloads on their respective ports.
+*   **Single-Feature Dev Mode**: Run `npm run start-dashboard-dev-login`. Boots up the host shell with only the `ems_login` remote in active development mode, while others remain static.
 
 ---
 
