@@ -5,6 +5,8 @@
   "scripts": {
     "start-dashboard": "nx serve ems-dashboard",
     "start-login": "nx serve ems_login",
+    "start-dashboard-dev-login": "nx serve ems-dashboard --devRemotes=ems_login",
+    "start-dashboard-dev-all": "nx serve ems-dashboard --devRemotes=ems_login,ems_list_employee,ems_employee_detail,ems_add_employee",
     "start-backend": "nx serve ems-backend"
   },
   "private": true,

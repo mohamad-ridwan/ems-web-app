@@ -92,7 +92,8 @@
       "options": {
         "buildTarget": "ems_login:build",
         "port": 4401,
-        "watch": false
+        "watch": false,
+        "spa": true
       },
       "configurations": {
         "development": {

@@ -92,7 +92,8 @@
       "options": {
         "buildTarget": "ems_add_employee:build",
         "port": 4402,
-        "watch": false
+        "watch": false,
+        "spa": true
       },
       "configurations": {
         "development": {
