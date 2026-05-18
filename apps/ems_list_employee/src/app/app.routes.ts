@@ -9,14 +9,21 @@ export const appRoutes: Route[] = [
       {
         path: 'detail-employee',
         title: 'Detail Employee',
-        loadChildren: () =>
-          import('ems_employee_detail/Routes').then((m) => m!.remoteRoutes),
+        children: [
+          {
+            path: ':id',
+            loadComponent: () =>
+              import('@org/ems_employee_detail').then(
+                (m) => m.EmployeeDetailComponent
+              ),
+          },
+        ],
       },
       {
         path: 'add-employee',
         title: 'Add Employee',
-        loadChildren: () =>
-          import('ems_add_employee/Routes').then((m) => m!.remoteRoutes),
+        loadComponent: () =>
+          import('@org/ems_add_employee').then((m) => m.EmployeeAddComponent),
       },
       {
         path: 'list-employee',
@@ -34,8 +41,8 @@ export const appRoutes: Route[] = [
   {
     path: 'login',
     title: 'Login',
-    // loadComponent: () => import('@org/ems_login').then((m) => m.LoginComponent),
-    loadChildren: () => import('ems_login/Routes').then((m) => m!.remoteRoutes),
+    loadComponent: () =>
+      import('@org/ems_login').then((m) => m.LoginComponent),
     canActivate: [guestGuard],
   },
 ];

@@ -6,13 +6,13 @@ export const appRoutes: Route[] = [
     path: 'login',
     canActivate: [guestGuard],
     loadChildren: () =>
-      import('./remote-entry/entry.routes').then((m) => m!.remoteRoutes),
+      import('./remote-entry/entry.routes').then((m) => m.remoteRoutes),
   },
   {
     path: 'list-employee',
     canActivate: [authGuard],
-    loadChildren: () =>
-      import('ems_list_employee/Routes').then((m) => m!.remoteRoutes),
+    loadComponent: () =>
+      import('@org/ems_list_employee').then((m) => m.EmployeeListComponent),
   },
   {
     path: '',

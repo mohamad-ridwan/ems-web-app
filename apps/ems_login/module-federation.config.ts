@@ -5,9 +5,6 @@ const config: ModuleFederationConfig = {
   exposes: {
     './Routes': 'apps/ems_login/src/app/remote-entry/entry.routes.ts',
   },
-  remotes: [
-    'ems_list_employee'
-  ]
 };
 
 /**
