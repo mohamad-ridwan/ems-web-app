@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './auth.interceptor';
+import { authInterceptor } from '@org/ems-dashboard';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
