@@ -18,11 +18,6 @@ export const authReducer = createReducer(
     };
   }),
   on(AuthActions.logout, (state) => {
-    try {
-      localStorage.removeItem('access_token');
-    } catch (e) {
-      console.error('Failed to clear credentials from localStorage', e);
-    }
     return {
       ...state,
       user: null,

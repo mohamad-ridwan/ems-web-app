@@ -27,8 +27,6 @@ export class LoginFacade {
 
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
-        localStorage.setItem('access_token', response.access_token);
-
         // Dispatch to global NgRx Store
         this.store.dispatch(
           AuthActions.loginSuccess({

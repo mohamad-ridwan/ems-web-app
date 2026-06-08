@@ -5,9 +5,11 @@ import {
   Get,
   Query,
   Req,
+  Res,
   UnauthorizedException,
   Inject,
 } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -18,7 +20,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  async login(@Body() body: any) {
+  async login(@Body() body: any, @Res({ passthrough: true }) res: Response) {
     const user = await this.authService.validateUser(
       body.username,
       body.password,
@@ -31,15 +33,29 @@ export class AuthController {
         'Access denied: Only members of Operations group can login',
       );
     }
-    return this.authService.login(user);
+    const tokenResponse = await this.authService.login(user);
+    
+    res.cookie('access_token', tokenResponse.access_token, {
+      httpOnly: true,
+      secure: false, // Set true in production
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 3600000, // 1 hour
+    });
+    
+    return {
+      message: 'Login successful',
+      employee: tokenResponse.employee,
+    };
   }
 
   @Get('me')
   async getProfile(
-    @Req() req: any,
+    @Req() req: Request,
     @Query('access_token') tokenParam?: string,
   ) {
-    let token = tokenParam;
+    let token = tokenParam || req.cookies?.['access_token'];
+    
     if (!token && req.headers.authorization) {
       const parts = req.headers.authorization.split(' ');
       if (parts.length === 2 && parts[0].toLowerCase() === 'bearer') {
@@ -57,5 +73,11 @@ export class AuthController {
     }
 
     return profile;
+  }
+
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token', { path: '/' });
+    return { message: 'Logout successful' };
   }
 }

@@ -1,15 +1,20 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export const guestGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const token = localStorage.getItem('access_token');
+  const http = inject(HttpClient);
 
-  if (!token) {
-    return true;
-  }
-
-  // Redirect to main page since they are already logged in
-  router.navigate(['/list-employee']);
-  return false;
+  return http.get('http://localhost:3400/api/auth/me').pipe(
+    map(() => {
+      router.navigate(['/']);
+      return false;
+    }),
+    catchError(() => {
+      return of(true);
+    })
+  );
 };

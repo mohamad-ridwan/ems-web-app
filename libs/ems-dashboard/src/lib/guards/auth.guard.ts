@@ -1,15 +1,18 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const token = localStorage.getItem('access_token');
+  const http = inject(HttpClient);
 
-  if (token) {
-    return true;
-  }
-
-  // Redirect to login page
-  router.navigate(['/login']);
-  return false;
+  return http.get('http://localhost:3400/api/auth/me').pipe(
+    map(() => true),
+    catchError(() => {
+      router.navigate(['/login']);
+      return of(false);
+    })
+  );
 };
