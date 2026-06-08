@@ -47,7 +47,7 @@
   }
 
   <!-- Main Content Area -->
-  <div class="main-content d-flex flex-column" [style.margin-left]="isLoginPage ? '0' : ''">
+  <div class="main-content d-flex flex-column" [class.login-mode]="isLoginPage">
     <!-- Top Navbar (Mobile toggle & Branding) -->
     @if (!isLoginPage) {
       @if (isDropdownOpen()) {

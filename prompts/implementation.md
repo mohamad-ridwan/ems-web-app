@@ -1,22 +1,15 @@
-# Implementation Plan: Fix & Add Features for Sidebar
+# Implementasi Fix Features
 
-## Overview
-Dokumen ini berisi rencana implementasi untuk perbaikan dan penambahan fitur pada komponen sidebar.
+## 1. Perbaikan Animasi Sidebar pada Login Page
+**Masalah**: Pada saat *initial render* di halaman login, konten utama (`.main-content`) memiliki animasi pergeseran margin (dari 280px ke 0) karena efek *transition* yang ditentukan di file `theme.scss`. Hal ini menyebabkan tampilan UI terlihat bergeser saat pertama kali dimuat.
 
-## Daftar Pekerjaan (Tasks)
+**Solusi**:
+- Menambahkan *class binding* `[class.login-mode]="isLoginPage"` pada elemen `.main-content` di `sidebar.view.html`.
+- Menghapus *inline style* `[style.margin-left]="isLoginPage ? '0' : ''"`.
+- Di dalam `theme.scss`, menambahkan CSS untuk class `.login-mode` dengan properti `margin-left: 0;` dan menonaktifkan transisi menggunakan `transition: none;`. Ini akan memastikan konten utama pada halaman login langsung berada pada posisinya tanpa animasi pergeseran margin.
 
-### 1. Menonaktifkan Tooltips Saat Sidebar Aktif
-- **File Target:** `libs/shared/ui-kit/src/lib/sidebar/sidebar.view.html` (dan berpotensi file komponen `.ts` terkait).
-- **Aksi:** Memodifikasi binding tooltip (misalnya pada atribut Bootstrap tooltip) agar tooltip hanya muncul saat sidebar dalam keadaan *collapsed* (tidak aktif). Saat sidebar aktif (melebar), tooltip harus dinonaktifkan agar tidak menampilkan informasi yang redundan.
+## 2. Penyesuaian Jarak Kanan & Kiri pada Login Form
+**Masalah**: Form login (atau `.login-card`) terlihat terlalu menempel ke tepi layar pada ukuran layar kecil karena tidak memiliki margin kanan/kiri yang memadai.
 
-### 2. Posisi Sidebar Aktif di Tampilan Mobile
-- **File Target:** Komponen Sidebar (`.ts`, `.html`, dan `.scss` / `.css`).
-- **Aksi:** Mengembalikan fungsi sidebar agar selalu berada pada posisi "aktif" saat diakses menggunakan mode responsif (mobile). Hal ini mungkin memerlukan penyesuaian pada CSS media queries atau *event listener* pada ukuran layar (window resize).
-
-### 3. Caching Status Tooltips / Sidebar dengan LocalStorage
-- **File Target:** Komponen Sidebar (`.ts`).
-- **Aksi:** Menambahkan fungsionalitas untuk menyimpan status aktif/non-aktif dari tooltip atau sidebar ke dalam `localStorage`.
-- **Perilaku:** Saat pengguna melakukan *refresh* halaman, aplikasi akan membaca nilai dari `localStorage` dan mengatur status sidebar dan tooltip sesuai dengan status terakhir sebelum halaman dimuat ulang.
-
-## Aturan Pengembangan
-- Gunakan struktur folder dan konvensi penamaan yang konsisten dengan standar kode yang sudah ada saat ini di `libs/shared/ui-kit/src/lib/sidebar/`.
+**Solusi**:
+- Menambahkan class responsif margin pada *wrapper* form login di `login.view.html`, seperti `mx-3` atau `mx-4` untuk memberikan ruang di sekitar kartu login pada perangkat seluler, memastikan bahwa lebar elemen akan tetap mengikuti maksimum `max-width: 450px`.

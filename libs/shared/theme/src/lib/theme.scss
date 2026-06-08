@@ -175,6 +175,11 @@ a, button {
   margin-left: 280px;
   overflow-x: hidden;
   transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  &.login-mode {
+    margin-left: 0;
+    transition: none;
+  }
 }
 
 @media (max-width: 991.98px) {
