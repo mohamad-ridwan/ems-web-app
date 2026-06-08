@@ -61,6 +61,22 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
 
   closeSidebar() {
     this.isSidebarOpen.set(false);
+    this.hideAllTooltips();
+    if (isPlatformBrowser(this.platformId)) {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+    }
+  }
+
+  private hideAllTooltips() {
+    this.tooltips.forEach((tooltip) => {
+      try {
+        tooltip.hide();
+      } catch {
+        // ignore
+      }
+    });
   }
 
   onLogout() {

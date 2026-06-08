@@ -3,6 +3,8 @@ import { SidebarComponent } from './sidebar.component';
 import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
+import type { Tooltip } from 'bootstrap';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -46,10 +48,20 @@ describe('SidebarComponent', () => {
     expect(component.isDesktopCollapsed()).toBe(false);
   });
 
-  it('should set isSidebarOpen to false when closeSidebar is called', () => {
+  it('should set isSidebarOpen to false when closeSidebar is called, hide all tooltips, and blur active element', () => {
+    const mockTooltip = {
+      hide: vi.fn(),
+      dispose: vi.fn(),
+      enable: vi.fn(),
+      disable: vi.fn(),
+    } as unknown as Tooltip;
+    component['tooltips'] = [mockTooltip];
+
     component.isSidebarOpen.set(true);
     component.closeSidebar();
+
     expect(component.isSidebarOpen()).toBe(false);
+    expect(mockTooltip.hide).toHaveBeenCalled();
   });
 
   it('should restore isDesktopCollapsed from localStorage if present', () => {
