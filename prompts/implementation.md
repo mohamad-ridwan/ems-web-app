@@ -1,13 +1,40 @@
-# Implementation Plan: Fix List Filters Feature
+# Implementasi Fitur Tooltips Sidebar
 
-## Target File
-`libs/ems_list_employee/src/lib/employee-list/employee-list.view.html`
+## Deskripsi Tugas
+Menambahkan fitur tooltips menggunakan Bootstrap pada menu sidebar agar lebih informatif, interaktif, dan konsisten dengan *enterprise style* yang sudah ada pada aplikasi.
 
-## Description of Changes
-Update the employee list view to add responsive styling to the filters section. Specifically, update the layout so that the filters are displayed across 2 rows in desktop mode to make filtering easier for the user.
+## File yang Diubah
+- `libs/shared/ui-kit/src/lib/sidebar/sidebar.view.html`
+- *Opsional: File TypeScript komponen sidebar terkait (jika inisialisasi tooltip Bootstrap diperlukan di Angular).*
 
-## Steps
-1. Open `libs/ems_list_employee/src/lib/employee-list/employee-list.view.html`.
-2. Locate the container element for the filters.
-3. Apply appropriate CSS classes (e.g., CSS Grid or Flexbox) to structure the filters into a 2-row layout on larger screens (desktop mode).
-4. Ensure the layout remains responsive and degrades gracefully on smaller screens.
+## Detail Pekerjaan
+1. **Modifikasi HTML**:
+   Pada menu sidebar (nav-link), tambahkan atribut khusus Bootstrap tooltips:
+   - Tambahkan `data-bs-toggle="tooltip"`
+   - Tambahkan `data-bs-placement="right"` (atau penempatan yang sesuai, misal saat sidebar di-collapse).
+   - Pastikan atribut `title` yang ada saat ini (`title="List Employee"` dan `title="Add Employee"`) dapat dirender sebagai tooltip oleh Bootstrap.
+
+2. **Gaya Enterprise**:
+   - Pastikan tooltip tidak mengganggu layout saat muncul.
+   - Jika aplikasi menggunakan inisialisasi manual Bootstrap tooltips pada komponen Angular, pastikan untuk memanggil inisialisasi tersebut di siklus hidup komponen (misalnya `ngAfterViewInit`), menggunakan standar library Bootstrap JS yang ada pada proyek.
+   - Sesuaikan warna dan font tooltip jika ada *custom styling* (misalnya dari SCSS Bootstrap variables) agar selaras dengan desain emas/gelap (*text-gold*, *bg-dark*) yang ada pada sidebar.
+
+3. **Contoh Perubahan Target**:
+   ```html
+   <a class="nav-link d-flex align-items-center" 
+      routerLink="/list-employee" 
+      routerLinkActive="active" 
+      [routerLinkActiveOptions]="{exact: false}" 
+      (click)="closeSidebar()"
+      data-bs-toggle="tooltip" 
+      data-bs-placement="right"
+      data-bs-title="List Employee">
+     <i class="bi bi-people-fill"></i> 
+     <span class="ms-2 menu-label">List Employee</span>
+   </a>
+   ```
+
+## Kriteria Penerimaan
+- Tooltip muncul saat hover pada menu sidebar.
+- Tooltip bergaya Bootstrap standar/enterprise yang telah disesuaikan (jika ada).
+- Tidak ada error pada console JavaScript terkait inisialisasi tooltip.

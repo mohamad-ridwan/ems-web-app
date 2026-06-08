@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, signal, AfterViewInit, OnDestroy, ElementRef, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import type { Tooltip } from 'bootstrap';
 
 @Component({
   selector: 'ems-sidebar',
@@ -9,11 +10,15 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.view.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
+export class SidebarComponent implements AfterViewInit, OnDestroy {
   @Input() pageTitle = 'Portal';
   @Input() user: { username: string; group: string; } | null = null;
   @Input() isLoginPage = false;
   @Output() logout = new EventEmitter<void>();
+
+  private platformId = inject(PLATFORM_ID);
+  private elementRef = inject(ElementRef);
+  private tooltips: Tooltip[] = [];
 
   isSidebarOpen = signal(false);
   isDropdownOpen = signal(false);
@@ -33,5 +38,23 @@ export class SidebarComponent {
 
   onLogout() {
     this.logout.emit();
+  }
+
+  async ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const { Tooltip } = await import('bootstrap');
+      const tooltipElements = this.elementRef.nativeElement.querySelectorAll('[data-bs-toggle="tooltip"]');
+      this.tooltips = Array.from(tooltipElements).map((el) => new Tooltip(el as HTMLElement));
+    }
+  }
+
+  ngOnDestroy() {
+    this.tooltips.forEach(tooltip => {
+      try {
+        tooltip.dispose();
+      } catch {
+        // ignore errors during destruction
+      }
+    });
   }
 }

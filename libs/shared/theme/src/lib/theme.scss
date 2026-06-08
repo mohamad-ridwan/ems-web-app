@@ -247,3 +247,18 @@ a, button {
   }
 }
 
+// 4. Custom Bootstrap Tooltips Styling
+.tooltip {
+  --bs-tooltip-bg: #002d5a;
+  --bs-tooltip-color: #ffffff;
+  --bs-tooltip-border-radius: 6px;
+  --bs-tooltip-font-size: 0.85rem;
+  
+  .tooltip-inner {
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
