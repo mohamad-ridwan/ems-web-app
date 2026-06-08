@@ -1,11 +1,14 @@
-<ems-sidebar
-  [pageTitle]="pageTitle()"
-  [user]="vm.user()"
-  [isLoginPage]="isLoginPage()"
-  (logout)="vm.logout()"
->
+@if (!isLoginPage()) {
+  <ems-sidebar
+    [pageTitle]="pageTitle()"
+    [user]="vm.user()"
+    (logout)="vm.logout()"
+  >
+    <router-outlet></router-outlet>
+  </ems-sidebar>
+} @else {
   <router-outlet></router-outlet>
-</ems-sidebar>
+}
 
 @if (notificationService.notification(); as currentNotification) {
   <ems-popup-notification

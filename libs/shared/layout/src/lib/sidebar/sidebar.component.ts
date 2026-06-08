@@ -39,9 +39,6 @@ export class SidebarLayoutComponent {
   public readonly pageTitle = signal<string>('Portal');
 
   constructor() {
-    this.checkIsLoginPage(this.router.url);
-    this.updatePageTitle();
-
     this.router.events
       .pipe(
         filter(
