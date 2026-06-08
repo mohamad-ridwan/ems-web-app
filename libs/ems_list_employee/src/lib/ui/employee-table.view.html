@@ -62,17 +62,32 @@
           <button
             class="btn btn-sm btn-info text-white me-2"
             (click)="detail.emit(emp)"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Detail"
+            data-bs-trigger="hover"
           >
             <i class="bi bi-eye"></i>
-            <span class="d-none d-md-inline">Detail</span>
           </button>
-          <button class="btn btn-sm btn-warning me-2" (click)="edit.emit(emp)">
+          <button
+            class="btn btn-sm btn-warning me-2"
+            (click)="edit.emit(emp)"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Edit"
+            data-bs-trigger="hover"
+          >
             <i class="bi bi-pencil"></i>
-            <span class="d-none d-md-inline">Edit</span>
           </button>
-          <button class="btn btn-sm btn-danger" (click)="delete.emit(emp)">
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="delete.emit(emp)"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-title="Delete"
+            data-bs-trigger="hover"
+          >
             <i class="bi bi-trash"></i>
-            <span class="d-none d-md-inline">Delete</span>
           </button>
         </td>
       </tr>
