@@ -7,7 +7,12 @@ import { ButtonComponent, FlatNotificationComponent } from '@org/ui-kit';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent, FlatNotificationComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonComponent,
+    FlatNotificationComponent,
+  ],
   providers: [LoginFacade],
   templateUrl: './login.view.html',
   styleUrls: ['./login.component.scss'],

@@ -32,7 +32,10 @@ export class SidebarLayoutComponent {
   public readonly notificationService = inject(PopupNotificationService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  isLoginPage = signal(false);
+  isLoginPage = signal(
+    typeof window !== 'undefined' &&
+      window.location.pathname.includes('/login'),
+  );
   public readonly pageTitle = signal<string>('Portal');
 
   constructor() {

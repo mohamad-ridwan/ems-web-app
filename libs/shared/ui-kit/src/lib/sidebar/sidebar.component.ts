@@ -1,4 +1,16 @@
-import { Component, Input, Output, EventEmitter, signal, AfterViewInit, OnDestroy, ElementRef, inject, PLATFORM_ID, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  signal,
+  AfterViewInit,
+  OnDestroy,
+  ElementRef,
+  inject,
+  PLATFORM_ID,
+  HostListener,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import type { Tooltip } from 'bootstrap';
@@ -8,11 +20,11 @@ import type { Tooltip } from 'bootstrap';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.view.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements AfterViewInit, OnDestroy {
   @Input() pageTitle = 'Portal';
-  @Input() user: { username: string; group: string; } | null = null;
+  @Input() user: { username: string; group: string } | null = null;
   @Input() isLoginPage = false;
   @Output() logout = new EventEmitter<void>();
 
@@ -34,11 +46,11 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
   }
 
   toggleSidebar() {
-    this.isSidebarOpen.update(v => !v);
+    this.isSidebarOpen.update((v) => !v);
   }
 
   toggleDesktopSidebar() {
-    this.isDesktopCollapsed.update(val => {
+    this.isDesktopCollapsed.update((val) => {
       const newVal = !val;
       if (isPlatformBrowser(this.platformId)) {
         localStorage.setItem('ems_sidebar_collapsed', String(newVal));
@@ -64,8 +76,9 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateTooltipsState() {
-    const shouldShowTooltips = this.isDesktopCollapsed() && this.isDesktopView();
-    this.tooltips.forEach(tooltip => {
+    const shouldShowTooltips =
+      this.isDesktopCollapsed() && this.isDesktopView();
+    this.tooltips.forEach((tooltip) => {
       if (shouldShowTooltips) {
         tooltip.enable();
       } else {
@@ -87,14 +100,18 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
   async ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       const { Tooltip } = await import('bootstrap');
-      const tooltipElements = this.elementRef.nativeElement.querySelectorAll('[data-bs-toggle="tooltip"]');
-      this.tooltips = Array.from(tooltipElements).map((el) => new Tooltip(el as HTMLElement));
+      const tooltipElements = this.elementRef.nativeElement.querySelectorAll(
+        '[data-bs-toggle="tooltip"]',
+      );
+      this.tooltips = Array.from(tooltipElements).map(
+        (el) => new Tooltip(el as HTMLElement),
+      );
       this.updateTooltipsState();
     }
   }
 
   ngOnDestroy() {
-    this.tooltips.forEach(tooltip => {
+    this.tooltips.forEach((tooltip) => {
       try {
         tooltip.dispose();
       } catch {

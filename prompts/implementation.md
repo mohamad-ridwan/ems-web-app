@@ -7,6 +7,7 @@
 - Menambahkan *class binding* `[class.login-mode]="isLoginPage"` pada elemen `.main-content` di `sidebar.view.html`.
 - Menghapus *inline style* `[style.margin-left]="isLoginPage ? '0' : ''"`.
 - Di dalam `theme.scss`, menambahkan CSS untuk class `.login-mode` dengan properti `margin-left: 0;` dan menonaktifkan transisi menggunakan `transition: none;`. Ini akan memastikan konten utama pada halaman login langsung berada pada posisinya tanpa animasi pergeseran margin.
+- Mengubah inisialisasi `isLoginPage` pada `SidebarLayoutComponent` (`sidebar.component.ts`) dari `signal(false)` menjadi `signal(typeof window !== 'undefined' && window.location.pathname.includes('/login'))`. Hal ini dilakukan karena saat komponen pertama kali di-*render* (belum terjadi navigasi router Angular), `router.url` bernilai `/` (belum terdeteksi sebagai `/login`). Dengan mendeteksi pathname secara langsung menggunakan objek `window`, kita dapat mendeteksi halaman login secara sinkron sebelum proses rendering pertama, sehingga menghindari efek kedipan komponen sidebar.
 
 ## 2. Penyesuaian Jarak Kanan & Kiri pada Login Form
 **Masalah**: Form login (atau `.login-card`) terlihat terlalu menempel ke tepi layar pada ukuran layar kecil karena tidak memiliki margin kanan/kiri yang memadai.
