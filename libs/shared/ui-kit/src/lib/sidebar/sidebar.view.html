@@ -1,19 +1,42 @@
 <div class="d-flex">
   <!-- Sidebar -->
   @if (!isLoginPage) {
-    <aside class="sidebar d-flex flex-column" [class.show]="isSidebarOpen()">
-      <div class="sidebar-header d-flex align-items-center">
-        <h3 class="fw-bold text-white mb-0">
+    <aside class="sidebar d-flex flex-column" 
+           [class.show]="isSidebarOpen()" 
+           [class.collapsed]="isDesktopCollapsed()">
+      <div class="sidebar-header d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25">
+        <h3 class="fw-bold text-white mb-0 logo-text">
           EMS <span class="text-gold">PORTAL</span>
         </h3>
+        <h3 class="fw-bold text-white mb-0 logo-icon d-none">
+          <span class="text-gold">E</span>
+        </h3>
+        
+        <!-- Desktop Toggle Button -->
+        <button class="btn btn-link text-white p-1 d-none d-lg-flex align-items-center justify-content-center toggle-btn" 
+                (click)="toggleDesktopSidebar()" 
+                title="Toggle Sidebar">
+          <i class="bi" [ngClass]="isDesktopCollapsed() ? 'bi-list' : 'bi-chevron-left'"></i>
+        </button>
       </div>
 
       <nav class="nav flex-column mt-3 flex-grow-1">
-        <a class="nav-link" routerLink="/list-employee" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" (click)="closeSidebar()">
-          <i class="bi bi-people-fill"></i> List Employee
+        <a class="nav-link d-flex align-items-center" 
+           routerLink="/list-employee" 
+           routerLinkActive="active" 
+           [routerLinkActiveOptions]="{exact: false}" 
+           (click)="closeSidebar()"
+           title="List Employee">
+          <i class="bi bi-people-fill"></i> 
+          <span class="ms-2 menu-label">List Employee</span>
         </a>
-        <a class="nav-link" routerLink="/add-employee" routerLinkActive="active" (click)="closeSidebar()">
-          <i class="bi bi-person-plus-fill"></i> Add Employee
+        <a class="nav-link d-flex align-items-center" 
+           routerLink="/add-employee" 
+           routerLinkActive="active" 
+           (click)="closeSidebar()"
+           title="Add Employee">
+          <i class="bi bi-person-plus-fill"></i> 
+          <span class="ms-2 menu-label">Add Employee</span>
         </a>
       </nav>
     </aside>

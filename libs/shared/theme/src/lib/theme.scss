@@ -82,7 +82,8 @@ a, button {
   background: linear-gradient(180deg, #003d79 0%, #002d5a 100%);
   color: white;
   z-index: 1050; // Higher than sticky-top (1020) to cover navbar on mobile
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow-x: hidden;
   
   .nav-link {
     color: rgba(255, 255, 255, 0.7);
@@ -110,11 +111,52 @@ a, button {
       margin-left: 0;
     }
   }
+
+  // Hover effect on toggle button
+  .toggle-btn {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  // Collapsed State for Desktop
+  &.collapsed {
+    width: 80px;
+
+    .sidebar-header {
+      justify-content: center !important;
+      padding: 1rem 0.5rem !important;
+
+      .logo-text { display: none !important; }
+      .logo-icon { display: block !important; }
+      
+      .toggle-btn {
+        margin: 0 auto;
+        padding: 0.5rem;
+      }
+    }
+
+    .nav-link {
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0.25rem 0.5rem;
+
+      i { margin: 0 !important; font-size: 1.4rem; }
+      .menu-label { display: none !important; }
+    }
+  }
 }
 
 .sidebar-header {
   padding: 2rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .sidebar-footer {
@@ -130,6 +172,7 @@ a, button {
   min-height: 100vh;
   margin-left: 280px;
   overflow-x: hidden;
+  transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 @media (max-width: 991.98px) {
@@ -155,12 +198,21 @@ a, button {
   right: 0;
   left: 280px; // Offset for sidebar on desktop
   z-index: 999;
-  transition: all 0.3s ease-in-out;
+  transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 @media (max-width: 991.98px) {
   .fixed-header {
     left: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .sidebar.collapsed ~ .main-content {
+    margin-left: 80px;
+  }
+  .sidebar.collapsed ~ .main-content .fixed-header {
+    left: 80px;
   }
 }
 

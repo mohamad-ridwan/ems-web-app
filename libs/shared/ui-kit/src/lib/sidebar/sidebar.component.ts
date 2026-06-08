@@ -17,9 +17,14 @@ export class SidebarComponent {
 
   isSidebarOpen = signal(false);
   isDropdownOpen = signal(false);
+  isDesktopCollapsed = signal(false);
 
   toggleSidebar() {
     this.isSidebarOpen.update(v => !v);
+  }
+
+  toggleDesktopSidebar() {
+    this.isDesktopCollapsed.update(val => !val);
   }
 
   closeSidebar() {
