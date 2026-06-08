@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal, AfterViewInit, OnDestroy, ElementRef, inject, PLATFORM_ID } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, AfterViewInit, OnDestroy, ElementRef, inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import type { Tooltip } from 'bootstrap';
@@ -24,12 +24,28 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
   isDropdownOpen = signal(false);
   isDesktopCollapsed = signal(false);
 
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      const cached = localStorage.getItem('ems_sidebar_collapsed');
+      if (cached !== null) {
+        this.isDesktopCollapsed.set(cached === 'true');
+      }
+    }
+  }
+
   toggleSidebar() {
     this.isSidebarOpen.update(v => !v);
   }
 
   toggleDesktopSidebar() {
-    this.isDesktopCollapsed.update(val => !val);
+    this.isDesktopCollapsed.update(val => {
+      const newVal = !val;
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('ems_sidebar_collapsed', String(newVal));
+      }
+      return newVal;
+    });
+    this.updateTooltipsState();
   }
 
   closeSidebar() {
@@ -40,11 +56,40 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
     this.logout.emit();
   }
 
+  private isDesktopView(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return window.innerWidth >= 992;
+    }
+    return true;
+  }
+
+  private updateTooltipsState() {
+    const shouldShowTooltips = this.isDesktopCollapsed() && this.isDesktopView();
+    this.tooltips.forEach(tooltip => {
+      if (shouldShowTooltips) {
+        tooltip.enable();
+      } else {
+        tooltip.disable();
+        try {
+          tooltip.hide();
+        } catch {
+          // ignore
+        }
+      }
+    });
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateTooltipsState();
+  }
+
   async ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       const { Tooltip } = await import('bootstrap');
       const tooltipElements = this.elementRef.nativeElement.querySelectorAll('[data-bs-toggle="tooltip"]');
       this.tooltips = Array.from(tooltipElements).map((el) => new Tooltip(el as HTMLElement));
+      this.updateTooltipsState();
     }
   }
 

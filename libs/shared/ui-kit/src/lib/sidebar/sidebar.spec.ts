@@ -51,4 +51,21 @@ describe('SidebarComponent', () => {
     component.closeSidebar();
     expect(component.isSidebarOpen()).toBe(false);
   });
+
+  it('should restore isDesktopCollapsed from localStorage if present', () => {
+    localStorage.setItem('ems_sidebar_collapsed', 'true');
+    const customFixture = TestBed.createComponent(SidebarComponent);
+    const customComponent = customFixture.componentInstance;
+    expect(customComponent.isDesktopCollapsed()).toBe(true);
+    localStorage.removeItem('ems_sidebar_collapsed');
+  });
+
+  it('should save isDesktopCollapsed to localStorage when toggleDesktopSidebar is called', () => {
+    localStorage.removeItem('ems_sidebar_collapsed');
+    component.toggleDesktopSidebar();
+    expect(localStorage.getItem('ems_sidebar_collapsed')).toBe('true');
+    component.toggleDesktopSidebar();
+    expect(localStorage.getItem('ems_sidebar_collapsed')).toBe('false');
+    localStorage.removeItem('ems_sidebar_collapsed');
+  });
 });

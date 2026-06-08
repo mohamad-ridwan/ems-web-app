@@ -1,40 +1,22 @@
-# Implementasi Fitur Tooltips Sidebar
+# Implementation Plan: Fix & Add Features for Sidebar
 
-## Deskripsi Tugas
-Menambahkan fitur tooltips menggunakan Bootstrap pada menu sidebar agar lebih informatif, interaktif, dan konsisten dengan *enterprise style* yang sudah ada pada aplikasi.
+## Overview
+Dokumen ini berisi rencana implementasi untuk perbaikan dan penambahan fitur pada komponen sidebar.
 
-## File yang Diubah
-- `libs/shared/ui-kit/src/lib/sidebar/sidebar.view.html`
-- *Opsional: File TypeScript komponen sidebar terkait (jika inisialisasi tooltip Bootstrap diperlukan di Angular).*
+## Daftar Pekerjaan (Tasks)
 
-## Detail Pekerjaan
-1. **Modifikasi HTML**:
-   Pada menu sidebar (nav-link), tambahkan atribut khusus Bootstrap tooltips:
-   - Tambahkan `data-bs-toggle="tooltip"`
-   - Tambahkan `data-bs-placement="right"` (atau penempatan yang sesuai, misal saat sidebar di-collapse).
-   - Pastikan atribut `title` yang ada saat ini (`title="List Employee"` dan `title="Add Employee"`) dapat dirender sebagai tooltip oleh Bootstrap.
+### 1. Menonaktifkan Tooltips Saat Sidebar Aktif
+- **File Target:** `libs/shared/ui-kit/src/lib/sidebar/sidebar.view.html` (dan berpotensi file komponen `.ts` terkait).
+- **Aksi:** Memodifikasi binding tooltip (misalnya pada atribut Bootstrap tooltip) agar tooltip hanya muncul saat sidebar dalam keadaan *collapsed* (tidak aktif). Saat sidebar aktif (melebar), tooltip harus dinonaktifkan agar tidak menampilkan informasi yang redundan.
 
-2. **Gaya Enterprise**:
-   - Pastikan tooltip tidak mengganggu layout saat muncul.
-   - Jika aplikasi menggunakan inisialisasi manual Bootstrap tooltips pada komponen Angular, pastikan untuk memanggil inisialisasi tersebut di siklus hidup komponen (misalnya `ngAfterViewInit`), menggunakan standar library Bootstrap JS yang ada pada proyek.
-   - Sesuaikan warna dan font tooltip jika ada *custom styling* (misalnya dari SCSS Bootstrap variables) agar selaras dengan desain emas/gelap (*text-gold*, *bg-dark*) yang ada pada sidebar.
+### 2. Posisi Sidebar Aktif di Tampilan Mobile
+- **File Target:** Komponen Sidebar (`.ts`, `.html`, dan `.scss` / `.css`).
+- **Aksi:** Mengembalikan fungsi sidebar agar selalu berada pada posisi "aktif" saat diakses menggunakan mode responsif (mobile). Hal ini mungkin memerlukan penyesuaian pada CSS media queries atau *event listener* pada ukuran layar (window resize).
 
-3. **Contoh Perubahan Target**:
-   ```html
-   <a class="nav-link d-flex align-items-center" 
-      routerLink="/list-employee" 
-      routerLinkActive="active" 
-      [routerLinkActiveOptions]="{exact: false}" 
-      (click)="closeSidebar()"
-      data-bs-toggle="tooltip" 
-      data-bs-placement="right"
-      data-bs-title="List Employee">
-     <i class="bi bi-people-fill"></i> 
-     <span class="ms-2 menu-label">List Employee</span>
-   </a>
-   ```
+### 3. Caching Status Tooltips / Sidebar dengan LocalStorage
+- **File Target:** Komponen Sidebar (`.ts`).
+- **Aksi:** Menambahkan fungsionalitas untuk menyimpan status aktif/non-aktif dari tooltip atau sidebar ke dalam `localStorage`.
+- **Perilaku:** Saat pengguna melakukan *refresh* halaman, aplikasi akan membaca nilai dari `localStorage` dan mengatur status sidebar dan tooltip sesuai dengan status terakhir sebelum halaman dimuat ulang.
 
-## Kriteria Penerimaan
-- Tooltip muncul saat hover pada menu sidebar.
-- Tooltip bergaya Bootstrap standar/enterprise yang telah disesuaikan (jika ada).
-- Tidak ada error pada console JavaScript terkait inisialisasi tooltip.
+## Aturan Pengembangan
+- Gunakan struktur folder dan konvensi penamaan yang konsisten dengan standar kode yang sudah ada saat ini di `libs/shared/ui-kit/src/lib/sidebar/`.
