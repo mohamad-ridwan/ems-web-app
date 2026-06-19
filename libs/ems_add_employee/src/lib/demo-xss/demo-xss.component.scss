@@ -1,0 +1,48 @@
+.preset-card {
+  transition: all 0.2s ease-in-out;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--bs-border-color);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-color: var(--bs-primary-border-subtle);
+    background-color: var(--bs-light);
+  }
+}
+
+.transition-all {
+  transition: all 0.2s ease-in-out;
+}
+
+code {
+  font-family: var(--bs-font-monospace);
+  color: var(--bs-danger);
+}
+
+.bg-success-subtle {
+  background-color: #d1e7dd !important;
+}
+
+.bg-danger-subtle {
+  background-color: #f8d7da !important;
+}
+
+.text-success-emphasis {
+  color: #0f5132 !important;
+}
+
+.text-danger-emphasis {
+  color: #842029 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-xs {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.7rem;
+  border-radius: 0.2rem;
+}

@@ -1,0 +1,179 @@
+<div class="container-fluid p-3 p-md-4">
+  <!-- Header & Navigation -->
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1">
+          <li class="breadcrumb-item"><a routerLink="/add-employee" class="text-decoration-none">Add Employee</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Security & XSS Demo</li>
+        </ol>
+      </nav>
+      <h2 class="h4 mb-0 text-primary fw-bold">
+        Angular Security & XSS Prevention Playground
+      </h2>
+    </div>
+    <a routerLink="/add-employee" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2">
+      <i class="bi bi-arrow-left-circle"></i> Back to Add Employee
+    </a>
+  </div>
+
+  <!-- Educational Introduction -->
+  <div class="alert alert-info border-0 shadow-sm mb-4">
+    <div class="d-flex gap-3">
+      <div class="fs-2 text-info"><i class="bi bi-shield-check"></i></div>
+      <div>
+        <h5 class="alert-heading fw-bold">Bagaimana Angular Melindungi Anda dari XSS?</h5>
+        <p class="mb-1">
+          Secara default, Angular menganggap semua nilai sebagai tidak tepercaya. Ketika nilai dimasukkan ke dalam DOM melalui interpolasi 
+          (seperti <code>{{ '{{ payload }}' }}</code>) atau properti binding, Angular secara otomatis melakukan <strong>context-aware sanitization</strong> atau <strong>escaping</strong>.
+        </p>
+        <p class="mb-0 text-muted small">
+          Halaman demo ini membandingkan binding default Angular yang aman dengan praktik berbahaya yang mem-bypass sistem keamanan Angular.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Input Playground & Presets -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-primary text-white py-3">
+          <h5 class="card-title mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-sliders"></i> Input Payload XSS
+          </h5>
+        </div>
+        <div class="card-body p-4">
+          <div class="mb-4">
+            <label for="xssPayloadInput" class="form-label fw-bold">Masukkan HTML / Script Kustom:</label>
+            <textarea
+              id="xssPayloadInput"
+              class="form-control font-monospace bg-light"
+              rows="4"
+              [ngModel]="payload()"
+              (ngModelChange)="payload.set($event)"
+              placeholder="Ketik tag HTML atau script jahat di sini..."
+            ></textarea>
+          </div>
+
+          <h6 class="fw-bold mb-3">Payload Preset untuk Dicoba:</h6>
+          <div class="d-flex flex-column gap-3">
+            @for (preset of presets; track preset.name) {
+              <button 
+                type="button"
+                class="preset-card p-3 border rounded cursor-pointer transition-all text-start w-100 bg-transparent"
+                [class.border-primary]="payload() === preset.value"
+                [class.bg-light]="payload() === preset.value"
+                (click)="setPreset(preset.value)"
+              >
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="fw-semibold text-dark small">{{ preset.name }}</span>
+                  <span class="badge bg-secondary btn-xs">Pilih</span>
+                </div>
+                <div class="text-muted small mb-2 text-truncate font-monospace" style="max-width: 100%;">
+                  <code>{{ preset.value }}</code>
+                </div>
+                <div class="text-muted small italic">{{ preset.desc }}</div>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Outputs -->
+    <div class="col-lg-7">
+      <div class="d-flex flex-column gap-4">
+        
+        <!-- Case 1: Interpolation (Safe) -->
+        <div class="card shadow-sm border-0 border-start border-4 border-success">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title fw-bold text-success mb-0">1. Interpolasi Standard (Aman)</h5>
+              <span class="badge bg-success"><i class="bi bi-shield-fill-check"></i> AMAN (Escaped)</span>
+            </div>
+            <p class="text-muted small mb-3">
+              Menggunakan <code>{{ '{{ payload }}' }}</code>. Angular mengonversi karakter HTML seperti <code>&lt;</code> menjadi entitas teks aman.
+            </p>
+            <div class="p-3 bg-light border rounded mb-3 font-monospace text-break">
+              <!-- Output interpolasi -->
+              {{ payload() }}
+            </div>
+            <div class="bg-success-subtle text-success-emphasis p-2 rounded small">
+              <strong>Hasil:</strong> Teks ditampilkan secara literal sebagai teks biasa. Script tidak akan dieksekusi sama sekali.
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 2: [innerHTML] (Safe-Sanitized) -->
+        <div class="card shadow-sm border-0 border-start border-4 border-success">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title fw-bold text-success mb-0">2. Properti Binding <code>[innerHTML]</code> (Aman)</h5>
+              <span class="badge bg-success"><i class="bi bi-shield-fill-check"></i> AMAN (Sanitized)</span>
+            </div>
+            <p class="text-muted small mb-3">
+              Menggunakan <code>&lt;div [innerHTML]="payload"&gt;</code>. Angular mengizinkan tag HTML dasar (seperti <code>&lt;b&gt;</code>, <code>&lt;a href&gt;</code>) tetapi menghapus kode javascript (seperti <code>onerror</code>, <code>&lt;script&gt;</code>).
+            </p>
+            <div class="p-3 bg-light border rounded mb-3 text-break" [innerHTML]="payload()"></div>
+            <div class="bg-success-subtle text-success-emphasis p-2 rounded small">
+              <strong>Hasil:</strong> HTML dasar dirender dengan aman. Tag <code>&lt;script&gt;</code> atau atribut <code>onerror</code> secara otomatis dihilangkan dari DOM.
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 3: DomSanitizer Bypass (Vulnerable) -->
+        <div class="card shadow-sm border-0 border-start border-4 border-danger">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title fw-bold text-danger mb-0">3. DomSanitizer Bypass (BAHAYA!)</h5>
+              <span class="badge bg-danger"><i class="bi bi-exclamation-triangle-fill"></i> RENTAN XSS</span>
+            </div>
+            <p class="text-muted small mb-3">
+              Menggunakan <code>DomSanitizer.bypassSecurityTrustHtml(payload)</code>. Ini memaksa Angular untuk mempercayai payload HTML secara mentah.
+            </p>
+            <div class="p-3 bg-danger-subtle border border-danger-subtle rounded mb-3 text-break text-danger-emphasis" [innerHTML]="bypassedPayload()"></div>
+            <div class="bg-danger text-white p-3 rounded small">
+              <strong>PERINGATAN:</strong> Mengabaikan sanitasi berarti jika payload berisi script jahat (misalnya <code>onerror</code> gambar), script tersebut <strong>AKAN langsung dieksekusi</strong> di browser pengguna! Gunakan hanya jika sumber data 100% tepercaya dan telah divalidasi ketat di sisi server.
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 4: Direct DOM Modification (Vulnerable) -->
+        <div class="card shadow-sm border-0 border-start border-4 border-danger">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title fw-bold text-danger mb-0">4. Manipulasi DOM Langsung lewat ElementRef (BAHAYA!)</h5>
+              <span class="badge bg-danger"><i class="bi bi-exclamation-triangle-fill"></i> RENTAN XSS</span>
+            </div>
+            <p class="text-muted small mb-3">
+              Menggunakan <code>elementRef.nativeElement.innerHTML = payload</code>. Ini mem-bypass seluruh ekosistem keamanan Angular dan langsung menulis ke browser.
+            </p>
+            <div #directDomTarget class="p-3 bg-danger-subtle border border-danger-subtle rounded mb-3 text-break text-danger-emphasis"></div>
+            <div class="bg-danger text-white p-3 rounded small">
+              <strong>PERINGATAN:</strong> Praktik manipulasi DOM langsung sangat tidak disarankan di Angular. Hal ini membuat aplikasi rentan terhadap serangan DOM-based XSS secara langsung karena tidak melewati proses sanitasi template Angular.
+            </div>
+          </div>
+        </div>
+
+        <!-- Case 5: Custom Sanitization (Safe) -->
+        <div class="card shadow-sm border-0 border-start border-4 border-success">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title fw-bold text-success mb-0">5. Custom Escape / Text-Only Rendering (Aman)</h5>
+              <span class="badge bg-success"><i class="bi bi-shield-fill-check"></i> AMAN (Custom Cleaned)</span>
+            </div>
+            <p class="text-muted small mb-3">
+              Menggunakan sanitasi kustom untuk menggantikan karakter khusus HTML secara manual sebelum ditampilkan sebagai HTML biasa.
+            </p>
+            <div class="p-3 bg-light border rounded mb-3 text-break" [innerHTML]="customSanitizedPayload()"></div>
+            <div class="bg-success-subtle text-success-emphasis p-2 rounded small">
+              <strong>Hasil:</strong> Mengamankan output dengan mengubah kode tag HTML menjadi entitas teks biasa di tingkat variabel, menjamin keamanan mutlak meskipun dibinding menggunakan properti <code>[innerHTML]</code>.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

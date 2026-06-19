@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { EmployeeAddFacade } from './facade/employee-add.facade';
 import { InputComponent, ButtonIconComponent } from '@org/ui-kit';
 
@@ -11,6 +12,7 @@ import { InputComponent, ButtonIconComponent } from '@org/ui-kit';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    RouterModule,
     InputComponent,
     ButtonIconComponent,
   ],
